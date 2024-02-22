@@ -4,7 +4,7 @@ Term project for CSCI 441
 ## Status
 Landing page - Work in Progress  
 CSS stylesheet - Work in Progress  
-Login page - Not Yet Implemented  
+Login page - Work in Progress  
 Create Account page - Not Yet Implemented  
 Account pages - Not Yet Implemented  
 Study Guides pages - Not Yet Implemented  
