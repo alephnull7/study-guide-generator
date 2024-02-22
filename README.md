@@ -1,4 +1,4 @@
-# study-guide-generator
+# Study Guide Generator Application
 Term project for CSCI 441
 
 ## Status
