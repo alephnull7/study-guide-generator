@@ -1,5 +1,6 @@
 # Study Guide Generator Application
-Term project for CSCI 441
+Term project for CSCI 441  
+This application will utilize OpenAI/ChatGPT-4 to generate study guides and quizzes for students. Instructors can upload study guides for their classes to aid students in this as well.
 
 ## Status
 Landing page - Work in Progress  
