@@ -10,7 +10,7 @@ html {
 	text-align: center;
 }
 
-header {
+header, footer {
 	text-align: center;
 	background-color: blue;
 	color: white;
@@ -69,6 +69,6 @@ button, input[type=submit] {
 	font-size: 48px;
 	border-radius: 8px;
 	padding: 14px 40px;
-	width: 400px;
+	width: 500px;
 	margin: 20px;
 }
