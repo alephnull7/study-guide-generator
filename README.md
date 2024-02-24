@@ -7,11 +7,11 @@ Landing page - Work in Progress
 CSS stylesheet - Work in Progress  
 Login page - Work in Progress  
 Create Account page - Work in Progress  
-Account pages - Not Yet Implemented  
+Account pages - Work in Progress 
 Study Guides pages - Not Yet Implemented  
 Quizes pages - Not Yet Implemented  
-Manage Account page - Not Yet Implemented  
-Manage Students and Classrooms pages - Not Yet Implemented  
+Manage Account page - Work in Progress  
+Manage Students and Classrooms pages - Work in Progress  
 Account subsystem - Not Yet Implemented  
 ChatGPT/OpenAI integration - Not Yet Implemented  
 Quiz/Study Guide subsystems - Not Yet Implemented  
