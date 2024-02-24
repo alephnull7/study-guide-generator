@@ -7,7 +7,7 @@ Landing page - Work in Progress
 CSS stylesheet - Work in Progress  
 Login page - Work in Progress  
 Create Account page - Work in Progress  
-Account pages - Work in Progress 
+Account pages - Work in Progress  
 Study Guides pages - Not Yet Implemented  
 Quizes pages - Not Yet Implemented  
 Manage Account page - Work in Progress  
