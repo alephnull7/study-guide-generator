@@ -10,13 +10,28 @@ html {
 	text-align: center;
 }
 
-header, footer {
+header {
+	position: sticky;
+	top: 0;
 	text-align: center;
 	background-color: blue;
 	color: white;
 	padding-top: 60px;
 	padding-bottom: 60px;
 	font-size: 80px;
+	width: 100%;
+}
+
+footer {
+	text-align: center;
+	position: fixed;
+	bottom: 4	0px;
+	background-color: blue;
+	color: white;
+	padding-top: 60px;
+	padding-bottom: 60px;
+	font-size: 40px;
+	width: 100%;
 }
 
 h1 {
