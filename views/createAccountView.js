@@ -1,14 +1,30 @@
 import * as React from 'react';
 import { View, Text, TextInput, TouchableOpacity, CheckBox } from 'react-native';
+import { useNavigation } from "@react-navigation/native";
 import styles from './styles';
 
 const CreateAccountView = () => {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [isChecked, setIsChecked] = React.useState(false);
+  const navigation = useNavigation();
 
   const handleToggle = () => {
     setIsChecked(!isChecked);
+  }
+
+  const handleCreateAccount = () => {
+    if (isChecked) {
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'Instructor Home'}]
+      });
+    } else {
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'Student Home'}]
+      });
+    }
   }
 
   return (
@@ -38,7 +54,10 @@ const CreateAccountView = () => {
         />
         <Text style={styles.label}>Instructor</Text>
       </View>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity 
+        style={styles.button}
+        onPress={handleCreateAccount}
+      >
         <Text style={styles.buttonText}>Create Account</Text>
       </TouchableOpacity>
     </View>
