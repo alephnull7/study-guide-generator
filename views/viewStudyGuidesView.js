@@ -16,18 +16,18 @@ const ViewStudyGuidesView = () => {
     }, []);
 
     return(
-        <ScrollView contentContainerStyle={styles.container}>
-            <View style={styles.container}>
-                <Text style={styles.header}>User's Study Guides</Text>
+        <View style={styles.container}>
+            <Text style={styles.header}>Study Guides</Text>
+            <ScrollView contentContainerStyle={styles.container}>
+            
                     {data.map(item => (
                         <View key={item._id}>
                         <Text>{item.name}</Text>
                         <Text>{item.content.text}</Text>
                     </View>
                 ))}
-            </View>
-        </ScrollView>
+                
+            </ScrollView>
+        </View>
     );
 };
-
-export default ViewStudyGuidesView;
