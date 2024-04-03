@@ -31,3 +31,5 @@ const ViewStudyGuidesView = () => {
         </View>
     );
 };
+
+export default ViewStudyGuidesView;
