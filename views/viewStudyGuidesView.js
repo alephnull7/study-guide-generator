@@ -10,23 +10,20 @@ const ViewStudyGuidesView = () => {
         const fetchAndSetData = async () => {
             const newData = await fetchDataFromAPI('artifacts/study-guides/1');
             setData(newData);
+            console.log(data);
         };
         fetchAndSetData();
-        console.log(data);
     }, []);
 
     return(
         <View style={styles.container}>
         <Text style={styles.header}>User's Study Guides</Text>
-            <div>
-                     {/* Render fetched data */}
-                     {data.map(item => (
-                         <div key={item._id}>
-                             <p>{item.name}</p>
-                             <p>{item.content.text}</p>
-                         </div>
-                     ))}
-                 </div>
+            {data.map(item => (
+                <View key={item._id}>
+                    <Text>{item.name}</Text>
+                    <Text>{item.content.text}</Text>
+                </View>
+            ))}
         </View>
     );
 };
