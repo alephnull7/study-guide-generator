@@ -1,5 +1,5 @@
 const base_url = 'https://yhh2mupveh.us-east-2.awsapprunner.com/api';
-const fetchDataFromAPI = async (route) => {
+export const fetchDataFromAPI = async (route) => {
     try {
         const url = `${base_url}/${route}`;
         console.log(url);
@@ -14,4 +14,23 @@ const fetchDataFromAPI = async (route) => {
     }
 };
 
-export default fetchDataFromAPI;
+export const sendDataToAPI = async (route, method, data) => {
+    try {
+        const url = `${base_url}/${route}`;
+        const response = await fetch(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (!response.ok) {
+            console.error('Failed to fetch data');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching data:', error.message);
+        return [];
+    }
+};
