@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { View, Text, TouchableOpacity} from 'react-native';
 import styles from './styles';
 
