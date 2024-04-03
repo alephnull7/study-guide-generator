@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Text, View} from "react-native";
+import {Text, View, ScrollView} from "react-native";
 import styles from "./styles";
 import fetchDataFromAPI from '../helpers/helpers';
 
@@ -16,15 +16,17 @@ const ViewStudyGuidesView = () => {
     }, []);
 
     return(
-        <View style={styles.container}>
-        <Text style={styles.header}>User's Study Guides</Text>
-            {data.map(item => (
-                <View key={item._id}>
-                    <Text>{item.name}</Text>
-                    <Text>{item.content.text}</Text>
-                </View>
-            ))}
-        </View>
+        <ScrollView contentContainerStyle={styles.container}>
+            <View style={styles.container}>
+                <Text style={styles.header}>User's Study Guides</Text>
+                    {data.map(item => (
+                        <View key={item._id}>
+                        <Text>{item.name}</Text>
+                        <Text>{item.content.text}</Text>
+                    </View>
+                ))}
+            </View>
+        </ScrollView>
     );
 };
 
