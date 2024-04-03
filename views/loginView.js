@@ -11,7 +11,10 @@ const LoginView = () => {
     const handleLogin = () => {
       navigation.reset({
         index: 0,
-        routes: [{name: 'Instructor Home'}]
+        routes: [{
+          name: 'Instructor Home',
+          params: {username: username}
+        }]
       });
     }
   
