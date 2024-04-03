@@ -17,12 +17,14 @@ const CreateAccountView = () => {
     if (isChecked) {
       navigation.reset({
         index: 0,
-        routes: [{name: 'Instructor Home'}]
+        routes: [{name: 'Instructor Home',
+        params: {username: username}}]
       });
     } else {
       navigation.reset({
         index: 0,
-        routes: [{name: 'Student Home'}]
+        routes: [{name: 'Student Home',
+        params: {username: username}}]
       });
     }
   }
