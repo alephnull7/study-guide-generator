@@ -13,6 +13,7 @@ import ManageAccountView from './views/manageAccountView';
 import ManageStudentsView from './views/manageStudentsView';
 import ViewStudyGuidesView from "./views/viewStudyGuidesView";
 import ViewClassroomsView from "./views/viewClassroomsView";
+import CreateClassroomView from "./views/createClassroomView";
 
 const Stack = createNativeStackNavigator();
 
@@ -41,6 +42,7 @@ export default function App() {
         <Stack.Screen name="Manage Students" component={ManageStudentsView}/>
         <Stack.Screen name="View Study Guides" component={ViewStudyGuidesView}/>
         <Stack.Screen name="View Classrooms" component={ViewClassroomsView}/>
+        <Stack.Screen name="Create Classroom" component={CreateClassroomView}/>
       </Stack.Navigator>
       <StatusBar style="auto"/>
     </NavigationContainer>
