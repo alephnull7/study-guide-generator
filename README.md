@@ -84,6 +84,4 @@ Please follow our code of conduct when contributing.
 
 ## License
 
-[Your License Name] - [License Description]
-
-This is a basic example, and you may customize it further based on your project's specific requirements, including additional sections like deployment instructions, testing guidelines, and more.
+Mozilla Public License 2.0
