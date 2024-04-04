@@ -1,5 +1,11 @@
+import * as React from 'react';
+import { View, Text, TextInput, TouchableOpacity, CheckBox } from 'react-native';
+import { useNavigation } from "@react-navigation/native";
+import styles from './styles';
+import { sendDataToAPI } from '../helpers/helpers';
+
 const CreateAccountView = () => {
-  const [username, setUsername] = React.useState('');
+  const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [isChecked, setIsChecked] = React.useState(false);
   const navigation = useNavigation();
@@ -10,7 +16,7 @@ const CreateAccountView = () => {
 
   const handleCreateAccount = async () => {
     try {
-        const usernameWithoutDomain = username.split('@')[0];
+        const username = email.split('@')[0];
         let account_type;
 
         if(isChecked) account_type = 1;
@@ -18,19 +24,19 @@ const CreateAccountView = () => {
         
         // Send data to the API
         const response = await sendDataToAPI('users', 'post', {
-          'email': username,
+          'email': email,
           'account_type': account_type,
           'password': password
         });
   
         // Assuming the API returns a success message upon successful account creation
-        if (response.success) {
+        if (response !== null) {
           // Navigate based on account type
           navigation.reset({
             index: 0,
             routes: [{
               name: isChecked ? 'Instructor Home' : 'Student Home',
-              params: { username: usernameWithoutDomain }
+              params: { username: username }
             }]
           });
         } else {
@@ -47,8 +53,8 @@ const CreateAccountView = () => {
       <Text style={styles.header}>Create Account</Text>
       <TextInput
         style={styles.input}
-        onChangeText={setUsername}
-        value={username}
+        onChangeText={setEmail}
+        value={email}
         placeholder="Username"
         autoCapitalize="none"
         autoCompleteType="username"
@@ -78,3 +84,5 @@ const CreateAccountView = () => {
     </View>
   );
 };
+
+export default CreateAccountView;
