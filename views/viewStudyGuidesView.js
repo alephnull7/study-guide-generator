@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {Text, View, ScrollView} from "react-native";
 import styles from "./styles";
-import fetchDataFromAPI from '../helpers/helpers';
+import {fetchDataFromAPI} from '../helpers/helpers';
 
 const ViewStudyGuidesView = () => {
     const [data, setData] = useState([]);

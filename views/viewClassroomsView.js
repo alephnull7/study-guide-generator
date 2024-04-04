@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {Text, View} from "react-native";
 import styles from "./styles";
-import fetchDataFromAPI from '../helpers/helpers';
+import {fetchDataFromAPI} from '../helpers/helpers';
 
 const ViewClassroomsView = () => {
     const [data, setData] = useState([]);
@@ -31,8 +31,8 @@ const ViewClassroomsView = () => {
                     <div key={item.name}>
                         <h1>{item.name}</h1>
                         <ul>
-                            {item.students.map(student => (
-                                <li key={student}>{student}</li>
+                            {item.students.map((student, index) => (
+                                <li key={`${student}-${index}`}>{student}</li>
                             ))}
                         </ul>
                     </div>
