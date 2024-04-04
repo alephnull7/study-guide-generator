@@ -76,6 +76,10 @@ Start the development server:
 
 `expo start`
 
+## Operation
+
+Click either of the two buttons to log in or create an account. Once you do either, you will be automatically logged in. From there, you can create or view study guides or quizzes and manage your account. Instructors also have the capability to manage classrooms.
+
 ## Contributing
 
 Contributions are welcome! Feel free to open issues or pull requests.
