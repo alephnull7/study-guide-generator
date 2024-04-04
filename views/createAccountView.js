@@ -1,9 +1,3 @@
-import * as React from 'react';
-import { View, Text, TextInput, TouchableOpacity, CheckBox } from 'react-native';
-import { useNavigation } from "@react-navigation/native";
-import styles from './styles';
-import { sendDataToAPI } from '../helpers/helpers';
-
 const CreateAccountView = () => {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -17,11 +11,15 @@ const CreateAccountView = () => {
   const handleCreateAccount = async () => {
     try {
         const usernameWithoutDomain = username.split('@')[0];
+        let account_type;
+
+        if(isChecked) account_type = 1;
+        else account_type = 0;
         
         // Send data to the API
         const response = await sendDataToAPI('users', 'post', {
           'email': username,
-          'account_type': isChecked,
+          'account_type': account_type,
           'password': password
         });
   
@@ -79,6 +77,4 @@ const CreateAccountView = () => {
       </TouchableOpacity>
     </View>
   );
-  };
-
-export default CreateAccountView;
+};
