@@ -1,4 +1,4 @@
-# Frontend Web App README
+# Study Guide Generator Frontend README
 
 Welcome to the frontend codebase of the Study Guide Generator!
 
