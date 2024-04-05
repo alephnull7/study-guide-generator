@@ -51,6 +51,11 @@ const styles = StyleSheet.create({
     },
     label: {
       marginLeft: 8
+    },
+    connectionFailed: {
+      marginBottom: 20,
+      textAlign: 'center',
+      color: 'red'
     }
   });
 
