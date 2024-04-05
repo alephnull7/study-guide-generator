@@ -1,13 +1,37 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigation } from "@react-navigation/native";
 import { View, Text, TouchableOpacity } from 'react-native';
 import styles from "./styles";
+import { fetchDataFromAPI } from '../helpers/helpers';
 
 const LandingView = () => {
     const navigation = useNavigation();
+    const [connectionStatus, setConnectionStatus] = useState(true);
+
+    useEffect(() => {
+      checkConnection();
+    }, []);
+
+    const checkConnection = async () => {
+      const data = await fetchDataFromAPI('artifacts/study-guides/1');
+      if(data.length === 0 || !data) {
+        console.error("Connection failed");
+        setConnectionStatus(false);
+      } else {
+        console.log("Successfully connected");
+      }
+    }
   
     return (
       <View style={styles.container}>
+      {connectionStatus === true && (
+        <Text style={styles.paragraph}></Text>
+      )}
+      {connectionStatus === false && (
+        <Text style={styles.connectionFailed}>
+          Connection failed. Please check your internet connection and try again.
+        </Text>
+      )}
         <Text style={styles.paragraph}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut 
           labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
