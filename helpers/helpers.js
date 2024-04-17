@@ -27,10 +27,11 @@ export const sendDataToAPI = async (route, method, data) => {
 
         if (!response.ok) {
             console.error('Failed to fetch data');
+            return null;
         }
         return await response.json();
     } catch (error) {
         console.error('Error fetching data:', error.message);
-        return [];
+        return null;
     }
 };
