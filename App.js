@@ -14,36 +14,39 @@ import ManageStudentsView from './views/manageStudentsView';
 import ViewStudyGuidesView from "./views/viewStudyGuidesView";
 import ViewClassroomsView from "./views/viewClassroomsView";
 import CreateClassroomView from "./views/createClassroomView";
+import { AuthProvider } from './contexts/authContext';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions = {{
-      headerStyle: {
-        backgroundColor: '#007bff',
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-      },
-      title: 'Study Guide Generator',
-      headerTitleAlign: 'center'
-    }}>
-        <Stack.Screen name="Welcome" component={LandingView} />
-        <Stack.Screen name="Login" component={LoginView} />
-        <Stack.Screen name="Create Account" component={CreateAccountView} />
-        <Stack.Screen name="Student Home" component={StudentHomeView} />
-        <Stack.Screen name="Instructor Home" component={InstructorHomeView} />
-        <Stack.Screen name="Study Guides" component={StudyGuidesView}/>
-        <Stack.Screen name="Quizzes" component={QuizzesView}/>
-        <Stack.Screen name="Manage Account" component={ManageAccountView}/>
-        <Stack.Screen name="Manage Students" component={ManageStudentsView}/>
-        <Stack.Screen name="View Study Guides" component={ViewStudyGuidesView}/>
-        <Stack.Screen name="View Classrooms" component={ViewClassroomsView}/>
-        <Stack.Screen name="Create Classroom" component={CreateClassroomView}/>
-      </Stack.Navigator>
+      <AuthProvider>
+        <Stack.Navigator screenOptions = {{
+          headerStyle: {
+            backgroundColor: '#007bff',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+          title: 'Study Guide Generator',
+          headerTitleAlign: 'center'
+        }}>
+          <Stack.Screen name="Welcome" component={LandingView} />
+          <Stack.Screen name="Login" component={LoginView} />
+          <Stack.Screen name="Create Account" component={CreateAccountView} />
+          <Stack.Screen name="Student Home" component={StudentHomeView} />
+          <Stack.Screen name="Instructor Home" component={InstructorHomeView} />
+          <Stack.Screen name="Study Guides" component={StudyGuidesView}/>
+          <Stack.Screen name="Quizzes" component={QuizzesView}/>
+          <Stack.Screen name="Manage Account" component={ManageAccountView}/>
+          <Stack.Screen name="Manage Students" component={ManageStudentsView}/>
+          <Stack.Screen name="View Study Guides" component={ViewStudyGuidesView}/>
+          <Stack.Screen name="View Classrooms" component={ViewClassroomsView}/>
+          <Stack.Screen name="Create Classroom" component={CreateClassroomView}/>
+        </Stack.Navigator>
+      </AuthProvider>
       <StatusBar style="auto"/>
     </NavigationContainer>
   );

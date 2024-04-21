@@ -1,15 +1,16 @@
 import * as React from 'react';
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { View, Text, TouchableOpacity} from 'react-native';
 import styles from './styles';
+import { useAuth } from '../contexts/authContext';
 
 const InstructorHomeView = () => {
     const navigation = useNavigation();
-    const route = useRoute();
-
-    const { username } = route.params;
+    const { authData, setAuthData } = useAuth();
 
     const handleLogout = () => {
+      setAuthData(null);
+
       navigation.reset({
         index: 0,
         routes: [{name: "Welcome"}]
@@ -18,7 +19,7 @@ const InstructorHomeView = () => {
   
     return (
       <View style={styles.container}>
-        <Text style={styles.header}>Welcome, {username}</Text>
+        <Text style={styles.header}>Welcome, {authData.username}</Text>
         <TouchableOpacity 
           style={styles.button}
           onPress={() => navigation.navigate('Study Guides')}

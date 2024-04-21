@@ -4,31 +4,39 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import styles from "./styles";
 import { fetchDataFromAPI } from '../helpers/helpers';
 
+export const checkConnection = async () => {
+  const data = await fetchDataFromAPI('artifacts/study-guides/1');
+  if(data.length === 0 || !data) {
+    console.error("Connection failed");
+    return false;
+  } else {
+    console.log("Successfully connected");
+    return true;
+  }
+}
+
 const LandingView = () => {
     const navigation = useNavigation();
-    const [connectionStatus, setConnectionStatus] = useState(true);
+    const [connectionStatus, setConnectionStatus] = useState(null);
 
     useEffect(() => {
-      checkConnection();
+      const fetchData = async () => {
+        const isConnected = await checkConnection();
+        setConnectionStatus(isConnected);
+      };
+      fetchData();
     }, []);
-
-    const checkConnection = async () => {
-      const data = await fetchDataFromAPI('artifacts/study-guides/1');
-      if(data.length === 0 || !data) {
-        console.error("Connection failed");
-        setConnectionStatus(false);
-      } else {
-        console.log("Successfully connected");
-      }
-    }
   
     return (
       <View style={styles.container}>
+      {connectionStatus === null && (
+        <Text style={styles.paragraph}>Checking connection...</Text>
+      )}
       {connectionStatus === true && (
         <Text style={styles.paragraph}></Text>
       )}
       {connectionStatus === false && (
-        <Text style={styles.connectionFailed}>
+        <Text style={styles.errorText}>
           Connection failed. Please check your internet connection and try again.
         </Text>
       )}

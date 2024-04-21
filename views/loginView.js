@@ -2,32 +2,60 @@ import * as React from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import styles from './styles';
 import { useNavigation } from '@react-navigation/native';
+import { useAuth } from '../contexts/authContext';
 
 const LoginView = () => {
-    const [username, setUsername] = React.useState('');
+    const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
+    const [loginError, setLoginError] = React.useState('');
     const navigation = useNavigation();
+    const { setAuthData } = useAuth();
 
-    const handleLogin = () => {
-      navigation.reset({
-        index: 0,
-        routes: [{
-          name: 'Instructor Home',
-          params: {username: username}
-        }]
-      });
-    }
+    const handleLogin = async () => {
+      try {
+        // Send POST request to backend for authentication
+        const response = await sendDataToAPI('auth', 'POST', {
+          'email': email,
+          'password': password,
+        });
+  
+        // Assuming the response contains an auth token
+        const authToken = response.token;
+        const user_id = response.uid;
+        const username = response.username;
+        const account_type = response.account_type;
+        let isInstructor;
+
+        if(account_type === 1) isInstructor = true;
+        else isInstructor = false;
+  
+        // Save auth token to local storage or state for future use
+        setAuthData(authToken, user_id, username);
+  
+        // Navigate to the home screen after successful login
+        navigation.reset({
+          index: 0,
+          routes: [{
+            name: isInstructor ? 'Instructor Home' : 'Student Home',
+            params: { username: username }
+          }]
+        });
+      } catch (error) {
+        console.error('Error logging in:', error.message);
+        setLoginError('Incorrect email or password. Please try again.');
+      }
+    };
   
     return (
       <View style={styles.container}>
         <Text style={styles.header}>Login</Text>
         <TextInput
           style={styles.input}
-          onChangeText={setUsername}
-          value={username}
-          placeholder="Username"
+          onChangeText={setEmail}
+          value={email}
+          placeholder="Email"
           autoCapitalize="none"
-          autoCompleteType="username"
+          autoCompleteType="email"
           autoCorrect={false}
         />
         <TextInput
@@ -38,6 +66,9 @@ const LoginView = () => {
           secureTextEntry={true}
           autoCompleteType="password"
         />
+        {loginError !== '' && (
+          <Text style={styles.errorText}>{loginError}</Text>
+        )}
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>

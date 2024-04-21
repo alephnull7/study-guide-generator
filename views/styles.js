@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     label: {
       marginLeft: 8
     },
-    connectionFailed: {
+    errorText: {
       marginBottom: 20,
       textAlign: 'center',
       color: 'red'
