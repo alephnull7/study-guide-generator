@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import styles from './styles';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../contexts/authContext';
+import { sendDataToAPI } from '../helpers/helpers';
 
 const LoginView = () => {
     const [email, setEmail] = React.useState('');
