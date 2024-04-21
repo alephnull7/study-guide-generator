@@ -15,7 +15,7 @@ const LoginView = () => {
     const handleLogin = async () => {
       try {
         // Send POST request to backend for authentication
-        const response = await sendDataToAPI('auth', 'POST', {
+        const response = await sendDataToAPI('auth/login', 'POST', {
           'email': email,
           'password': password,
         });
