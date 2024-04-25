@@ -17,7 +17,10 @@ export const fetchDataFromAPI = async (route, token) => {
         };
     } catch (error) {
         console.error('Error fetching data:', error.message);
-        return null;
+        return {
+            status: 500,
+            body: {}
+        };
     }
 };
 
@@ -42,6 +45,9 @@ export const sendDataToAPI = async (route, method, data, token) => {
         };
     } catch (error) {
         console.error('Error sending data:', error.message);
-        return null;
+        return {
+            status: 500,
+            body: {}
+        };
     }
 };
