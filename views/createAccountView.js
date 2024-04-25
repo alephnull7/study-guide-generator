@@ -25,7 +25,7 @@ const CreateAccountView = () => {
         else account_type = 0;
         
         // Send data to the API
-        const response = await sendDataToAPI('auth', 'post', {
+        const response = await sendDataToAPI('auth/create', 'post', {
           'email': email,
           'account_type': account_type,
           'password': password
