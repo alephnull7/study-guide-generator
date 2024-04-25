@@ -19,26 +19,19 @@ const LoginView = () => {
           'email': email,
           'password': password,
         });
-  
-        // Assuming the response contains an auth token
-        const authToken = response.token;
-        const user_id = response.uid;
-        const username = response.username;
-        const account_type = response.account_type;
-        let isInstructor;
 
-        if(account_type === 1) isInstructor = true;
-        else isInstructor = false;
-  
+        if (response.status !== 201) {
+            throw new Error("Unsuccessful response status");
+        }
+
         // Save auth token to local storage or state for future use
-        setAuthData(authToken, user_id, username);
+        setAuthData(response.body);
   
         // Navigate to the home screen after successful login
         navigation.reset({
           index: 0,
           routes: [{
-            name: isInstructor ? 'Instructor Home' : 'Student Home',
-            params: { username: username }
+            name: response.body.account_type ? 'Instructor Home' : 'Student Home'
           }]
         });
       } catch (error) {
