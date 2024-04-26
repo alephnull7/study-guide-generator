@@ -111,48 +111,6 @@ const ManageAccountView = () => {
         );
     };
 
-    const UserPropertyForm = ({ inputVal, setInput }) => {
-        return(
-            <View>
-                <Text style={styles.button}>
-                    Update Account
-                </Text>
-                <Picker
-                    selectedValue={userProperty}
-                    onValueChange={(itemValue, itemIndex) =>
-                        updateForm(itemValue)
-                    }>
-                    <Picker.Item label="User Property" value="user-property" />
-                    <Picker.Item label="Username" value="username" />
-                    <Picker.Item label="Email" value="email" />
-                    <Picker.Item label="Password" value="password" />
-                </Picker>
-                {inputVisible && (
-                    <UserPropertyTextInput
-                        inputVal={inputVal}
-                        setInput={setInput}>
-                    </UserPropertyTextInput>
-                )}
-            </View>
-        );
-    };
-
-    const UserPropertyTextInput = ({ inputVal, setInput }) => {
-        return (
-            <TextInput
-                ref={textInputRef}
-                style={styles.input}
-                onChangeText={setInput}
-                value={inputVal}
-                placeholder={inputPlaceholder}
-                autoCapitalize="none"
-                autoCompleteType={inputAutoComplete}
-                autoCorrect={false}
-                secureTextEntry={inputSecureTextEntry}
-            />
-        );
-    };
-
     const updateForm = (itemValue) => {
         setUserProperty(itemValue);
         setInputText('');
