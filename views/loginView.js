@@ -36,7 +36,7 @@ const LoginView = () => {
         });
       } catch (error) {
         console.error('Error logging in:', error.message);
-        setLoginError('Incorrect email or password. Please try again.');
+        setLoginError('Login failed. Please check your info or internet connection and try again.');
       }
     };
   
