@@ -13,7 +13,7 @@ export const fetchDataFromAPI = async (route, token) => {
         }
         return {
             status: response.status,
-            body: await response.json()
+            body: response.status === 204 ? {} : await response.json()
         };
     } catch (error) {
         console.error('Error fetching data:', error.message);
@@ -41,7 +41,7 @@ export const sendDataToAPI = async (route, method, data, token) => {
         }
         return {
             status: response.status,
-            body: await response.json()
+            body: response.status === 204 ? {} : await response.json()
         };
     } catch (error) {
         console.error('Error sending data:', error.message);
