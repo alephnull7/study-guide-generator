@@ -32,24 +32,23 @@ const CreateAccountView = () => {
         });
   
         // Assuming the API returns a success message upon successful account creation
-        if (response !== null) {
-          const { authToken, user_id, username } = response;
-          setAuthData(authToken, user_id, username);
+        if (response.status === 201) {
+          setAuthData(response.body);
 
           // Navigate based on account type
           navigation.reset({
             index: 0,
             routes: [{
-              name: isChecked ? 'Instructor Home' : 'Student Home',
-              params: { username: username }
+              name: isChecked ? 'Instructor Home' : 'Student Home'
             }]
           });
         } else {
-          console.error('Account creation failed. Email already in use.');
+          console.error('Error occurred:', response.body.message);
+          setCreateAccountError(`${response.body.message}. Please try again.`);
         }
       } catch (error) {
         console.error('Error occurred:', error.message);
-        setCreateAccountError('Incorrect email or password. Please try again.');
+        setCreateAccountError(`Unexpected error. Please try again.`);
       }
     }
   
@@ -82,7 +81,7 @@ const CreateAccountView = () => {
         <Text style={styles.label}>Instructor</Text>
       </View>
       {createAccountError !== '' && (
-          <Text style={styles.errorText}>{loginError}</Text>
+          <Text style={styles.errorText}>{createAccountError}</Text>
       )}
       <TouchableOpacity 
         style={styles.button}
