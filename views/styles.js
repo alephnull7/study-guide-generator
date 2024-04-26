@@ -56,7 +56,53 @@ const styles = StyleSheet.create({
       marginBottom: 20,
       textAlign: 'center',
       color: 'red'
-    }
-  });
+    },
+    successText: {
+        marginBottom: 20,
+        textAlign: 'center',
+        color: 'green'
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 22,
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        padding: 35,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: 'center',
+    },
+    buttonClose: {
+        backgroundColor: '#2196F3',
+    },
+    textStyle: {
+        color: 'white',
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    buttonGroup: {
+        flexDirection: 'row',
+        marginTop: 20,
+    },
+    buttonContainer: {
+        alignSelf: 'flex-start', // Make each button container span with the width of its content
+        marginHorizontal: 10, // Add margin between elements
+    },
+});
 
   export default styles;
