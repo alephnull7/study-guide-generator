@@ -1,8 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { fetchDataFromAPI, sendDataToAPI } from "../helpers/helpers";
 import { useEffect, useState } from "react";
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
+import { View, Text, TextInput, TouchableOpacity, ActivityIndicator, CheckBox, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useAuth } from '../contexts/authContext';
 import styles from "../styles/styles";
@@ -14,17 +13,21 @@ const CreateClassroomView = () => {
     const [course, setCourse] = useState('');
     const [students, setStudents] = useState([]);
     const [selectedStudents, setSelectedStudents] = useState([]);
-    const [classroomName, setClassroomName] = useState();
-    const [errorText, setErrorText] = useState();
+    const [classroomName, setClassroomName] = useState('');
+    const [errorText, setErrorText] = useState('');
     const { authData } = useAuth();
     const [isLoadingDepartments, setIsLoadingDepartments] = useState(true);
     const [isLoadingCourses, setIsLoadingCourses] = useState(true);
-    const [isLoadingStudents, setIsLoadingStudents] = useState(true);
+    const [isPosting, setIsPosting] = useState(false);
     const [isFormComplete, setIsFormComplete] = useState(false);
     const navigation = useNavigation();
 
     useEffect(() => {
         getDepartments();
+    }, []);
+
+    useEffect(() => {
+        getStudents();
     }, []);
 
     const getDepartments = async () => {
@@ -52,6 +55,14 @@ const CreateClassroomView = () => {
 
     const getCourses = async (id) => {
         try {
+            setIsLoadingCourses(true);
+            setCourse('');
+            setClassroomName('');
+            setIsFormComplete(false);
+            if (id.length === 0) {
+                setCourse('');
+                return;
+            }
             const response = await fetchDataFromAPI(`artifacts/departments/courses/${id}`, authData.token);
             switch (response.status) {
                 case 204:
@@ -61,6 +72,7 @@ const CreateClassroomView = () => {
                     setErrorText('');
                     console.log(response.body);
                     setCourses(response.body);
+                    setIsLoadingCourses(false);
                     return;
                 default:
                     throw new Error("Unsuccessful retrieval of courses");
@@ -68,14 +80,12 @@ const CreateClassroomView = () => {
         } catch (error) {
             console.error(`Error getting courses:`, error.message);
             setErrorText(`Unable to access courses.`);
-        } finally {
-            setIsLoadingCourses(false);
         }
     }
 
-    const getStudents = async(courseID) => {
+    const getStudents = async() => {
         try {
-            const response = await fetchDataFromAPI(`users/students/${courseID}`, authData.token);
+            const response = await fetchDataFromAPI(`users/students`, authData.token);
             switch (response.status) {
                 case 204:
                     setErrorText('No students available.');
@@ -91,15 +101,13 @@ const CreateClassroomView = () => {
         } catch (error) {
             console.error(`Error getting students:`, error.message);
             setErrorText(`Unable to access students.`);
-        } finally {
-            setIsLoadingStudents(false);
         }
     }
 
     const toggleStudentSelection = (studentID) => {
         setSelectedStudents(prevSelected => {
             if (prevSelected.includes(studentID)) {
-                return prevSelected.filter(id => id !== studentID); // Deselect classroom if already selected
+                return prevSelected.filter(uid => uid !== studentID); // Deselect classroom if already selected
             } else {
                 return [...prevSelected, studentID]; // Select classroom if not already selected
             }
@@ -108,12 +116,13 @@ const CreateClassroomView = () => {
 
     const handleClassroomCreation = async () => {
         try {
+            setIsPosting(true);
             const response = await sendDataToAPI('classrooms', 'POST', {
                 "uid": authData.uid,
                 "name": classroomName,
                 "course_id": course,
-                "students": students
-            });
+                "students": selectedStudents
+            }, authData.token);
             switch (response.status) {
                 case 400:
                     setErrorText("Missing data required for classroom creation.");
@@ -129,20 +138,17 @@ const CreateClassroomView = () => {
         } catch(error) {
             console.error('Error creating artifact: ', error.message);
             setErrorText('Unable to create artifact.');
+        } finally {
+            setIsPosting(false);
         }
     }
 
     return(
         <View style={styles.container}>
-            <Text style={styles.header}>Create Artifact</Text>
-            {errorText !== '' && (
-                <Text style={styles.errorText}>
-                    {errorText}
-                </Text>
-            )}
+            <Text style={styles.header}>Create Classroom</Text>
             <Picker selectedValue={department} onValueChange={(itemValue, itemIndex) => {
                 setDepartment(itemValue);
-                getCourses(itemIndex);
+                getCourses(itemValue);
             }} enabled={!isLoadingDepartments}>
                 <Picker.Item label="Select Department" value=""/>
                 {departments.map(department => (
@@ -150,8 +156,9 @@ const CreateClassroomView = () => {
                 ))}
             </Picker>
             <Picker selectedValue={course} onValueChange={(itemValue, itemIndex) => {
+                setClassroomName('');
                 setCourse(itemValue);
-                getStudents(itemIndex);
+                setIsFormComplete(false);
             }} enabled={!isLoadingCourses}>
                 <Picker.Item label="Select Course" value=""/>
                 {courses.map(course => (
@@ -166,25 +173,36 @@ const CreateClassroomView = () => {
                 }}
                 value={classroomName}
                 placeholder="Name"
+                editable={course.length > 0}
             />
-            {isLoadingStudents ? (
-                <Text></Text>
-            ) : (
-                students.map(student => (
-                    <View key={student.id} style={styles.checkboxContainer}>
-                        <CheckBox
-                            value={selectedStudents.includes(student.id)}
-                            onValueChange={() => toggleStudentSelection(student.id)}
-                        />
-                        <Text>{student.name}</Text>
-                    </View>
-                ))
+            {students.length === 0 ?
+                <ActivityIndicator size="large" color="#0000ff" /> : (
+                <ScrollView>
+                    {Object.values(students).map(student => (
+                        <View key={student.uid} style={styles.checkboxContainer}>
+                            <CheckBox
+                                value={selectedStudents.includes(student.uid)}
+                                onValueChange={() => toggleStudentSelection(student.uid)}
+                            />
+                            <Text>{student.username}</Text>
+                        </View>
+                    ))}
+                </ScrollView>
             )}
-            <TouchableOpacity style={styles.button} enabled={isFormComplete} onPress={() => {
-                handleClassroomCreation();
-            }}>
-                <Text style={styles.buttonText}>Create Artifact</Text>
+            <TouchableOpacity
+                style={isFormComplete ? styles.button : styles.disabledButton}
+                onPress={isFormComplete ? handleClassroomCreation : null}>
+                <Text style={styles.buttonText}>Create Classroom</Text>
             </TouchableOpacity>
+            {errorText !== '' && (
+                <Text style={styles.errorText}>
+                    {errorText}
+                </Text>
+            )}
+            <ActivityIndicator
+                size="large"
+                color="#0000ff"
+                animating={isPosting}/>
         </View>
     )
 }
