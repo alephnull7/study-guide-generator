@@ -13,7 +13,7 @@ const ManageStudentsView = ({ navigation }) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('View Classrooms')}
+          onPress={() => navigation.navigate('Classrooms')}
         >
         <Text style={styles.buttonText}>View Classrooms</Text>
         </TouchableOpacity>
