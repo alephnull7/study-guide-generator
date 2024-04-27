@@ -10,7 +10,7 @@ import ArtifactsView from './views/artifactsView';
 import ManageAccountView from './views/manageAccountView';
 import ManageStudentsView from './views/manageStudentsView';
 import ViewStudyGuidesView from "./views/viewStudyGuidesView";
-import ViewClassroomsView from "./views/viewClassroomsView";
+import ClassroomsView from "./views/classroomsView";
 import CreateClassroomView from "./views/createClassroomView";
 import CreateArtifactView from "./views/createArtifactView";
 import ViewClassroomView from "./views/viewClassroomView";
