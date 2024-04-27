@@ -112,7 +112,7 @@ const CreateClassroomView = () => {
                 "uid": authData.uid,
                 "name": classroomName,
                 "course_id": course,
-                "classrooms": classrooms
+                "students": students
             });
             switch (response.status) {
                 case 400:
