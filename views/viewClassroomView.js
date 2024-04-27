@@ -14,8 +14,10 @@ const ViewClassroomView = ({ route }) => {
     const [artifacts, setArtifacts] = useState({});
 
     // informational text
-    const [errorText, setErrorText] = useState('');
-    const [successText, setSuccessText] = useState('');
+    const [studentsErrorText, setStudentsErrorText] = useState('');
+    const [studentsSuccessText, setStudentsSuccessText] = useState('');
+    const [artifactsErrorText, setArtifactsErrorText] = useState('');
+    const [artifactsSuccessText, setArtifactsSuccessText] = useState('');
 
     useEffect(() => {
         setClassroom(route.params.classroom);
@@ -38,11 +40,12 @@ const ViewClassroomView = ({ route }) => {
             const response = await fetchDataFromAPI(`classrooms/students/${classroom.id}`, authData.token);
             switch (response.status) {
                 case 204:
-                    setErrorText('');
-                    setSuccessText('The classroom has no students.');
+                    setStudentsErrorText('');
+                    setStudentsSuccessText('The classroom has no students.');
                     return;
                 case 200:
-                    setErrorText('');
+                    setStudentsErrorText('');
+                    setStudentsSuccessText('');
                     console.log(response.body);
                     setStudents(response.body);
                     return;
@@ -51,7 +54,8 @@ const ViewClassroomView = ({ route }) => {
             }
         } catch (error) {
             console.error(`Error getting classroom's students:`, error.message);
-            setErrorText(`Unable to access students.`);
+            setStudentsSuccessText('');
+            setStudentsErrorText(`Unable to access students.`);
         }
     };
 
@@ -60,11 +64,12 @@ const ViewClassroomView = ({ route }) => {
             const response = await fetchDataFromAPI(`classrooms/artifacts/${classroom.id}`, authData.token);
             switch (response.status) {
                 case 204:
-                    setErrorText('');
-                    setSuccessText('The classroom has no artifacts.');
+                    setArtifactsErrorText('');
+                    setArtifactsSuccessText('The classroom has no artifacts.');
                     return;
                 case 200:
-                    setErrorText('');
+                    setArtifactsErrorText('');
+                    setArtifactsSuccessText('');
                     console.log(response.body);
                     setArtifacts(response.body);
                     return;
@@ -73,7 +78,8 @@ const ViewClassroomView = ({ route }) => {
             }
         } catch (error) {
             console.error(`Error getting classroom's artifacts:`, error.message);
-            setErrorText(`Unable to access artifacts.`);
+            setArtifactsSuccessText('');
+            setArtifactsErrorText(`Unable to access artifacts.`);
         }
     };
 
@@ -89,6 +95,12 @@ const ViewClassroomView = ({ route }) => {
                             {student.username}
                         </Text>
                     ))}
+                {studentsErrorText !== '' && (
+                    <Text style={styles.errorText}>{studentsErrorText}</Text>
+                )}
+                {studentsSuccessText !== '' && (
+                    <Text style={styles.successText}>{studentsSuccessText}</Text>
+                )}
                 <Text style={styles.header}>Artifacts</Text>
                     {Object.values(artifacts).map(artifact => (
                         <TouchableOpacity
@@ -104,13 +116,13 @@ const ViewClassroomView = ({ route }) => {
                             </Text>
                         </TouchableOpacity>
                     ))}
+                {artifactsErrorText !== '' && (
+                    <Text style={styles.errorText}>{artifactsErrorText}</Text>
+                )}
+                {artifactsSuccessText !== '' && (
+                    <Text style={styles.successText}>{artifactsSuccessText}</Text>
+                )}
             </ScrollView>
-            {errorText !== '' && (
-                <Text style={styles.errorText}>{errorText}</Text>
-            )}
-            {successText !== '' && (
-                <Text style={styles.successText}>{successText}</Text>
-            )}
         </View>
     );
 };
