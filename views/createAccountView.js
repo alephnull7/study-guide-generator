@@ -39,7 +39,7 @@ const CreateAccountView = () => {
           navigation.reset({
             index: 0,
             routes: [{
-              name: isChecked ? 'Instructor Home' : 'Student Home'
+              name: 'Home'
             }]
           });
         } else {

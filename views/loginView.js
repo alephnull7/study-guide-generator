@@ -31,7 +31,7 @@ const LoginView = () => {
         navigation.reset({
           index: 0,
           routes: [{
-            name: response.body.account_type ? 'Instructor Home' : 'Student Home'
+            name: 'Home'
           }]
         });
       } catch (error) {
