@@ -15,7 +15,9 @@ const ArtifactsView = () => {
         >
           <Text style={styles.buttonText}>View Study Guides</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>View Quizzes</TouchableOpacity>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>View Quizzes</Text>
+        </TouchableOpacity>
         <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate('Create Artifact')}
