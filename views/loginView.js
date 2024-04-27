@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import styles from './styles';
+import styles from '../styles/styles';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../contexts/authContext';
 import { sendDataToAPI } from '../helpers/helpers';

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useNavigation } from "@react-navigation/native";
 import { View, Text, TouchableOpacity} from 'react-native';
-import styles from './styles';
+import styles from '../styles/styles';
 import { useAuth } from '../contexts/authContext';
 
 const HomeView = () => {

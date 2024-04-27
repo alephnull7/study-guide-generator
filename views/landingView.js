@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from "@react-navigation/native";
 import { View, Text, TouchableOpacity } from 'react-native';
-import styles from "./styles";
+import styles from "../styles/styles";
 import { fetchDataFromAPI } from '../helpers/helpers';
 
 export const checkConnection = async () => {

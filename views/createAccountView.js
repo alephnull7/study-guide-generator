@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, Text, TextInput, TouchableOpacity, CheckBox } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
-import styles from './styles';
+import styles from '../styles/styles';
 import { sendDataToAPI } from '../helpers/helpers';
 import { useAuth } from '../contexts/authContext';
 

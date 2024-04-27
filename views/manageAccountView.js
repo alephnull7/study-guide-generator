@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {View, Text, TouchableOpacity, Modal, Pressable, TextInput} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
-import styles from './styles';
+import styles from '../styles/styles';
 import { useAuth } from "../contexts/authContext";
 import { useNavigation } from "@react-navigation/native";
 import { sendDataToAPI } from "../helpers/helpers";

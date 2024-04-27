@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import {Text, TouchableOpacity, View} from "react-native";
-import styles from "./styles";
+import styles from "../styles/styles";
 import { fetchDataFromAPI } from '../helpers/helpers';
 import { useAuth } from "../contexts/authContext";
 import { useNavigation } from "@react-navigation/native";
