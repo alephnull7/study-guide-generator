@@ -41,7 +41,7 @@ export default function App() {
           <Stack.Screen name="Manage Account" component={ManageAccountView}/>
           <Stack.Screen name="Manage Students" component={ManageStudentsView}/>
           <Stack.Screen name="View Study Guides" component={ViewStudyGuidesView}/>
-          <Stack.Screen name="View Classrooms" component={ClassroomsView}/>
+          <Stack.Screen name="Classrooms" component={ClassroomsView}/>
           <Stack.Screen name="Create Classroom" component={CreateClassroomView}/>
           <Stack.Screen name="Create Artifact" component={CreateArtifactView}/>
           <Stack.Screen name="View Classroom" component={ViewClassroomView}/>
