@@ -11,13 +11,16 @@ const ClassroomView = ({ route }) => {
 
     const [classroom, setClassroom] = useState({});
     const [students, setStudents]= useState({});
-    const [artifacts, setArtifacts] = useState({});
+    const [studyGuides, setStudyGuides] = useState({});
+    const [quizzes, setQuizzes] = useState({});
 
     // informational text
     const [studentsErrorText, setStudentsErrorText] = useState('');
     const [studentsSuccessText, setStudentsSuccessText] = useState('');
-    const [artifactsErrorText, setArtifactsErrorText] = useState('');
-    const [artifactsSuccessText, setArtifactsSuccessText] = useState('');
+    const [studyGuidesErrorText, setStudyGuidesErrorText] = useState('');
+    const [studyGuidesSuccessText, setStudyGuidesSuccessText] = useState('');
+    const [quizzesErrorText, setQuizzesErrorText] = useState('');
+    const [quizzesSuccessText, setQuizzesSuccessText] = useState('');
 
     useEffect(() => {
         setClassroom(route.params.classroom);
@@ -31,7 +34,13 @@ const ClassroomView = ({ route }) => {
 
     useEffect(() => {
         if (Object.keys(classroom).length !== 0) {
-            fetchAndSetArtifacts();
+            fetchAndSetStudyGuides();
+        }
+    }, [classroom]);
+
+    useEffect(() => {
+        if (Object.keys(classroom).length !== 0) {
+            fetchAndSetQuizzes();
         }
     }, [classroom]);
 
@@ -59,29 +68,54 @@ const ClassroomView = ({ route }) => {
         }
     };
 
-    const fetchAndSetArtifacts = async () => {
+    const fetchAndSetStudyGuides = async () => {
         try {
-            const response = await fetchDataFromAPI(`classrooms/artifacts/${classroom.id}`, authData.token);
+            const response = await fetchDataFromAPI(`classrooms/artifacts/study-guides/${classroom.id}`, authData.token);
             switch (response.status) {
                 case 204:
-                    setArtifactsErrorText('');
-                    setArtifactsSuccessText('The classroom has no artifacts.');
+                    setStudyGuidesErrorText('');
+                    setStudyGuidesSuccessText('The classroom has no study guides.');
                     return;
                 case 200:
-                    setArtifactsErrorText('');
-                    setArtifactsSuccessText('');
+                    setStudyGuidesErrorText('');
+                    setStudyGuidesSuccessText('');
                     console.log(response.body);
-                    setArtifacts(response.body);
+                    setStudyGuides(response.body);
                     return;
                 default:
-                    throw new Error("Unsuccessful retrieval of artifacts");
+                    throw new Error("Unsuccessful retrieval of study guides");
             }
         } catch (error) {
-            console.error(`Error getting classroom's artifacts:`, error.message);
-            setArtifactsSuccessText('');
-            setArtifactsErrorText(`Unable to access artifacts.`);
+            console.error(`Error getting classroom's study guides:`, error.message);
+            setStudyGuidesSuccessText('');
+            setStudyGuidesErrorText(`Unable to access study guides.`);
         }
     };
+
+    const fetchAndSetQuizzes = async () => {
+        try {
+            const response = await fetchDataFromAPI(`classrooms/artifacts/quizzes/${classroom.id}`, authData.token);
+            switch (response.status) {
+                case 204:
+                    setQuizzesErrorText('');
+                    setQuizzesSuccessText('The classroom has no quizzes.');
+                    return;
+                case 200:
+                    setQuizzesErrorText('');
+                    setQuizzesSuccessText('');
+                    console.log(response.body);
+                    setQuizzes(response.body);
+                    return;
+                default:
+                    throw new Error("Unsuccessful retrieval of quizzes");
+            }
+        } catch (error) {
+            console.error(`Error getting classroom's quizzes:`, error.message);
+            setQuizzesSuccessText('');
+            setQuizzesErrorText(`Unable to access quizzes.`);
+        }
+    };
+
 
     return(
         <View style={styles.container}>
@@ -101,8 +135,8 @@ const ClassroomView = ({ route }) => {
                 {studentsSuccessText !== '' && (
                     <Text style={styles.successText}>{studentsSuccessText}</Text>
                 )}
-                <Text style={styles.header}>Artifacts</Text>
-                    {Object.values(artifacts).map(artifact => (
+                <Text style={styles.header}>Study Guides</Text>
+                    {Object.values(studyGuides).map(artifact => (
                         <TouchableOpacity
                             key={artifact.id}
                             style={styles.button}
@@ -116,11 +150,32 @@ const ClassroomView = ({ route }) => {
                             </Text>
                         </TouchableOpacity>
                     ))}
-                {artifactsErrorText !== '' && (
-                    <Text style={styles.errorText}>{artifactsErrorText}</Text>
+                {studyGuidesErrorText !== '' && (
+                    <Text style={styles.errorText}>{studyGuidesErrorText}</Text>
                 )}
-                {artifactsSuccessText !== '' && (
-                    <Text style={styles.successText}>{artifactsSuccessText}</Text>
+                {studyGuidesSuccessText !== '' && (
+                    <Text style={styles.successText}>{studyGuidesSuccessText}</Text>
+                )}
+                <Text style={styles.header}>Quizzes</Text>
+                {Object.values(quizzes).map(artifact => (
+                    <TouchableOpacity
+                        key={artifact.id}
+                        style={styles.button}
+                        onPress={() => navigation.navigate('Artifact', { artifact: artifact })}>
+                        <Text style={styles.buttonText}>
+                            {artifact.name}
+                            {"\n"}
+                            {artifact.code}
+                            {"\n"}
+                            {artifact.course}
+                        </Text>
+                    </TouchableOpacity>
+                ))}
+                {quizzesErrorText !== '' && (
+                    <Text style={styles.errorText}>{quizzesErrorText}</Text>
+                )}
+                {quizzesSuccessText !== '' && (
+                    <Text style={styles.successText}>{quizzesSuccessText}</Text>
                 )}
             </ScrollView>
         </View>
