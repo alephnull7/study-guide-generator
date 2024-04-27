@@ -5,7 +5,7 @@ import { fetchDataFromAPI } from '../helpers/helpers';
 import { useAuth } from "../contexts/authContext";
 import { useNavigation } from "@react-navigation/native";
 
-const ViewClassroomsView = () => {
+const classroomsView = () => {
     const { authData } = useAuth();
     const navigation = useNavigation();
 
