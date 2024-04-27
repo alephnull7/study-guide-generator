@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import {ScrollView, Text, TouchableOpacity, View} from "react-native";
+import { ActivityIndicator, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import styles from "../styles/styles";
 import { fetchDataFromAPI } from '../helpers/helpers';
 import { useAuth } from "../contexts/authContext";
@@ -21,6 +21,11 @@ const ClassroomView = ({ route }) => {
     const [studyGuidesSuccessText, setStudyGuidesSuccessText] = useState('');
     const [quizzesErrorText, setQuizzesErrorText] = useState('');
     const [quizzesSuccessText, setQuizzesSuccessText] = useState('');
+
+    // activity indicator states
+    const [isStudentsLoading, setIsStudentsLoading] = useState(true);
+    const [isStudyGuidesLoading, setIsStudyGuidesLoading] = useState(true);
+    const [isQuizzesLoading, setIsQuizzesLoading] = useState(true);
 
     useEffect(() => {
         setClassroom(route.params.classroom);
@@ -65,6 +70,8 @@ const ClassroomView = ({ route }) => {
             console.error(`Error getting classroom's students:`, error.message);
             setStudentsSuccessText('');
             setStudentsErrorText(`Unable to access students.`);
+        } finally {
+            setIsStudentsLoading(false);
         }
     };
 
@@ -89,6 +96,8 @@ const ClassroomView = ({ route }) => {
             console.error(`Error getting classroom's study guides:`, error.message);
             setStudyGuidesSuccessText('');
             setStudyGuidesErrorText(`Unable to access study guides.`);
+        } finally {
+            setIsStudyGuidesLoading(false);
         }
     };
 
@@ -113,6 +122,8 @@ const ClassroomView = ({ route }) => {
             console.error(`Error getting classroom's quizzes:`, error.message);
             setQuizzesSuccessText('');
             setQuizzesErrorText(`Unable to access quizzes.`);
+        } finally {
+            setIsQuizzesLoading(false);
         }
     };
 
@@ -120,64 +131,68 @@ const ClassroomView = ({ route }) => {
     return(
         <View style={styles.container}>
             <Text style={styles.header}>{classroom.name}</Text>
-            <ScrollView>
-                <Text style={styles.header}>Students</Text>
-                    {Object.values(students).map(student => (
-                        <Text
-                            key={student.uid}
-                            style={styles.button}>
-                            {student.username}
-                        </Text>
-                    ))}
-                {studentsErrorText !== '' && (
-                    <Text style={styles.errorText}>{studentsErrorText}</Text>
-                )}
-                {studentsSuccessText !== '' && (
-                    <Text style={styles.successText}>{studentsSuccessText}</Text>
-                )}
-                <Text style={styles.header}>Study Guides</Text>
-                    {Object.values(studyGuides).map(artifact => (
-                        <TouchableOpacity
-                            key={artifact.id}
-                            style={styles.button}
-                            onPress={() => navigation.navigate('Artifact', { artifact: artifact })}>
-                            <Text style={styles.buttonText}>
-                                {artifact.name}
-                                {"\n"}
-                                {artifact.code}
-                                {"\n"}
-                                {artifact.course}
+            {isStudentsLoading || isStudyGuidesLoading || isQuizzesLoading ?
+                <ActivityIndicator size="large" color="#0000ff" /> : (
+                    <ScrollView>
+                        <Text style={styles.header}>Students</Text>
+                        {Object.values(students).map(student => (
+                            <Text
+                                key={student.uid}
+                                style={styles.button}>
+                                {student.username}
                             </Text>
-                        </TouchableOpacity>
-                    ))}
-                {studyGuidesErrorText !== '' && (
-                    <Text style={styles.errorText}>{studyGuidesErrorText}</Text>
-                )}
-                {studyGuidesSuccessText !== '' && (
-                    <Text style={styles.successText}>{studyGuidesSuccessText}</Text>
-                )}
-                <Text style={styles.header}>Quizzes</Text>
-                {Object.values(quizzes).map(artifact => (
-                    <TouchableOpacity
-                        key={artifact.id}
-                        style={styles.button}
-                        onPress={() => navigation.navigate('Artifact', { artifact: artifact })}>
-                        <Text style={styles.buttonText}>
-                            {artifact.name}
-                            {"\n"}
-                            {artifact.code}
-                            {"\n"}
-                            {artifact.course}
-                        </Text>
-                    </TouchableOpacity>
-                ))}
-                {quizzesErrorText !== '' && (
-                    <Text style={styles.errorText}>{quizzesErrorText}</Text>
-                )}
-                {quizzesSuccessText !== '' && (
-                    <Text style={styles.successText}>{quizzesSuccessText}</Text>
-                )}
-            </ScrollView>
+                        ))}
+                        {studentsErrorText !== '' && (
+                            <Text style={styles.errorText}>{studentsErrorText}</Text>
+                        )}
+                        {studentsSuccessText !== '' && (
+                            <Text style={styles.successText}>{studentsSuccessText}</Text>
+                        )}
+                        <Text style={styles.header}>Study Guides</Text>
+                        {Object.values(studyGuides).map(artifact => (
+                            <TouchableOpacity
+                                key={artifact.id}
+                                style={styles.button}
+                                onPress={() => navigation.navigate('Artifact', { artifact: artifact })}>
+                                <Text style={styles.buttonText}>
+                                    {artifact.name}
+                                    {"\n"}
+                                    {artifact.code}
+                                    {"\n"}
+                                    {artifact.course}
+                                </Text>
+                            </TouchableOpacity>
+                        ))}
+                        {studyGuidesErrorText !== '' && (
+                            <Text style={styles.errorText}>{studyGuidesErrorText}</Text>
+                        )}
+                        {studyGuidesSuccessText !== '' && (
+                            <Text style={styles.successText}>{studyGuidesSuccessText}</Text>
+                        )}
+                        <Text style={styles.header}>Quizzes</Text>
+                        {Object.values(quizzes).map(artifact => (
+                            <TouchableOpacity
+                                key={artifact.id}
+                                style={styles.button}
+                                onPress={() => navigation.navigate('Artifact', { artifact: artifact })}>
+                                <Text style={styles.buttonText}>
+                                    {artifact.name}
+                                    {"\n"}
+                                    {artifact.code}
+                                    {"\n"}
+                                    {artifact.course}
+                                </Text>
+                            </TouchableOpacity>
+                        ))}
+                        {quizzesErrorText !== '' && (
+                            <Text style={styles.errorText}>{quizzesErrorText}</Text>
+                        )}
+                        {quizzesSuccessText !== '' && (
+                            <Text style={styles.successText}>{quizzesSuccessText}</Text>
+                        )}
+                    </ScrollView>
+                )
+            }
         </View>
     );
 };
