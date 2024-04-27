@@ -7,13 +7,13 @@ import LoginView from './views/loginView';
 import CreateAccountView from './views/createAccountView';
 import StudentHomeView from './views/studentHomeView';
 import InstructorHomeView from './views/instructorHomeView';
-import StudyGuidesView from './views/studyGuidesView';
-import QuizzesView from './views/quizzesView';
+import ArtifactsView from '.views/artifactsView.js'
 import ManageAccountView from './views/manageAccountView';
 import ManageStudentsView from './views/manageStudentsView';
 import ViewStudyGuidesView from "./views/viewStudyGuidesView";
 import ViewClassroomsView from "./views/viewClassroomsView";
 import CreateClassroomView from "./views/createClassroomView";
+import CreateArtifactView from "./views/createArtifactView";
 import { AuthProvider } from './contexts/authContext';
 
 const Stack = createNativeStackNavigator();
@@ -38,13 +38,13 @@ export default function App() {
           <Stack.Screen name="Create Account" component={CreateAccountView} />
           <Stack.Screen name="Student Home" component={StudentHomeView} />
           <Stack.Screen name="Instructor Home" component={InstructorHomeView} />
-          <Stack.Screen name="Study Guides" component={StudyGuidesView}/>
-          <Stack.Screen name="Quizzes" component={QuizzesView}/>
+          <Stack.Screen name="Artifacts" component={ArtifactsView} />
           <Stack.Screen name="Manage Account" component={ManageAccountView}/>
           <Stack.Screen name="Manage Students" component={ManageStudentsView}/>
           <Stack.Screen name="View Study Guides" component={ViewStudyGuidesView}/>
           <Stack.Screen name="View Classrooms" component={ViewClassroomsView}/>
           <Stack.Screen name="Create Classroom" component={CreateClassroomView}/>
+          <Stack.Screen name="Create Artifact" component={CreateArtifactView}/>
         </Stack.Navigator>
       </AuthProvider>
       <StatusBar style="auto"/>
