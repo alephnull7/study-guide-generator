@@ -11,11 +11,14 @@ const ArtifactsView = () => {
         <Text style={styles.header}>Artifacts</Text>
         <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate('View Study Guides')}
+            onPress={() => navigation.navigate('Study Guides')}
         >
           <Text style={styles.buttonText}>View Study Guides</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate('Quizzes')}
+        >
           <Text style={styles.buttonText}>View Quizzes</Text>
         </TouchableOpacity>
         <TouchableOpacity
