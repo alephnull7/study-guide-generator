@@ -13,6 +13,7 @@ import ViewStudyGuidesView from "./views/viewStudyGuidesView";
 import ViewClassroomsView from "./views/viewClassroomsView";
 import CreateClassroomView from "./views/createClassroomView";
 import CreateArtifactView from "./views/createArtifactView";
+import ViewClassroomView from "./views/viewClassroomView";
 import { AuthProvider } from './contexts/authContext';
 
 const Stack = createNativeStackNavigator();
@@ -43,6 +44,7 @@ export default function App() {
           <Stack.Screen name="View Classrooms" component={ViewClassroomsView}/>
           <Stack.Screen name="Create Classroom" component={CreateClassroomView}/>
           <Stack.Screen name="Create Artifact" component={CreateArtifactView}/>
+          <Stack.Screen name="View Classroom" component={ViewClassroomView}/>
         </Stack.Navigator>
       </AuthProvider>
       <StatusBar style="auto"/>
