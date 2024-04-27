@@ -5,8 +5,8 @@ import * as React from 'react';
 import LandingView from './views/landingView';
 import LoginView from './views/loginView';
 import CreateAccountView from './views/createAccountView';
-import ArtifactsView from '.views/artifactsView.js'
 import HomeView from './views/homeView';
+import ArtifactsView from './views/artifactsView';
 import ManageAccountView from './views/manageAccountView';
 import ManageStudentsView from './views/manageStudentsView';
 import ViewStudyGuidesView from "./views/viewStudyGuidesView";
