@@ -69,5 +69,4 @@ const ClassroomsView = () => {
     );
 };
 
-export default ViewClassroomsView;
-
+export default ClassroomsView;
