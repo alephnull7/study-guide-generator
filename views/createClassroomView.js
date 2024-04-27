@@ -5,7 +5,7 @@ import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import { Picker } from '@react-native-picker/picker';
 import { useAuth } from '../contexts/authContext';
-import styles from "./styles";
+import styles from "../styles/styles";
 
 const CreateClassroomView = () => {
     const [departments, setDepartments] = useState([]);

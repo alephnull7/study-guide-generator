@@ -7,6 +7,7 @@ import LoginView from './views/loginView';
 import CreateAccountView from './views/createAccountView';
 import HomeView from './views/homeView';
 import ArtifactsView from './views/artifactsView';
+import ArtifactView from "./views/artifactView";
 import ManageAccountView from './views/manageAccountView';
 import ManageStudentsView from './views/manageStudentsView';
 import ViewStudyGuidesView from "./views/viewStudyGuidesView";
@@ -38,6 +39,7 @@ export default function App() {
           <Stack.Screen name="Create Account" component={CreateAccountView} />
           <Stack.Screen name="Home" component={HomeView} />
           <Stack.Screen name="Artifacts" component={ArtifactsView} />
+          <Stack.Screen name="Artifact" component={ArtifactView} />
           <Stack.Screen name="Manage Account" component={ManageAccountView}/>
           <Stack.Screen name="Manage Students" component={ManageStudentsView}/>
           <Stack.Screen name="View Study Guides" component={ViewStudyGuidesView}/>
