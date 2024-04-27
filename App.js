@@ -43,8 +43,8 @@ export default function App() {
           <Stack.Screen name="Artifact" component={ArtifactView} />
           <Stack.Screen name="Manage Account" component={ManageAccountView}/>
           <Stack.Screen name="Manage Students" component={ManageStudentsView}/>
-          <Stack.Screen name="View Study Guides" component={StudyGuidesView}/>
-          <Stack.Screen name="View Quizzes" component={QuizzesView}/>
+          <Stack.Screen name="Study Guides" component={StudyGuidesView}/>
+          <Stack.Screen name="Quizzes" component={QuizzesView}/>
           <Stack.Screen name="Classrooms" component={ClassroomsView}/>
           <Stack.Screen name="Create Classroom" component={CreateClassroomView}/>
           <Stack.Screen name="Create Artifact" component={CreateArtifactView}/>
