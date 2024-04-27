@@ -1,7 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
 import { fetchDataFromAPI, sendDataToAPI } from "../helpers/helpers";
 import { useEffect, useState } from "react";
-import { View, Text, Picker, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import CheckBox from '@react-native-community/checkbox';
+import { Picker } from '@react-native-picker/picker';
 import { useAuth } from '../contexts/authContext';
 import styles from "./styles";
 
@@ -16,7 +18,7 @@ const CreateArtifactView = () => {
     const [selectedClassrooms, setSelectedClassrooms] = useState([]);
     const [artifactName, setArtifactName] = useState();
     const [errorText, setErrorText] = useState();
-    const [authData] = useAuth();
+    const { authData } = useAuth();
     const [isLoadingDepartments, setIsLoadingDepartments] = useState(true);
     const [isLoadingCourses, setIsLoadingCourses] = useState(true);
     const [isLoadingTemplates, setIsLoadingTemplates] = useState(true);
@@ -44,7 +46,7 @@ const CreateArtifactView = () => {
                     throw new Error("Unsuccessful retrieval of departments");
             }
         } catch (error) {
-            console.error(`Error getting departnents:`, error.message);
+            console.error(`Error getting departments:`, error.message);
             setErrorText(`Unable to access departments.`);
         } finally {
             setIsLoadingDepartments(false);

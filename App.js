@@ -5,15 +5,15 @@ import * as React from 'react';
 import LandingView from './views/landingView';
 import LoginView from './views/loginView';
 import CreateAccountView from './views/createAccountView';
-import StudentHomeView from './views/studentHomeView';
-import InstructorHomeView from './views/instructorHomeView';
-import ArtifactsView from '.views/artifactsView.js'
+import HomeView from './views/homeView';
+import ArtifactsView from './views/artifactsView';
 import ManageAccountView from './views/manageAccountView';
 import ManageStudentsView from './views/manageStudentsView';
 import ViewStudyGuidesView from "./views/viewStudyGuidesView";
 import ViewClassroomsView from "./views/viewClassroomsView";
 import CreateClassroomView from "./views/createClassroomView";
 import CreateArtifactView from "./views/createArtifactView";
+import ViewClassroomView from "./views/viewClassroomView";
 import { AuthProvider } from './contexts/authContext';
 
 const Stack = createNativeStackNavigator();
@@ -36,8 +36,7 @@ export default function App() {
           <Stack.Screen name="Welcome" component={LandingView} />
           <Stack.Screen name="Login" component={LoginView} />
           <Stack.Screen name="Create Account" component={CreateAccountView} />
-          <Stack.Screen name="Student Home" component={StudentHomeView} />
-          <Stack.Screen name="Instructor Home" component={InstructorHomeView} />
+          <Stack.Screen name="Home" component={HomeView} />
           <Stack.Screen name="Artifacts" component={ArtifactsView} />
           <Stack.Screen name="Manage Account" component={ManageAccountView}/>
           <Stack.Screen name="Manage Students" component={ManageStudentsView}/>
@@ -45,6 +44,7 @@ export default function App() {
           <Stack.Screen name="View Classrooms" component={ViewClassroomsView}/>
           <Stack.Screen name="Create Classroom" component={CreateClassroomView}/>
           <Stack.Screen name="Create Artifact" component={CreateArtifactView}/>
+          <Stack.Screen name="View Classroom" component={ViewClassroomView}/>
         </Stack.Navigator>
       </AuthProvider>
       <StatusBar style="auto"/>
