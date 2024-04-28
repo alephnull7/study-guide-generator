@@ -156,13 +156,20 @@ const CreateClassroomView = () => {
                 ))}
             </Picker>
             <Picker selectedValue={course} onValueChange={(itemValue, itemIndex) => {
-                setClassroomName('');
                 setCourse(itemValue);
-                setIsFormComplete(false);
+                if (itemValue.length === 0) {
+                    setClassroomName('');
+                    setIsFormComplete(false);
+                } else {
+                    const course = courses[itemIndex-1];
+                    const autoName = `${course.code} Classroom`;
+                    setClassroomName(autoName);
+                    setIsFormComplete(true)
+                }
             }} enabled={!isLoadingCourses}>
                 <Picker.Item label="Select Course" value=""/>
-                {courses.map(course => (
-                    <Picker.Item label={course.code} value={course.id} key={course.id}/>
+                {courses.map((course, index) => (
+                    <Picker.Item label={course.code} value={course.id} key={index}/>
                 ))}
             </Picker>
             <TextInput

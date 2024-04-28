@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
 import styles from '../styles/styles';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../contexts/authContext';
@@ -9,12 +9,14 @@ const LoginView = () => {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [loginError, setLoginError] = React.useState('');
+    const [isPosting, setIsPosting] = React.useState(false);
     const navigation = useNavigation();
     const { setAuthData } = useAuth();
 
     const handleLogin = async () => {
       try {
         // Send POST request to backend for authentication
+        setIsPosting(true);
         const response = await sendDataToAPI('auth/login', 'POST', {
           'email': email,
           'password': password,
@@ -37,6 +39,8 @@ const LoginView = () => {
       } catch (error) {
         console.error('Error logging in:', error.message);
         setLoginError('Login failed. Please check your info or internet connection and try again.');
+      } finally {
+        setIsPosting(false);
       }
     };
   
@@ -66,6 +70,10 @@ const LoginView = () => {
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
+        <ActivityIndicator
+          size="large"
+          color="#0000ff"
+          animating={isPosting}/>
       </View>
     );
   };

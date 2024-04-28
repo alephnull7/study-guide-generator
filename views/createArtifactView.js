@@ -1,8 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { fetchDataFromAPI, sendDataToAPI } from "../helpers/helpers";
 import { useEffect, useState } from "react";
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
+import {View, Text, TextInput, TouchableOpacity, CheckBox, ScrollView, ActivityIndicator} from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useAuth } from '../contexts/authContext';
 import styles from "../styles/styles";
@@ -12,17 +11,20 @@ const CreateArtifactView = () => {
     const [department, setDepartment] = useState('');
     const [courses, setCourses] = useState([]);
     const [course, setCourse] = useState('');
+    const [courseCode, setCourseCode] = useState('');
     const [templates, setTemplates] = useState([]);
     const [template, setTemplate] = useState('');
     const [classrooms, setClassrooms] = useState([]);
     const [selectedClassrooms, setSelectedClassrooms] = useState([]);
-    const [artifactName, setArtifactName] = useState();
-    const [errorText, setErrorText] = useState();
+    const [artifactName, setArtifactName] = useState('');
+    const [errorText, setErrorText] = useState('');
     const { authData } = useAuth();
     const [isLoadingDepartments, setIsLoadingDepartments] = useState(true);
     const [isLoadingCourses, setIsLoadingCourses] = useState(true);
     const [isLoadingTemplates, setIsLoadingTemplates] = useState(true);
-    const [isLoadingClassrooms, setIsLoadingClassrooms] = useState(true);
+    const [isLoadingClassrooms, setIsLoadingClassrooms] = useState(false);
+    const [isActiveClassrooms, setIsActiveClassrooms] = useState(false);
+    const [isPosting, setIsPosting] = useState(false);
     const [isFormComplete, setIsFormComplete] = useState(false);
     const navigation = useNavigation();
 
@@ -55,6 +57,17 @@ const CreateArtifactView = () => {
 
     const getCourses = async (id) => {
         try {
+            setIsLoadingCourses(true);
+            setIsLoadingTemplates(true);
+            setCourse('');
+            setTemplate('');
+            setArtifactName('');
+            setIsActiveClassrooms(false);
+            setIsFormComplete(false);
+            if (id.length === 0) {
+                setCourse('');
+                return;
+            }
             const response = await fetchDataFromAPI(`artifacts/departments/courses/${id}`, authData.token);
             switch (response.status) {
                 case 204:
@@ -64,6 +77,7 @@ const CreateArtifactView = () => {
                     setErrorText('');
                     console.log(response.body);
                     setCourses(response.body);
+                    setIsLoadingCourses(false);
                     return;
                 default:
                     throw new Error("Unsuccessful retrieval of courses");
@@ -71,13 +85,19 @@ const CreateArtifactView = () => {
         } catch (error) {
             console.error(`Error getting courses:`, error.message);
             setErrorText(`Unable to access courses.`);
-        } finally {
-            setIsLoadingCourses(false);
         }
     }
 
     const getTemplates = async (id) => {
         try {
+            setArtifactName('');
+            setIsLoadingTemplates(true);
+            setIsFormComplete(false);
+            if (id.length === 0) {
+                setTemplate('');
+                setIsActiveClassrooms(false);
+                return;
+            }
             const response = await fetchDataFromAPI(`artifacts/templates/courses/${id}`, authData.token);
             switch (response.status) {
                 case 204:
@@ -87,6 +107,7 @@ const CreateArtifactView = () => {
                     setErrorText('');
                     console.log(response.body);
                     setTemplates(response.body);
+                    setIsLoadingTemplates(false);
                     return;
                 default:
                     throw new Error("Unsuccessful retrieval of templates");
@@ -94,13 +115,16 @@ const CreateArtifactView = () => {
         } catch (error) {
             console.error(`Error getting templates:`, error.message);
             setErrorText(`Unable to access templates.`);
-        } finally {
-            setIsLoadingTemplates(false);
         }
     }
 
     const getClassrooms = async(courseID) => {
         try {
+            if (courseID.length === 0) {
+                setClassrooms([]);
+                return;
+            }
+            setIsLoadingClassrooms(true);
             const response = await fetchDataFromAPI(`classrooms/instructors/${authData.uid}/${courseID}`, authData.token);
             switch (response.status) {
                 case 204:
@@ -110,6 +134,7 @@ const CreateArtifactView = () => {
                     setErrorText('');
                     console.log(response.body);
                     setClassrooms(response.body);
+                    setIsActiveClassrooms(true);
                     return;
                 default:
                     throw new Error("Unsuccessful retrieval of classrooms");
@@ -134,12 +159,13 @@ const CreateArtifactView = () => {
 
     const handleArtifactCreation = async () => {
         try {
+            setIsPosting(true);
             const response = await sendDataToAPI('artifacts', 'POST', {
                 "uid": authData.uid,
                 "template_id": template,
                 "name": artifactName,
-                "classrooms": classrooms
-            });
+                "classrooms": selectedClassrooms
+            }, authData.token);
             switch (response.status) {
                 case 400:
                     setErrorText("Missing data required for artifact creation.");
@@ -155,20 +181,17 @@ const CreateArtifactView = () => {
         } catch(error) {
             console.error('Error creating artifact: ', error.message);
             setErrorText('Unable to create artifact.');
+        } finally {
+            setIsPosting(false);
         }
     }
 
     return(
         <View style={styles.container}>
             <Text style={styles.header}>Create Artifact</Text>
-            {errorText !== '' && (
-                <Text style={styles.errorText}>
-                    {errorText}
-                </Text>
-            )}
             <Picker selectedValue={department} onValueChange={(itemValue, itemIndex) => {
                 setDepartment(itemValue);
-                getCourses(itemIndex);
+                getCourses(itemValue);
             }} enabled={!isLoadingDepartments}>
                 <Picker.Item label="Select Department" value=""/>
                 {departments.map(department => (
@@ -177,20 +200,31 @@ const CreateArtifactView = () => {
             </Picker>
             <Picker selectedValue={course} onValueChange={(itemValue, itemIndex) => {
                 setCourse(itemValue);
-                getTemplates(itemIndex);
+                setCourseCode(courses[itemIndex-1].code);
+                getTemplates(itemValue);
+                if(authData.account_type === 1) getClassrooms(itemValue);
             }} enabled={!isLoadingCourses}>
                 <Picker.Item label="Select Course" value=""/>
-                {courses.map(course => (
-                    <Picker.Item label={course.code} value={course.id} key={course.id}/>
+                {courses.map((course, index) => (
+                    <Picker.Item label={`${course.code} - ${course.name}`} value={course.id} key={index}/>
                 ))}
             </Picker>
             <Picker selectedValue={template} onValueChange={(itemValue, itemIndex) => {
                 setTemplate(itemValue);
-                if(authData.account === 1) getClassrooms(itemIndex);
+                if (itemValue.length === 0) {
+                    setArtifactName('');
+                    setIsFormComplete(false);
+                } else {
+                    const template = templates[itemIndex-1];
+                    const templateType = template.type === 1 ? 'Study Guide' : 'Quiz';
+                    const autoName = `${courseCode} - ${templateType} - ${template.name}`
+                    setArtifactName(autoName);
+                    setIsFormComplete(true)
+                }
             }} enabled={!isLoadingTemplates}>
                 <Picker.Item label="Select Template" value=""/>
-                {templates.map(template => (
-                    <Picker.Item label={template.name} value={template.id} key={template.id}/>
+                {templates.map((template, index) => (
+                    <Picker.Item label={template.name} value={template.id} key={index}/>
                 ))}
             </Picker>
             <TextInput
@@ -201,11 +235,15 @@ const CreateArtifactView = () => {
                 }}
                 value={artifactName}
                 placeholder="Name"
+                editable={template.length > 0}
             />
-            {isLoadingClassrooms ? (
-                <Text></Text>
-            ) : (
-                classrooms.map(classroom => (
+            <ActivityIndicator
+                size="large"
+                color="#0000ff"
+                animating={isLoadingClassrooms}/>
+            {isActiveClassrooms && (
+                <ScrollView>
+                {classrooms.map(classroom => (
                     <View key={classroom.id} style={styles.checkboxContainer}>
                         <CheckBox
                             value={selectedClassrooms.includes(classroom.id)}
@@ -213,13 +251,23 @@ const CreateArtifactView = () => {
                         />
                         <Text>{classroom.name}</Text>
                     </View>
-                ))
+                ))}
+                </ScrollView>
             )}
-            <TouchableOpacity style={styles.button} enabled={isFormComplete} onPress={() => {
-                handleArtifactCreation();
-            }}>
+            <TouchableOpacity
+                style={isFormComplete ? styles.button : styles.disabledButton}
+                onPress={isFormComplete ? handleArtifactCreation : null}>
                 <Text style={styles.buttonText}>Create Artifact</Text>
             </TouchableOpacity>
+            {errorText !== '' && (
+                <Text style={styles.errorText}>
+                    {errorText}
+                </Text>
+            )}
+            <ActivityIndicator
+                size="large"
+                color="#0000ff"
+                animating={isPosting}/>
         </View>
     )
 }

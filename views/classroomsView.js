@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import {ScrollView, Text, TouchableOpacity, View} from "react-native";
+import { ActivityIndicator, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import styles from "../styles/styles";
 import { fetchDataFromAPI } from '../helpers/helpers';
 import { useAuth } from "../contexts/authContext";
@@ -10,6 +10,7 @@ const ClassroomsView = () => {
     const navigation = useNavigation();
 
     const [classrooms, setClassrooms] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     // informational text
     const [errorText, setErrorText] = useState('');
@@ -39,34 +40,46 @@ const ClassroomsView = () => {
         } catch (error) {
             console.error(`Error getting classrooms:`, error.message);
             setErrorText(`Unable to access classrooms.`);
+        } finally {
+            setIsLoading(false);
         }
     };
 
     return(
         <View style={styles.container}>
             <Text style={styles.header}>Instructed Classrooms</Text>
-            <ScrollView>
-                {Object.values(classrooms).map(classroom => (
-                    <TouchableOpacity
-                        key={classroom.id}
-                        style={styles.button}
-                        onPress={() => navigation.navigate('View Classroom', { classroom: classroom })}>
-                        <Text style={styles.buttonText}>
-                            {classroom.name}
-                            {"\n"}
-                            {classroom.code}
-                            {"\n"}
-                            {classroom.course}
-                        </Text>
-                    </TouchableOpacity>
-                ))}
-            </ScrollView>
-            {errorText !== '' && (
-                <Text style={styles.errorText}>{errorText}</Text>
-            )}
-            {successText !== '' && (
-                <Text style={styles.successText}>{successText}</Text>
-            )}
+            {isLoading ?
+                <ActivityIndicator
+                    size="large"
+                    color="#0000ff"/> :
+                classrooms.length > 0 ? (
+                <ScrollView>
+                    {Object.values(classrooms).map(classroom => (
+                        <TouchableOpacity
+                            key={classroom.id}
+                            style={styles.button}
+                            onPress={() => navigation.navigate('View Classroom', { classroom: classroom })}>
+                            <Text style={styles.buttonText}>
+                                {classroom.name}
+                                {"\n"}
+                                {classroom.code}
+                                {"\n"}
+                                {classroom.course}
+                            </Text>
+                        </TouchableOpacity>
+                    ))}
+                </ScrollView>
+                ) : (
+                <View>
+                {errorText !== '' && (
+                    <Text style={styles.errorText}>{errorText}</Text>
+                )}
+                {successText !== '' && (
+                    <Text style={styles.successText}>{successText}</Text>
+                )}
+                </View>
+                )
+            }
         </View>
     );
 };

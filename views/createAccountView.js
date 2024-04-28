@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, TextInput, TouchableOpacity, CheckBox } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, CheckBox, ActivityIndicator} from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import styles from '../styles/styles';
 import { sendDataToAPI } from '../helpers/helpers';
@@ -10,6 +10,7 @@ const CreateAccountView = () => {
   const [password, setPassword] = React.useState('');
   const [isChecked, setIsChecked] = React.useState(false);
   const [createAccountError, setCreateAccountError] = React.useState('');
+  const [isPosting, setIsPosting] = React.useState(false);
   const navigation = useNavigation();
   const { setAuthData } = useAuth();
 
@@ -25,6 +26,7 @@ const CreateAccountView = () => {
         else account_type = 0;
         
         // Send data to the API
+        setIsPosting(true);
         const response = await sendDataToAPI('auth/create', 'post', {
           'email': email,
           'account_type': account_type,
@@ -49,6 +51,8 @@ const CreateAccountView = () => {
       } catch (error) {
         console.error('Error occurred:', error.message);
         setCreateAccountError(`Unexpected error. Please try again.`);
+      } finally {
+        setIsPosting(false);
       }
     }
   
@@ -89,6 +93,10 @@ const CreateAccountView = () => {
       >
         <Text style={styles.buttonText}>Create Account</Text>
       </TouchableOpacity>
+      <ActivityIndicator
+        size="large"
+        color="#0000ff"
+        animating={isPosting}/>
     </View>
   );
 };
