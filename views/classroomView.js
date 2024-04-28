@@ -130,7 +130,10 @@ const ClassroomView = ({ route }) => {
 
     return(
         <View style={styles.container}>
-            <Text style={styles.header}>{classroom.name}</Text>
+            {isStudentsLoading || isStudyGuidesLoading || isQuizzesLoading ?
+                <Text></Text> :
+                <Text style={styles.header}>{classroom.name}</Text>
+            }
             {isStudentsLoading || isStudyGuidesLoading || isQuizzesLoading ?
                 <ActivityIndicator size="large" color="#0000ff" /> : (
                     <ScrollView>
