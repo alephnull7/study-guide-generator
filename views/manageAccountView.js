@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {View, Text, TouchableOpacity, Modal, Pressable, TextInput} from 'react-native';
+import {View, Text, TouchableOpacity, Modal, Pressable, TextInput, ActivityIndicator} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import styles from '../styles/styles';
 import { useAuth } from "../contexts/authContext";
@@ -24,6 +24,8 @@ const ManageAccountView = () => {
     const [inputPlaceholder, setInputPlaceholder] = React.useState('');
     const [inputAutoComplete, setInputAutoComplete] = React.useState('off');
     const [inputSecureTextEntry, setInputSecureTextEntry] = React.useState(false);
+
+    const [isDeleting, setIsDeleting] = React.useState(false);
 
     const handleUserUpdate = async() => {
         try {
@@ -56,14 +58,14 @@ const ManageAccountView = () => {
 
     const handleDeletion = async () => {
         try {
+            setDeleteVisible(!deleteVisible);
+            setIsDeleting(true);
             const response = await sendDataToAPI(`users/${authData.uid}`, 'DELETE', {}, authData.token);
             if (response.status !== 200) {
                 throw new Error("Unsuccessful deletion");
             }
 
             setAuthData(null);
-            setDeleteVisible(!deleteVisible);
-
             navigation.reset({
                 index: 0,
                 routes: [{name: "Welcome"}]
@@ -72,7 +74,8 @@ const ManageAccountView = () => {
             console.error('Error deleting account:', error.message);
             setSuccessText('');
             setErrorText('Unable to delete account.');
-            setDeleteVisible(!deleteVisible);
+        } finally {
+            setIsDeleting(false);
         }
     }
 
@@ -180,8 +183,12 @@ const ManageAccountView = () => {
             <DeleteAccountModal
                 visible={deleteVisible}
                 onClose={() => setDeleteVisible(false)}
-                onDelete={handleDeletion}
+                onSubmit={handleDeletion}
             />
+            <ActivityIndicator
+                size="large"
+                color="#0000ff"
+                animating={isDeleting}/>
         </View>
     );
   };
