@@ -1,27 +1,30 @@
 import { useState, useEffect } from 'react';
-import {ScrollView, Text, View} from "react-native";
+import {ActivityIndicator, Modal, Pressable, ScrollView, Text, TouchableOpacity, View} from "react-native";
 import styles from "../styles/styles";
-import { fetchDataFromAPI } from '../helpers/helpers';
+import {fetchDataFromAPI, sendDataToAPI} from '../helpers/helpers';
 import { useAuth } from "../contexts/authContext";
+import { useNavigation } from "@react-navigation/native";
 
 const ArtifactView = ({ route }) => {
+    const navigation = useNavigation();
     const { authData } = useAuth();
 
-    const [artifactOverview, setArtifactOverview] = useState({});
-    const [quiz, setQuiz] = useState({});
+    const [artifactId, setArtifactId] = useState();
+    const [artifactName, setArtifactName] = useState('');
+    const [artifactContent, setArtifactContent] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     // informational text
     const [errorText, setErrorText] = useState('');
+    const [deleteVisible, setDeleteVisible] = useState(false);
 
     useEffect(() => {
-        setArtifactOverview(route.params.artifact)
+        setArtifactName(route.params.artifact.name);
+        fetchAndSetArtifact(route.params.artifact)
     }, [route.params.artifact]);
 
-    useEffect(() => {
-        fetchAndSetArtifact();
-    }, [artifactOverview]);
-
-    const fetchAndSetArtifact = async () => {
+    const fetchAndSetArtifact = async (artifactOverview) => {
         try {
             console.log(artifactOverview);
             const response = await fetchDataFromAPI(`artifacts/${artifactOverview.id}`, authData.token);
@@ -32,7 +35,8 @@ const ArtifactView = ({ route }) => {
                 case 200:
                     setErrorText('');
                     console.log(response.body);
-                    setQuiz(response.body.content.problems);
+                    setArtifactId(response.body._id);
+                    setArtifactContent(response.body.content);
                     return;
                 default:
                     throw new Error("Unsuccessful retrieval of artifact");
@@ -40,27 +44,112 @@ const ArtifactView = ({ route }) => {
         } catch (error) {
             console.error(`Error getting artifact:`, error.message);
             setErrorText(`Unable to access artifact.`);
+        } finally {
+            setIsLoading(false);
         }
+    };
+
+    const handleDeletion = async () => {
+        try {
+            setDeleteVisible(!deleteVisible);
+            setIsDeleting(true);
+            const response = await sendDataToAPI(`artifacts/${artifactId}`, 'DELETE', {}, authData.token);
+            if (response.status !== 200) {
+                throw new Error("Unsuccessful deletion");
+            }
+            navigation.goBack();
+            navigation.goBack();
+        } catch (error) {
+            console.error('Error deleting artifact:', error.message);
+            setErrorText('Unable to delete account.');
+        } finally {
+            setIsDeleting(false);
+        }
+    }
+
+    const DeleteArtifactModal = ({ visible, onClose, onSubmit }) => {
+        return(
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={visible}
+                onRequestClose={onClose}>
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.header}>
+                            Confirm Deletion
+                        </Text>
+                        <Text style={styles.modalText}>
+                            Are you sure you would like to delete your this artifact?
+                            {"\n"}
+                            This action is irreversible.
+                        </Text>
+                        <View style={styles.buttonGroup}>
+                            <Pressable
+                                style={[styles.button, styles.buttonClose, styles.buttonContainer]}
+                                onPress={onSubmit}>
+                                <Text style={styles.textStyle}>Confirm</Text>
+                            </Pressable>
+                            <Pressable
+                                style={[styles.button, styles.buttonClose, styles.buttonContainer]}
+                                onPress={onClose}>
+                                <Text style={styles.textStyle}>Cancel</Text>
+                            </Pressable>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+        );
     };
 
     return(
         <View style={styles.container}>
-            <Text style={styles.header}>{artifactOverview.name}</Text>
-            <ScrollView>
-                {Object.values(quiz).map(((questions, index) => (
-                    <View>
-                        <Text style={styles.header}>Question {index+1}</Text>
-                        <Text
-                            key={index}
-                            style={styles.buttonText}>
-                            {questions.problem}
-                        </Text>
-                    </View>
-                )))}
-            </ScrollView>
-            {errorText !== '' && (
-                <Text style={styles.errorText}>{errorText}</Text>
-            )}
+            {isLoading ?
+                <Text></Text> :
+                <Text style={styles.header}>{artifactName}</Text>
+            }
+            {isLoading ?
+                <ActivityIndicator
+                    size="large"
+                    color="#0000ff"/> :
+                Object.keys(artifactContent).length > 0 ? (
+                <ScrollView>
+                    {Object.values(artifactContent.problems).map(((question, index) => (
+                        <View>
+                            <Text style={styles.header}>Question {index+1}</Text>
+                            <Text
+                                key={index}
+                                style={styles.buttonText}>
+                                {question.problem}
+                            </Text>
+                        </View>
+                    )))}
+                </ScrollView>
+                ) : <Text></Text>
+            }
+            {isLoading ?
+                <Text></Text> : (
+                <View>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => setDeleteVisible(true)}>
+                        <Text style={styles.buttonText}>Delete Artifact</Text>
+                    </TouchableOpacity>
+                    {errorText !== '' && (
+                        <Text style={styles.errorText}>{errorText}</Text>
+                    )}
+                </View>
+                )
+            }
+            <DeleteArtifactModal
+                visible={deleteVisible}
+                onClose={() => setDeleteVisible(false)}
+                onSubmit={handleDeletion}
+            />
+            <ActivityIndicator
+                size="large"
+                color="#0000ff"
+                animating={isDeleting}/>
         </View>
     );
 };
