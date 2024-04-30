@@ -9,6 +9,8 @@ import styles from "../styles/styles";
 const CreateArtifactView = () => {
     const [departments, setDepartments] = useState([]);
     const [department, setDepartment] = useState('');
+    const [types, setTypes] = useState([]);
+    const [type, setType] = useState('');
     const [courses, setCourses] = useState([]);
     const [course, setCourse] = useState('');
     const [courseCode, setCourseCode] = useState('');
@@ -30,6 +32,10 @@ const CreateArtifactView = () => {
 
     useEffect(() => {
         getDepartments();
+    }, []);
+
+    useEffect(() => {
+        getTypes();
     }, []);
 
     const getDepartments = async () => {
@@ -55,11 +61,31 @@ const CreateArtifactView = () => {
         }
     }
 
+    const getTypes = async () => {
+        try {
+            const response = await fetchDataFromAPI("artifacts/types", authData.token);
+            switch (response.status) {
+                case 204:
+                    return;
+                case 200:
+                    setErrorText('');
+                    console.log(response.body);
+                    setTypes(response.body);
+                    return;
+                default:
+                    throw new Error("Unsuccessful retrieval of types");
+            }
+        } catch (error) {
+            console.error(`Error getting types:`, error.message);
+        }
+    }
+
     const getCourses = async (id) => {
         try {
             setIsLoadingCourses(true);
             setIsLoadingTemplates(true);
             setCourse('');
+            setType('');
             setTemplate('');
             setArtifactName('');
             setIsActiveClassrooms(false);
@@ -91,14 +117,45 @@ const CreateArtifactView = () => {
     const getTemplates = async (id) => {
         try {
             setArtifactName('');
+            setType('');
             setIsLoadingTemplates(true);
             setIsFormComplete(false);
             if (id.length === 0) {
                 setTemplate('');
+                setErrorText('');
                 setIsActiveClassrooms(false);
                 return;
             }
             const response = await fetchDataFromAPI(`artifacts/templates/courses/${id}`, authData.token);
+            switch (response.status) {
+                case 204:
+                    setErrorText('No templates available.');
+                    return;
+                case 200:
+                    setErrorText('');
+                    console.log(response.body);
+                    setTemplates(response.body);
+                    setIsLoadingTemplates(false);
+                    return;
+                default:
+                    throw new Error("Unsuccessful retrieval of templates");
+            }
+        } catch (error) {
+            console.error(`Error getting templates:`, error.message);
+            setErrorText(`Unable to access templates.`);
+        }
+    }
+
+    const getTemplatesByType = async (id) => {
+        try {
+            setArtifactName('');
+            setIsLoadingTemplates(true);
+            setIsFormComplete(false);
+
+            console.log(id);
+
+            const type = Number(id) === 1 ? 'study-guides' : 'quizzes';
+            const response = await fetchDataFromAPI(`artifacts/templates/courses/${type}/${course}`, authData.token);
             switch (response.status) {
                 case 204:
                     setErrorText('No templates available.');
@@ -200,13 +257,22 @@ const CreateArtifactView = () => {
             </Picker>
             <Picker selectedValue={course} onValueChange={(itemValue, itemIndex) => {
                 setCourse(itemValue);
-                setCourseCode(courses[itemIndex-1].code);
+                itemIndex === 0 ? setCourseCode('') : setCourseCode(courses[itemIndex-1].code);
                 getTemplates(itemValue);
                 if(authData.account_type === 1) getClassrooms(itemValue);
             }} enabled={!isLoadingCourses}>
                 <Picker.Item label="Select Course" value=""/>
                 {courses.map((course, index) => (
                     <Picker.Item label={`${course.code} - ${course.name}`} value={course.id} key={index}/>
+                ))}
+            </Picker>
+            <Picker selectedValue={type} onValueChange={(itemValue, itemIndex) => {
+                setType(itemValue);
+                itemValue.length === 0 ? getTemplates(course) : getTemplatesByType(itemValue);
+            }} enabled={!isLoadingTemplates}>
+                <Picker.Item label="Select Template Type" value=""/>
+                {types.map((type, index) => (
+                    <Picker.Item label={type.name} value={type.id} key={index}/>
                 ))}
             </Picker>
             <Picker selectedValue={template} onValueChange={(itemValue, itemIndex) => {
@@ -216,8 +282,7 @@ const CreateArtifactView = () => {
                     setIsFormComplete(false);
                 } else {
                     const template = templates[itemIndex-1];
-                    const templateType = template.type === 1 ? 'Study Guide' : 'Quiz';
-                    const autoName = `${courseCode} - ${templateType} - ${template.name}`
+                    const autoName = `${courseCode} - ${template.name}`
                     setArtifactName(autoName);
                     setIsFormComplete(true)
                 }
