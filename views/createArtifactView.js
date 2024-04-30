@@ -1,7 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
 import { fetchDataFromAPI, sendDataToAPI } from "../helpers/helpers";
 import { useEffect, useState } from "react";
-import {View, Text, TextInput, TouchableOpacity, CheckBox, ScrollView, ActivityIndicator} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, ScrollView, ActivityIndicator} from 'react-native';
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { Picker } from '@react-native-picker/picker';
 import { useAuth } from '../contexts/authContext';
 import styles from "../styles/styles";
@@ -313,10 +314,7 @@ const CreateArtifactView = () => {
                 <ScrollView>
                 {classrooms.map(classroom => (
                     <View key={classroom.id} style={styles.checkboxContainer}>
-                        <CheckBox
-                            value={selectedClassrooms.includes(classroom.id)}
-                            onValueChange={() => toggleClassroomSelection(classroom.id)}
-                        />
+                        <BouncyCheckbox onPress={() => toggleClassroomSelection(classroom.id)} />
                         <Text>{classroom.name}</Text>
                     </View>
                 ))}

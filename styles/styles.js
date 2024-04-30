@@ -110,6 +110,12 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start', // Make each button container span with the width of its content
         marginHorizontal: 10, // Add margin between elements
     },
+    checkboxContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        margin: 8,
+        padding: 8
+    },
 });
 
   export default styles;

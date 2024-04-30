@@ -1,7 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
 import { fetchDataFromAPI, sendDataToAPI } from "../helpers/helpers";
 import { useEffect, useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, ActivityIndicator, CheckBox, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { Picker } from '@react-native-picker/picker';
 import { useAuth } from '../contexts/authContext';
 import styles from "../styles/styles";
@@ -187,10 +188,7 @@ const CreateClassroomView = () => {
                 <ScrollView>
                     {Object.values(students).map(student => (
                         <View key={student.uid} style={styles.checkboxContainer}>
-                            <CheckBox
-                                value={selectedStudents.includes(student.uid)}
-                                onValueChange={() => toggleStudentSelection(student.uid)}
-                            />
+                            <BouncyCheckbox onPress={() => toggleStudentSelection(student.uid)} />
                             <Text>{student.username}</Text>
                         </View>
                     ))}

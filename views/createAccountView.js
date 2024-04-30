@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { View, Text, TextInput, TouchableOpacity, CheckBox, ActivityIndicator} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ActivityIndicator} from 'react-native';
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { useNavigation } from "@react-navigation/native";
 import styles from '../styles/styles';
 import { sendDataToAPI } from '../helpers/helpers';
@@ -77,11 +78,8 @@ const CreateAccountView = () => {
         secureTextEntry={true}
         autoCompleteType="password"
       />
-      <View style={[{flexDirection: 'row', margin: 8, padding: 8, alignItems: 'center'}]}>
-        <CheckBox
-          value={isChecked}
-          onValueChange={handleToggle}
-        />
+      <View style={styles.checkboxContainer}>
+        <BouncyCheckbox onPress={handleToggle} />
         <Text style={styles.label}>Instructor</Text>
       </View>
       {createAccountError !== '' && (
