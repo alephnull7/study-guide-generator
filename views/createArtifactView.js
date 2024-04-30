@@ -185,7 +185,8 @@ const CreateArtifactView = () => {
             const response = await fetchDataFromAPI(`classrooms/instructors/${authData.uid}/${courseID}`, authData.token);
             switch (response.status) {
                 case 204:
-                    setErrorText('No classrooms available.');
+                    setClassrooms([]);
+                    setIsActiveClassrooms(false);
                     return;
                 case 200:
                     setErrorText('');
