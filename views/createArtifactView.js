@@ -269,8 +269,10 @@ const CreateArtifactView = () => {
             </Picker>
             <Picker selectedValue={type} onValueChange={(itemValue, itemIndex) => {
                 setType(itemValue);
+                setArtifactName('');
+                setTemplate('');
                 itemValue.length === 0 ? getTemplates(course) : getTemplatesByType(itemValue);
-            }} enabled={!isLoadingTemplates}>
+            }} enabled={course.length > 0}>
                 <Picker.Item label="Select Template Type" value=""/>
                 {types.map((type, index) => (
                     <Picker.Item label={type.name} value={type.id} key={index}/>
