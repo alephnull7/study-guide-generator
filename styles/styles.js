@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     },
     input: {
       height: 40,
-      width: '100%',
+      width: 250,
       borderColor: 'gray',
       borderWidth: 1,
       marginBottom: 20,
@@ -109,6 +109,24 @@ const styles = StyleSheet.create({
     buttonContainer: {
         alignSelf: 'flex-start', // Make each button container span with the width of its content
         marginHorizontal: 10, // Add margin between elements
+    },
+    checkboxContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        margin: 8,
+        padding: 8
+    },
+    formContainer: {
+        flex: 1,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        width: 500,
+        maxWidth: '100%',
+        padding: 20,
+    },
+    pickerItem: {
+        width: 250,
+        maxWidth: '100%',
     },
 });
 

@@ -5,6 +5,7 @@ import styles from '../styles/styles';
 const ManageStudentsView = ({ navigation }) => {
     return (
       <View style={styles.container}>
+      <View style={styles.formContainer}>
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('Create Classroom')}
@@ -17,6 +18,7 @@ const ManageStudentsView = ({ navigation }) => {
         >
         <Text style={styles.buttonText}>View Classrooms</Text>
         </TouchableOpacity>
+      </View>
       </View>
     );
   };

@@ -8,7 +8,8 @@ import { sendDataToAPI } from "../helpers/helpers";
 
 const ManageAccountView = () => {
     const navigation = useNavigation();
-    const { authData, setAuthData } = useAuth();
+    const authContext = useAuth();
+    const { authData, setAuthData } = authContext;
 
     // update form and modal states
     const [deleteVisible, setDeleteVisible] = React.useState(false);
@@ -33,7 +34,7 @@ const ManageAccountView = () => {
                 uid: authData.uid,
             };
             body[userProperty] = inputText;
-            const response = await sendDataToAPI(`users`, 'PUT', body, authData.token);
+            const response = await sendDataToAPI(`users`, 'PUT', body, authContext);
             if (response.status !== 200) {
                 throw new Error("Unsuccessful account update");
             }
@@ -60,7 +61,7 @@ const ManageAccountView = () => {
         try {
             setDeleteVisible(!deleteVisible);
             setIsDeleting(true);
-            const response = await sendDataToAPI(`users/${authData.uid}`, 'DELETE', {}, authData.token);
+            const response = await sendDataToAPI(`users/${authData.uid}`, 'DELETE', {}, authContext);
             if (response.status !== 200) {
                 throw new Error("Unsuccessful deletion");
             }
@@ -132,8 +133,8 @@ const ManageAccountView = () => {
     };
 
     return (
-        <View
-            style={styles.container}>
+        <View style={styles.container}>
+        <View style={styles.formContainer}>
             <Text style={styles.header}>Manage Account</Text>
             <Text style={styles.button}>
                 Update Account
@@ -143,8 +144,9 @@ const ManageAccountView = () => {
                     selectedValue={userProperty}
                     onValueChange={(itemValue, itemIndex) =>
                         updateForm(itemValue)
-                    }>
-                    <Picker.Item label="User Property" value="user-property" />
+                    }
+                    style={styles.pickerItem}>
+                    <Picker.Item label="User Property" value="user-property"/>
                     <Picker.Item label="Username" value="username" />
                     <Picker.Item label="Email" value="email" />
                     <Picker.Item label="Password" value="password" />
@@ -189,6 +191,7 @@ const ManageAccountView = () => {
                 size="large"
                 color="#0000ff"
                 animating={isDeleting}/>
+        </View>
         </View>
     );
   };

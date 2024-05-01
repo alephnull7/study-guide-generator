@@ -1,7 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
 import { fetchDataFromAPI, sendDataToAPI } from "../helpers/helpers";
 import { useEffect, useState } from "react";
-import {View, Text, TextInput, TouchableOpacity, CheckBox, ScrollView, ActivityIndicator} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, ScrollView, ActivityIndicator} from 'react-native';
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { Picker } from '@react-native-picker/picker';
 import { useAuth } from '../contexts/authContext';
 import styles from "../styles/styles";
@@ -20,9 +21,11 @@ const CreateArtifactView = () => {
     const [selectedClassrooms, setSelectedClassrooms] = useState([]);
     const [artifactName, setArtifactName] = useState('');
     const [errorText, setErrorText] = useState('');
-    const { authData } = useAuth();
+    const authContext = useAuth();
+    const { authData } = authContext;
     const [isLoadingDepartments, setIsLoadingDepartments] = useState(true);
     const [isLoadingCourses, setIsLoadingCourses] = useState(true);
+    const [isLoadingTypes, setIsLoadingTypes] = useState(true);
     const [isLoadingTemplates, setIsLoadingTemplates] = useState(true);
     const [isLoadingClassrooms, setIsLoadingClassrooms] = useState(false);
     const [isActiveClassrooms, setIsActiveClassrooms] = useState(false);
@@ -40,7 +43,7 @@ const CreateArtifactView = () => {
 
     const getDepartments = async () => {
         try {
-            const response = await fetchDataFromAPI("artifacts/departments", authData.token);
+            const response = await fetchDataFromAPI("artifacts/departments", authContext);
             switch (response.status) {
                 case 204:
                     setErrorText('No departments available.');
@@ -63,7 +66,7 @@ const CreateArtifactView = () => {
 
     const getTypes = async () => {
         try {
-            const response = await fetchDataFromAPI("artifacts/types", authData.token);
+            const response = await fetchDataFromAPI("artifacts/types", authContext);
             switch (response.status) {
                 case 204:
                     return;
@@ -83,6 +86,7 @@ const CreateArtifactView = () => {
     const getCourses = async (id) => {
         try {
             setIsLoadingCourses(true);
+            setIsLoadingTypes(true);
             setIsLoadingTemplates(true);
             setCourse('');
             setType('');
@@ -94,7 +98,7 @@ const CreateArtifactView = () => {
                 setCourse('');
                 return;
             }
-            const response = await fetchDataFromAPI(`artifacts/departments/courses/${id}`, authData.token);
+            const response = await fetchDataFromAPI(`artifacts/departments/courses/${id}`, authContext);
             switch (response.status) {
                 case 204:
                     setErrorText('No courses available.');
@@ -118,6 +122,7 @@ const CreateArtifactView = () => {
         try {
             setArtifactName('');
             setType('');
+            setIsLoadingTypes(true);
             setIsLoadingTemplates(true);
             setIsFormComplete(false);
             if (id.length === 0) {
@@ -126,7 +131,7 @@ const CreateArtifactView = () => {
                 setIsActiveClassrooms(false);
                 return;
             }
-            const response = await fetchDataFromAPI(`artifacts/templates/courses/${id}`, authData.token);
+            const response = await fetchDataFromAPI(`artifacts/templates/courses/${id}`, authContext);
             switch (response.status) {
                 case 204:
                     setErrorText('No templates available.');
@@ -135,6 +140,7 @@ const CreateArtifactView = () => {
                     setErrorText('');
                     console.log(response.body);
                     setTemplates(response.body);
+                    setIsLoadingTypes(false);
                     setIsLoadingTemplates(false);
                     return;
                 default:
@@ -152,10 +158,8 @@ const CreateArtifactView = () => {
             setIsLoadingTemplates(true);
             setIsFormComplete(false);
 
-            console.log(id);
-
             const type = Number(id) === 1 ? 'study-guides' : 'quizzes';
-            const response = await fetchDataFromAPI(`artifacts/templates/courses/${type}/${course}`, authData.token);
+            const response = await fetchDataFromAPI(`artifacts/templates/courses/${type}/${course}`, authContext);
             switch (response.status) {
                 case 204:
                     setErrorText('No templates available.');
@@ -182,7 +186,7 @@ const CreateArtifactView = () => {
                 return;
             }
             setIsLoadingClassrooms(true);
-            const response = await fetchDataFromAPI(`classrooms/instructors/${authData.uid}/${courseID}`, authData.token);
+            const response = await fetchDataFromAPI(`classrooms/instructors/${authData.uid}/${courseID}`, authContext);
             switch (response.status) {
                 case 204:
                     setClassrooms([]);
@@ -223,7 +227,7 @@ const CreateArtifactView = () => {
                 "template_id": template,
                 "name": artifactName,
                 "classrooms": selectedClassrooms
-            }, authData.token);
+            }, authContext);
             switch (response.status) {
                 case 400:
                     setErrorText("Missing data required for artifact creation.");
@@ -246,11 +250,13 @@ const CreateArtifactView = () => {
 
     return(
         <View style={styles.container}>
+        <View style={styles.formContainer}>
             <Text style={styles.header}>Create Artifact</Text>
             <Picker selectedValue={department} onValueChange={(itemValue, itemIndex) => {
                 setDepartment(itemValue);
                 getCourses(itemValue);
-            }} enabled={!isLoadingDepartments}>
+            }} enabled={!isLoadingDepartments}
+                style={styles.pickerItem}>
                 <Picker.Item label="Select Department" value=""/>
                 {departments.map(department => (
                     <Picker.Item label={department.name} value={department.id} key={department.id}/>
@@ -261,7 +267,8 @@ const CreateArtifactView = () => {
                 itemIndex === 0 ? setCourseCode('') : setCourseCode(courses[itemIndex-1].code);
                 getTemplates(itemValue);
                 if(authData.account_type === 1) getClassrooms(itemValue);
-            }} enabled={!isLoadingCourses}>
+            }} enabled={!isLoadingCourses}
+                style={styles.pickerItem}>
                 <Picker.Item label="Select Course" value=""/>
                 {courses.map((course, index) => (
                     <Picker.Item label={`${course.code} - ${course.name}`} value={course.id} key={index}/>
@@ -272,7 +279,8 @@ const CreateArtifactView = () => {
                 setArtifactName('');
                 setTemplate('');
                 itemValue.length === 0 ? getTemplates(course) : getTemplatesByType(itemValue);
-            }} enabled={course.length > 0}>
+            }} enabled={!isLoadingTypes}
+                style={styles.pickerItem}>
                 <Picker.Item label="Select Template Type" value=""/>
                 {types.map((type, index) => (
                     <Picker.Item label={type.name} value={type.id} key={index}/>
@@ -287,9 +295,10 @@ const CreateArtifactView = () => {
                     const template = templates[itemIndex-1];
                     const autoName = `${courseCode} - ${template.name}`
                     setArtifactName(autoName);
-                    setIsFormComplete(true)
+                    setIsFormComplete(true);
                 }
-            }} enabled={!isLoadingTemplates}>
+            }} enabled={!isLoadingTemplates}
+                style={styles.pickerItem}>
                 <Picker.Item label="Select Template" value=""/>
                 {templates.map((template, index) => (
                     <Picker.Item label={template.name} value={template.id} key={index}/>
@@ -303,7 +312,7 @@ const CreateArtifactView = () => {
                 }}
                 value={artifactName}
                 placeholder="Name"
-                editable={template.length > 0}
+                editable={isFormComplete}
             />
             <ActivityIndicator
                 size="large"
@@ -313,10 +322,7 @@ const CreateArtifactView = () => {
                 <ScrollView>
                 {classrooms.map(classroom => (
                     <View key={classroom.id} style={styles.checkboxContainer}>
-                        <CheckBox
-                            value={selectedClassrooms.includes(classroom.id)}
-                            onValueChange={() => toggleClassroomSelection(classroom.id)}
-                        />
+                        <BouncyCheckbox onPress={() => toggleClassroomSelection(classroom.id)} />
                         <Text>{classroom.name}</Text>
                     </View>
                 ))}
@@ -336,6 +342,7 @@ const CreateArtifactView = () => {
                 size="large"
                 color="#0000ff"
                 animating={isPosting}/>
+        </View>
         </View>
     )
 }

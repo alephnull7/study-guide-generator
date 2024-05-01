@@ -7,7 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const ArtifactView = ({ route }) => {
     const navigation = useNavigation();
-    const { authData } = useAuth();
+    const authContext = useAuth();
 
     const [artifactId, setArtifactId] = useState();
     const [artifactName, setArtifactName] = useState('');
@@ -27,7 +27,7 @@ const ArtifactView = ({ route }) => {
     const fetchAndSetArtifact = async (artifactOverview) => {
         try {
             console.log(artifactOverview);
-            const response = await fetchDataFromAPI(`artifacts/${artifactOverview.id}`, authData.token);
+            const response = await fetchDataFromAPI(`artifacts/${artifactOverview.id}`, authContext);
             switch (response.status) {
                 case 204:
                     setErrorText('');
@@ -53,7 +53,7 @@ const ArtifactView = ({ route }) => {
         try {
             setDeleteVisible(!deleteVisible);
             setIsDeleting(true);
-            const response = await sendDataToAPI(`artifacts/${artifactId}`, 'DELETE', {}, authData.token);
+            const response = await sendDataToAPI(`artifacts/${artifactId}`, 'DELETE', {}, authContext);
             if (response.status !== 200) {
                 throw new Error("Unsuccessful deletion");
             }
@@ -104,6 +104,7 @@ const ArtifactView = ({ route }) => {
 
     return(
         <View style={styles.container}>
+        <View style={styles.formContainer}>
             {isLoading ?
                 <Text></Text> :
                 <Text style={styles.header}>{artifactName}</Text>
@@ -148,6 +149,7 @@ const ArtifactView = ({ route }) => {
                 size="large"
                 color="#0000ff"
                 animating={isDeleting}/>
+        </View>
         </View>
     );
 };

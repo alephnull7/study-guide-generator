@@ -11,7 +11,8 @@ const LoginView = () => {
     const [loginError, setLoginError] = React.useState('');
     const [isPosting, setIsPosting] = React.useState(false);
     const navigation = useNavigation();
-    const { setAuthData } = useAuth();
+    const authContext = useAuth();
+    const { setAuthData } = authContext;
 
     const handleLogin = async () => {
       try {
@@ -20,7 +21,7 @@ const LoginView = () => {
         const response = await sendDataToAPI('auth/login', 'POST', {
           'email': email,
           'password': password,
-        });
+        }, authContext);
 
         if (response.status !== 201) {
             throw new Error("Unsuccessful response status");
@@ -46,6 +47,7 @@ const LoginView = () => {
   
     return (
       <View style={styles.container}>
+      <View style={styles.formContainer}>
         <Text style={styles.header}>Login</Text>
         <TextInput
           style={styles.input}
@@ -74,6 +76,7 @@ const LoginView = () => {
           size="large"
           color="#0000ff"
           animating={isPosting}/>
+      </View>
       </View>
     );
   };

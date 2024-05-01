@@ -6,7 +6,8 @@ import { useAuth } from "../contexts/authContext";
 import { useNavigation } from "@react-navigation/native";
 
 const StudyGuidesView = () => {
-    const { authData } = useAuth();
+    const authContext = useAuth();
+    const { authData } = authContext;
     const navigation = useNavigation();
 
     const [studyGuides, setStudyGuides] = useState([]);
@@ -22,7 +23,7 @@ const StudyGuidesView = () => {
 
     const fetchAndSetStudyGuides = async () => {
         try {
-            const response = await fetchDataFromAPI(`artifacts/study-guides/${authData.uid}`, authData.token);
+            const response = await fetchDataFromAPI(`artifacts/study-guides/${authData.uid}`, authContext);
             switch (response.status) {
                 case 204:
                     setErrorText('');
@@ -47,6 +48,7 @@ const StudyGuidesView = () => {
 
     return(
         <View style={styles.container}>
+        <View style={styles.formContainer}>
             <Text style={styles.header}>Study Guides</Text>
             {isLoading ?
                 <ActivityIndicator
@@ -80,6 +82,7 @@ const StudyGuidesView = () => {
                     </View>
                 )
             }
+        </View>
         </View>
     );
 };

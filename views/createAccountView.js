@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { View, Text, TextInput, TouchableOpacity, CheckBox, ActivityIndicator} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ActivityIndicator} from 'react-native';
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { useNavigation } from "@react-navigation/native";
 import styles from '../styles/styles';
 import { sendDataToAPI } from '../helpers/helpers';
@@ -12,7 +13,8 @@ const CreateAccountView = () => {
   const [createAccountError, setCreateAccountError] = React.useState('');
   const [isPosting, setIsPosting] = React.useState(false);
   const navigation = useNavigation();
-  const { setAuthData } = useAuth();
+  const authContext = useAuth();
+  const { setAuthData } = authContext;
 
   const handleToggle = () => {
     setIsChecked(!isChecked);
@@ -31,7 +33,7 @@ const CreateAccountView = () => {
           'email': email,
           'account_type': account_type,
           'password': password
-        });
+        }, authContext);
   
         // Assuming the API returns a success message upon successful account creation
         if (response.status === 201) {
@@ -59,6 +61,7 @@ const CreateAccountView = () => {
 
   return (
     <View style={styles.container}>
+    <View style={styles.formContainer}>
       <Text style={styles.header}>Create Account</Text>
       <TextInput
         style={styles.input}
@@ -77,11 +80,8 @@ const CreateAccountView = () => {
         secureTextEntry={true}
         autoCompleteType="password"
       />
-      <View style={[{flexDirection: 'row', margin: 8, padding: 8, alignItems: 'center'}]}>
-        <CheckBox
-          value={isChecked}
-          onValueChange={handleToggle}
-        />
+      <View style={styles.checkboxContainer}>
+        <BouncyCheckbox onPress={handleToggle} />
         <Text style={styles.label}>Instructor</Text>
       </View>
       {createAccountError !== '' && (
@@ -97,6 +97,7 @@ const CreateAccountView = () => {
         size="large"
         color="#0000ff"
         animating={isPosting}/>
+    </View>
     </View>
   );
 };

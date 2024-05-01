@@ -1,7 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
 import { fetchDataFromAPI, sendDataToAPI } from "../helpers/helpers";
 import { useEffect, useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, ActivityIndicator, CheckBox, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { Picker } from '@react-native-picker/picker';
 import { useAuth } from '../contexts/authContext';
 import styles from "../styles/styles";
@@ -15,7 +16,8 @@ const CreateClassroomView = () => {
     const [selectedStudents, setSelectedStudents] = useState([]);
     const [classroomName, setClassroomName] = useState('');
     const [errorText, setErrorText] = useState('');
-    const { authData } = useAuth();
+    const authContext = useAuth();
+    const { authData } = authContext;
     const [isLoadingDepartments, setIsLoadingDepartments] = useState(true);
     const [isLoadingCourses, setIsLoadingCourses] = useState(true);
     const [isPosting, setIsPosting] = useState(false);
@@ -32,7 +34,7 @@ const CreateClassroomView = () => {
 
     const getDepartments = async () => {
         try {
-            const response = await fetchDataFromAPI("artifacts/departments", authData.token);
+            const response = await fetchDataFromAPI("artifacts/departments", authContext);
             switch (response.status) {
                 case 204:
                     setErrorText('No departments available.');
@@ -63,7 +65,7 @@ const CreateClassroomView = () => {
                 setCourse('');
                 return;
             }
-            const response = await fetchDataFromAPI(`artifacts/departments/courses/${id}`, authData.token);
+            const response = await fetchDataFromAPI(`artifacts/departments/courses/${id}`, authContext);
             switch (response.status) {
                 case 204:
                     setErrorText('No courses available.');
@@ -85,7 +87,7 @@ const CreateClassroomView = () => {
 
     const getStudents = async() => {
         try {
-            const response = await fetchDataFromAPI(`users/students`, authData.token);
+            const response = await fetchDataFromAPI(`users/students`, authContext);
             switch (response.status) {
                 case 204:
                     setErrorText('No students available.');
@@ -122,7 +124,7 @@ const CreateClassroomView = () => {
                 "name": classroomName,
                 "course_id": course,
                 "students": selectedStudents
-            }, authData.token);
+            }, authContext);
             switch (response.status) {
                 case 400:
                     setErrorText("Missing data required for classroom creation.");
@@ -145,11 +147,13 @@ const CreateClassroomView = () => {
 
     return(
         <View style={styles.container}>
+        <View style={styles.formContainer}>
             <Text style={styles.header}>Create Classroom</Text>
             <Picker selectedValue={department} onValueChange={(itemValue, itemIndex) => {
                 setDepartment(itemValue);
                 getCourses(itemValue);
-            }} enabled={!isLoadingDepartments}>
+            }} enabled={!isLoadingDepartments}
+                style={styles.pickerItem}>
                 <Picker.Item label="Select Department" value=""/>
                 {departments.map(department => (
                     <Picker.Item label={department.name} value={department.id} key={department.id}/>
@@ -166,7 +170,8 @@ const CreateClassroomView = () => {
                     setClassroomName(autoName);
                     setIsFormComplete(true)
                 }
-            }} enabled={!isLoadingCourses}>
+            }} enabled={!isLoadingCourses}
+                style={styles.pickerItem}>
                 <Picker.Item label="Select Course" value=""/>
                 {courses.map((course, index) => (
                     <Picker.Item label={course.code} value={course.id} key={index}/>
@@ -187,10 +192,7 @@ const CreateClassroomView = () => {
                 <ScrollView>
                     {Object.values(students).map(student => (
                         <View key={student.uid} style={styles.checkboxContainer}>
-                            <CheckBox
-                                value={selectedStudents.includes(student.uid)}
-                                onValueChange={() => toggleStudentSelection(student.uid)}
-                            />
+                            <BouncyCheckbox onPress={() => toggleStudentSelection(student.uid)} />
                             <Text>{student.username}</Text>
                         </View>
                     ))}
@@ -210,6 +212,7 @@ const CreateClassroomView = () => {
                 size="large"
                 color="#0000ff"
                 animating={isPosting}/>
+        </View>
         </View>
     )
 }

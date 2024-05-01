@@ -6,7 +6,8 @@ import { useAuth } from "../contexts/authContext";
 import { useNavigation } from "@react-navigation/native";
 
 const ClassroomsView = () => {
-    const { authData } = useAuth();
+    const authContext = useAuth();
+    const { authData } = authContext;
     const navigation = useNavigation();
 
     const [classrooms, setClassrooms] = useState([]);
@@ -22,7 +23,7 @@ const ClassroomsView = () => {
 
     const fetchAndSetClassrooms = async () => {
         try {
-            const response = await fetchDataFromAPI(`classrooms/${authData.uid}`, authData.token);
+            const response = await fetchDataFromAPI(`classrooms/${authData.uid}`, authContext);
             switch (response.status) {
                 case 204:
                     setErrorText('');
@@ -47,6 +48,7 @@ const ClassroomsView = () => {
 
     return(
         <View style={styles.container}>
+        <View style={styles.formContainer}>
             <Text style={styles.header}>Instructed Classrooms</Text>
             {isLoading ?
                 <ActivityIndicator
@@ -80,6 +82,7 @@ const ClassroomsView = () => {
                 </View>
                 )
             }
+        </View>
         </View>
     );
 };
