@@ -5,7 +5,7 @@ import {fetchDataFromAPI, sendDataToAPI} from '../helpers/helpers';
 import { useAuth } from "../contexts/authContext";
 import { useNavigation } from "@react-navigation/native";
 
-const ArtifactView = ({ route }) => {
+const StudyGuideView = ({ route }) => {
     const navigation = useNavigation();
     const authContext = useAuth();
 
@@ -154,4 +154,4 @@ const ArtifactView = ({ route }) => {
     );
 };
 
-export default ArtifactView;
+export default StudyGuideView;
