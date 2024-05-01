@@ -3,21 +3,23 @@ import { useNavigation } from "@react-navigation/native";
 import { View, Text, TouchableOpacity } from 'react-native';
 import styles from "../styles/styles";
 import { fetchDataFromAPI } from '../helpers/helpers';
-
-export const checkConnection = async () => {
-  const data = await fetchDataFromAPI('artifacts/study-guides/1');
-  if(data.length === 0 || !data) {
-    console.error("Connection failed");
-    return false;
-  } else {
-    console.log("Successfully connected");
-    return true;
-  }
-}
+import {useAuth} from "../contexts/authContext";
 
 const LandingView = () => {
+    const authContext = useAuth();
     const navigation = useNavigation();
     const [connectionStatus, setConnectionStatus] = useState(null);
+
+    const checkConnection = async () => {
+        const data = await fetchDataFromAPI('artifacts/auth/login', authContext);
+        if(data.length === 0 || !data) {
+            console.error("Connection failed");
+            return false;
+        } else {
+            console.log("Successfully connected");
+            return true;
+        }
+    }
 
     useEffect(() => {
       const fetchData = async () => {
