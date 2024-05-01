@@ -115,16 +115,14 @@ const ArtifactView = ({ route }) => {
                     color="#0000ff"/> :
                 Object.keys(artifactContent).length > 0 ? (
                 <ScrollView>
-                    {Object.values(artifactContent.problems).map(((question, index) => (
-                        <View>
+                    {artifactContent.problems.map((problem, index) => (
+                        <View key={index}>
                             <Text style={styles.header}>Question {index+1}</Text>
-                            <Text
-                                key={index}
-                                style={styles.buttonText}>
-                                {question.problem}
-                            </Text>
+                            <Text>{problem.question}</Text>
+                            <Text style={styles.header}>Answer</Text>
+                            <Text>{problem.answer}</Text>
                         </View>
-                    )))}
+                    ))}
                 </ScrollView>
                 ) : <Text></Text>
             }
