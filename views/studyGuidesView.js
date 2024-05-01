@@ -70,6 +70,12 @@ const StudyGuidesView = () => {
                                 </Text>
                             </TouchableOpacity>
                         ))}
+                        <TouchableOpacity
+                          style={styles.button}
+                          onPress={() => navigation.navigate('Create Study Guide')}
+                        >
+                          <Text style={styles.buttonText}>Create New Study Guide</Text>
+                        </TouchableOpacity>
                     </ScrollView>
                 ) : (
                     <View>
