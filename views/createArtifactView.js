@@ -25,6 +25,7 @@ const CreateArtifactView = () => {
     const { authData } = authContext;
     const [isLoadingDepartments, setIsLoadingDepartments] = useState(true);
     const [isLoadingCourses, setIsLoadingCourses] = useState(true);
+    const [isLoadingTypes, setIsLoadingTypes] = useState(true);
     const [isLoadingTemplates, setIsLoadingTemplates] = useState(true);
     const [isLoadingClassrooms, setIsLoadingClassrooms] = useState(false);
     const [isActiveClassrooms, setIsActiveClassrooms] = useState(false);
@@ -85,6 +86,7 @@ const CreateArtifactView = () => {
     const getCourses = async (id) => {
         try {
             setIsLoadingCourses(true);
+            setIsLoadingTypes(true);
             setIsLoadingTemplates(true);
             setCourse('');
             setType('');
@@ -120,6 +122,7 @@ const CreateArtifactView = () => {
         try {
             setArtifactName('');
             setType('');
+            setIsLoadingTypes(true);
             setIsLoadingTemplates(true);
             setIsFormComplete(false);
             if (id.length === 0) {
@@ -137,6 +140,7 @@ const CreateArtifactView = () => {
                     setErrorText('');
                     console.log(response.body);
                     setTemplates(response.body);
+                    setIsLoadingTypes(false);
                     setIsLoadingTemplates(false);
                     return;
                 default:
@@ -153,8 +157,6 @@ const CreateArtifactView = () => {
             setArtifactName('');
             setIsLoadingTemplates(true);
             setIsFormComplete(false);
-
-            console.log(id);
 
             const type = Number(id) === 1 ? 'study-guides' : 'quizzes';
             const response = await fetchDataFromAPI(`artifacts/templates/courses/${type}/${course}`, authContext);
@@ -277,7 +279,7 @@ const CreateArtifactView = () => {
                 setArtifactName('');
                 setTemplate('');
                 itemValue.length === 0 ? getTemplates(course) : getTemplatesByType(itemValue);
-            }} enabled={course.length > 0}
+            }} enabled={!isLoadingTypes}
                 style={styles.pickerItem}>
                 <Picker.Item label="Select Template Type" value=""/>
                 {types.map((type, index) => (
@@ -293,7 +295,7 @@ const CreateArtifactView = () => {
                     const template = templates[itemIndex-1];
                     const autoName = `${courseCode} - ${template.name}`
                     setArtifactName(autoName);
-                    setIsFormComplete(true)
+                    setIsFormComplete(true);
                 }
             }} enabled={!isLoadingTemplates}
                 style={styles.pickerItem}>
@@ -310,7 +312,7 @@ const CreateArtifactView = () => {
                 }}
                 value={artifactName}
                 placeholder="Name"
-                editable={template.length > 0}
+                editable={isFormComplete}
             />
             <ActivityIndicator
                 size="large"
