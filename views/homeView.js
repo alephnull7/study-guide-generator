@@ -23,9 +23,9 @@ const HomeView = () => {
             <Text style={styles.header}>Welcome, {authData.username}</Text>
             <TouchableOpacity
                 style={styles.button}
-                onPress={() => navigation.navigate('Artifacts')}
+                onPress={() => navigation.navigate('Study Guides')}
             >
-                <Text style={styles.buttonText}>Artifacts</Text>
+                <Text style={styles.buttonText}>Study Guides</Text>
             </TouchableOpacity>
             <TouchableOpacity
                 style={styles.button}
