@@ -124,6 +124,10 @@ const styles = StyleSheet.create({
         maxWidth: '100%',
         padding: 20,
     },
+    pickerItem: {
+        width: 250,
+        maxWidth: '100%',
+    },
 });
 
   export default styles;

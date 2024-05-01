@@ -152,7 +152,8 @@ const CreateClassroomView = () => {
             <Picker selectedValue={department} onValueChange={(itemValue, itemIndex) => {
                 setDepartment(itemValue);
                 getCourses(itemValue);
-            }} enabled={!isLoadingDepartments}>
+            }} enabled={!isLoadingDepartments}
+                style={styles.pickerItem}>
                 <Picker.Item label="Select Department" value=""/>
                 {departments.map(department => (
                     <Picker.Item label={department.name} value={department.id} key={department.id}/>
@@ -169,7 +170,8 @@ const CreateClassroomView = () => {
                     setClassroomName(autoName);
                     setIsFormComplete(true)
                 }
-            }} enabled={!isLoadingCourses}>
+            }} enabled={!isLoadingCourses}
+                style={styles.pickerItem}>
                 <Picker.Item label="Select Course" value=""/>
                 {courses.map((course, index) => (
                     <Picker.Item label={course.code} value={course.id} key={index}/>

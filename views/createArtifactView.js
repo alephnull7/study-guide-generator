@@ -253,7 +253,8 @@ const CreateArtifactView = () => {
             <Picker selectedValue={department} onValueChange={(itemValue, itemIndex) => {
                 setDepartment(itemValue);
                 getCourses(itemValue);
-            }} enabled={!isLoadingDepartments}>
+            }} enabled={!isLoadingDepartments}
+                style={styles.pickerItem}>
                 <Picker.Item label="Select Department" value=""/>
                 {departments.map(department => (
                     <Picker.Item label={department.name} value={department.id} key={department.id}/>
@@ -264,7 +265,8 @@ const CreateArtifactView = () => {
                 itemIndex === 0 ? setCourseCode('') : setCourseCode(courses[itemIndex-1].code);
                 getTemplates(itemValue);
                 if(authData.account_type === 1) getClassrooms(itemValue);
-            }} enabled={!isLoadingCourses}>
+            }} enabled={!isLoadingCourses}
+                style={styles.pickerItem}>
                 <Picker.Item label="Select Course" value=""/>
                 {courses.map((course, index) => (
                     <Picker.Item label={`${course.code} - ${course.name}`} value={course.id} key={index}/>
@@ -275,7 +277,8 @@ const CreateArtifactView = () => {
                 setArtifactName('');
                 setTemplate('');
                 itemValue.length === 0 ? getTemplates(course) : getTemplatesByType(itemValue);
-            }} enabled={course.length > 0}>
+            }} enabled={course.length > 0}
+                style={styles.pickerItem}>
                 <Picker.Item label="Select Template Type" value=""/>
                 {types.map((type, index) => (
                     <Picker.Item label={type.name} value={type.id} key={index}/>
@@ -292,7 +295,8 @@ const CreateArtifactView = () => {
                     setArtifactName(autoName);
                     setIsFormComplete(true)
                 }
-            }} enabled={!isLoadingTemplates}>
+            }} enabled={!isLoadingTemplates}
+                style={styles.pickerItem}>
                 <Picker.Item label="Select Template" value=""/>
                 {templates.map((template, index) => (
                     <Picker.Item label={template.name} value={template.id} key={index}/>

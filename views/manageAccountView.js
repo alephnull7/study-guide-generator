@@ -144,8 +144,9 @@ const ManageAccountView = () => {
                     selectedValue={userProperty}
                     onValueChange={(itemValue, itemIndex) =>
                         updateForm(itemValue)
-                    }>
-                    <Picker.Item label="User Property" value="user-property" />
+                    }
+                    style={styles.pickerItem}>
+                    <Picker.Item label="User Property" value="user-property"/>
                     <Picker.Item label="Username" value="username" />
                     <Picker.Item label="Email" value="email" />
                     <Picker.Item label="Password" value="password" />
