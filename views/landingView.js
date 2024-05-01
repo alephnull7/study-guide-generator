@@ -31,6 +31,7 @@ const LandingView = () => {
   
     return (
       <View style={styles.container}>
+      <View style={styles.formContainer}>
         <Text style={styles.paragraph}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
           labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
@@ -61,6 +62,7 @@ const LandingView = () => {
                 Connection failed. Please check your internet connection and try again.
             </Text>
         )}
+      </View>
       </View>
     );
   };

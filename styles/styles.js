@@ -116,6 +116,13 @@ const styles = StyleSheet.create({
         margin: 8,
         padding: 8
     },
+    formContainer: {
+        flex: 1,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        maxWidth: 500,
+        padding: 20,
+    },
 });
 
   export default styles;
