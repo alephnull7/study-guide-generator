@@ -31,22 +31,11 @@ const LandingView = () => {
   
     return (
       <View style={styles.container}>
-      {connectionStatus === null && (
-        <Text style={styles.paragraph}>Checking connection...</Text>
-      )}
-      {connectionStatus === true && (
-        <Text style={styles.paragraph}></Text>
-      )}
-      {connectionStatus === false && (
-        <Text style={styles.errorText}>
-          Connection failed. Please check your internet connection and try again.
-        </Text>
-      )}
         <Text style={styles.paragraph}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut 
-          labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-          nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit 
-          esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+          labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+          nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+          esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
           culpa qui officia deserunt mollit anim id est laborum.
         </Text>
         <TouchableOpacity
@@ -61,6 +50,17 @@ const LandingView = () => {
         >
           <Text style={styles.buttonText}>Create New Account</Text>
         </TouchableOpacity>
+        {connectionStatus === null && (
+            <Text style={styles.paragraph}>Checking connection...</Text>
+        )}
+        {connectionStatus === true && (
+            <Text style={styles.paragraph}></Text>
+        )}
+        {connectionStatus === false && (
+            <Text style={styles.errorText}>
+                Connection failed. Please check your internet connection and try again.
+            </Text>
+        )}
       </View>
     );
   };
