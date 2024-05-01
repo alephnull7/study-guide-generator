@@ -130,6 +130,7 @@ const ClassroomView = ({ route }) => {
 
     return(
         <View style={styles.container}>
+        <View style={styles.formContainer}>
             {isStudentsLoading || isStudyGuidesLoading || isQuizzesLoading ?
                 <Text></Text> :
                 <Text style={styles.header}>{classroom.name}</Text>
@@ -196,6 +197,7 @@ const ClassroomView = ({ route }) => {
                     </ScrollView>
                 )
             }
+        </View>
         </View>
     );
 };

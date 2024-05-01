@@ -133,8 +133,8 @@ const ManageAccountView = () => {
     };
 
     return (
-        <View
-            style={styles.container}>
+        <View style={styles.container}>
+        <View style={styles.formContainer}>
             <Text style={styles.header}>Manage Account</Text>
             <Text style={styles.button}>
                 Update Account
@@ -190,6 +190,7 @@ const ManageAccountView = () => {
                 size="large"
                 color="#0000ff"
                 animating={isDeleting}/>
+        </View>
         </View>
     );
   };

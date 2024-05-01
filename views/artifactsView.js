@@ -8,6 +8,7 @@ const ArtifactsView = () => {
   
     return (
       <View style={styles.container}>
+      <View style={styles.formContainer}>
         <Text style={styles.header}>Artifacts</Text>
         <TouchableOpacity
             style={styles.button}
@@ -27,6 +28,7 @@ const ArtifactsView = () => {
         >
           <Text style={styles.buttonText}>Create New Artifact</Text>
         </TouchableOpacity>
+      </View>
       </View>
     );
   };

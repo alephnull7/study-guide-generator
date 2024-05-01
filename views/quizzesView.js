@@ -48,6 +48,7 @@ const QuizzesView = () => {
 
     return(
         <View style={styles.container}>
+        <View style={styles.formContainer}>
             <Text style={styles.header}>Quizzes</Text>
             {isLoading ?
                 <ActivityIndicator
@@ -81,6 +82,7 @@ const QuizzesView = () => {
                 </View>
                 )
             }
+        </View>
         </View>
     );
 };

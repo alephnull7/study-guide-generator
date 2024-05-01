@@ -48,6 +48,7 @@ const StudyGuidesView = () => {
 
     return(
         <View style={styles.container}>
+        <View style={styles.formContainer}>
             <Text style={styles.header}>Study Guides</Text>
             {isLoading ?
                 <ActivityIndicator
@@ -81,6 +82,7 @@ const StudyGuidesView = () => {
                     </View>
                 )
             }
+        </View>
         </View>
     );
 };

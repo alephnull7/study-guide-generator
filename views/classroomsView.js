@@ -48,6 +48,7 @@ const ClassroomsView = () => {
 
     return(
         <View style={styles.container}>
+        <View style={styles.formContainer}>
             <Text style={styles.header}>Instructed Classrooms</Text>
             {isLoading ?
                 <ActivityIndicator
@@ -81,6 +82,7 @@ const ClassroomsView = () => {
                 </View>
                 )
             }
+        </View>
         </View>
     );
 };

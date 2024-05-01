@@ -248,6 +248,7 @@ const CreateArtifactView = () => {
 
     return(
         <View style={styles.container}>
+        <View style={styles.formContainer}>
             <Text style={styles.header}>Create Artifact</Text>
             <Picker selectedValue={department} onValueChange={(itemValue, itemIndex) => {
                 setDepartment(itemValue);
@@ -335,6 +336,7 @@ const CreateArtifactView = () => {
                 size="large"
                 color="#0000ff"
                 animating={isPosting}/>
+        </View>
         </View>
     )
 }

@@ -104,6 +104,7 @@ const ArtifactView = ({ route }) => {
 
     return(
         <View style={styles.container}>
+        <View style={styles.formContainer}>
             {isLoading ?
                 <Text></Text> :
                 <Text style={styles.header}>{artifactName}</Text>
@@ -150,6 +151,7 @@ const ArtifactView = ({ route }) => {
                 size="large"
                 color="#0000ff"
                 animating={isDeleting}/>
+        </View>
         </View>
     );
 };

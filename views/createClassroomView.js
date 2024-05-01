@@ -147,6 +147,7 @@ const CreateClassroomView = () => {
 
     return(
         <View style={styles.container}>
+        <View style={styles.formContainer}>
             <Text style={styles.header}>Create Classroom</Text>
             <Picker selectedValue={department} onValueChange={(itemValue, itemIndex) => {
                 setDepartment(itemValue);
@@ -209,6 +210,7 @@ const CreateClassroomView = () => {
                 size="large"
                 color="#0000ff"
                 animating={isPosting}/>
+        </View>
         </View>
     )
 }

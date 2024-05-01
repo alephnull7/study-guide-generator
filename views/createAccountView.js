@@ -61,6 +61,7 @@ const CreateAccountView = () => {
 
   return (
     <View style={styles.container}>
+    <View style={styles.formContainer}>
       <Text style={styles.header}>Create Account</Text>
       <TextInput
         style={styles.input}
@@ -96,6 +97,7 @@ const CreateAccountView = () => {
         size="large"
         color="#0000ff"
         animating={isPosting}/>
+    </View>
     </View>
   );
 };

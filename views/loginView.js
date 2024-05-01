@@ -47,6 +47,7 @@ const LoginView = () => {
   
     return (
       <View style={styles.container}>
+      <View style={styles.formContainer}>
         <Text style={styles.header}>Login</Text>
         <TextInput
           style={styles.input}
@@ -75,6 +76,7 @@ const LoginView = () => {
           size="large"
           color="#0000ff"
           animating={isPosting}/>
+      </View>
       </View>
     );
   };

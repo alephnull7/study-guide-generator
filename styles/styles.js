@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     },
     input: {
       height: 40,
-      width: '100%',
+      width: 250,
       borderColor: 'gray',
       borderWidth: 1,
       marginBottom: 20,
@@ -120,7 +120,8 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
-        maxWidth: 500,
+        width: 500,
+        maxWidth: '100%',
         padding: 20,
     },
 });

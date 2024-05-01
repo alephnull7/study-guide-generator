@@ -19,6 +19,7 @@ const HomeView = () => {
 
     return (
         <View style={styles.container}>
+        <View style={styles.formContainer}>
             <Text style={styles.header}>Welcome, {authData.username}</Text>
             <TouchableOpacity
                 style={styles.button}
@@ -43,6 +44,7 @@ const HomeView = () => {
             <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
                 <Text style={styles.buttonText}>Logout</Text>
             </TouchableOpacity>
+        </View>
         </View>
     );
 };
