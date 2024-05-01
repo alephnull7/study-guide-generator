@@ -6,7 +6,8 @@ import { useAuth } from "../contexts/authContext";
 import { useNavigation } from "@react-navigation/native";
 
 const QuizzesView = () => {
-    const { authData } = useAuth();
+    const authContext = useAuth();
+    const { authData } = authContext;
     const navigation = useNavigation();
 
     const [quizzes, setQuizzes] = useState([]);
@@ -22,11 +23,11 @@ const QuizzesView = () => {
 
     const fetchAndSetQuizzes = async () => {
         try {
-            const response = await fetchDataFromAPI(`artifacts/quizzes/${authData.uid}`, authData.token);
+            const response = await fetchDataFromAPI(`artifacts/quizzes/${authData.uid}`, authContext);
             switch (response.status) {
                 case 204:
                     setErrorText('');
-                    setSuccessText('You have no study guides.');
+                    setSuccessText('You have no quizzes.');
                     return;
                 case 200:
                     setErrorText('');
@@ -34,12 +35,12 @@ const QuizzesView = () => {
                     setQuizzes(response.body);
                     return;
                 default:
-                    throw new Error("Unsuccessful retrieval of study guides.");
+                    throw new Error("Unsuccessful retrieval of quizzes.");
 
             }
         } catch (error) {
             console.error(`Error getting study guides:`, error.message);
-            setErrorText(`Unable to access study guides.`);
+            setErrorText(`Unable to access quizzes.`);
         } finally {
             setIsLoading(false);
         }

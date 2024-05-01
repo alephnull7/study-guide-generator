@@ -6,7 +6,7 @@ import { useAuth } from "../contexts/authContext";
 import {useNavigation} from "@react-navigation/native";
 
 const ClassroomView = ({ route }) => {
-    const { authData } = useAuth();
+    const authContext = useAuth();
     const navigation = useNavigation();
 
     const [classroom, setClassroom] = useState({});
@@ -51,7 +51,7 @@ const ClassroomView = ({ route }) => {
 
     const fetchAndSetStudents = async () => {
         try {
-            const response = await fetchDataFromAPI(`classrooms/students/${classroom.id}`, authData.token);
+            const response = await fetchDataFromAPI(`classrooms/students/${classroom.id}`, authContext);
             switch (response.status) {
                 case 204:
                     setStudentsErrorText('');
@@ -77,7 +77,7 @@ const ClassroomView = ({ route }) => {
 
     const fetchAndSetStudyGuides = async () => {
         try {
-            const response = await fetchDataFromAPI(`classrooms/artifacts/study-guides/${classroom.id}`, authData.token);
+            const response = await fetchDataFromAPI(`classrooms/artifacts/study-guides/${classroom.id}`, authContext);
             switch (response.status) {
                 case 204:
                     setStudyGuidesErrorText('');
@@ -103,7 +103,7 @@ const ClassroomView = ({ route }) => {
 
     const fetchAndSetQuizzes = async () => {
         try {
-            const response = await fetchDataFromAPI(`classrooms/artifacts/quizzes/${classroom.id}`, authData.token);
+            const response = await fetchDataFromAPI(`classrooms/artifacts/quizzes/${classroom.id}`, authContext);
             switch (response.status) {
                 case 204:
                     setQuizzesErrorText('');

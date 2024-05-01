@@ -21,7 +21,8 @@ const CreateArtifactView = () => {
     const [selectedClassrooms, setSelectedClassrooms] = useState([]);
     const [artifactName, setArtifactName] = useState('');
     const [errorText, setErrorText] = useState('');
-    const { authData } = useAuth();
+    const authContext = useAuth();
+    const { authData } = authContext;
     const [isLoadingDepartments, setIsLoadingDepartments] = useState(true);
     const [isLoadingCourses, setIsLoadingCourses] = useState(true);
     const [isLoadingTemplates, setIsLoadingTemplates] = useState(true);
@@ -41,7 +42,7 @@ const CreateArtifactView = () => {
 
     const getDepartments = async () => {
         try {
-            const response = await fetchDataFromAPI("artifacts/departments", authData.token);
+            const response = await fetchDataFromAPI("artifacts/departments", authContext);
             switch (response.status) {
                 case 204:
                     setErrorText('No departments available.');
@@ -64,7 +65,7 @@ const CreateArtifactView = () => {
 
     const getTypes = async () => {
         try {
-            const response = await fetchDataFromAPI("artifacts/types", authData.token);
+            const response = await fetchDataFromAPI("artifacts/types", authContext);
             switch (response.status) {
                 case 204:
                     return;
@@ -95,7 +96,7 @@ const CreateArtifactView = () => {
                 setCourse('');
                 return;
             }
-            const response = await fetchDataFromAPI(`artifacts/departments/courses/${id}`, authData.token);
+            const response = await fetchDataFromAPI(`artifacts/departments/courses/${id}`, authContext);
             switch (response.status) {
                 case 204:
                     setErrorText('No courses available.');
@@ -127,7 +128,7 @@ const CreateArtifactView = () => {
                 setIsActiveClassrooms(false);
                 return;
             }
-            const response = await fetchDataFromAPI(`artifacts/templates/courses/${id}`, authData.token);
+            const response = await fetchDataFromAPI(`artifacts/templates/courses/${id}`, authContext);
             switch (response.status) {
                 case 204:
                     setErrorText('No templates available.');
@@ -156,7 +157,7 @@ const CreateArtifactView = () => {
             console.log(id);
 
             const type = Number(id) === 1 ? 'study-guides' : 'quizzes';
-            const response = await fetchDataFromAPI(`artifacts/templates/courses/${type}/${course}`, authData.token);
+            const response = await fetchDataFromAPI(`artifacts/templates/courses/${type}/${course}`, authContext);
             switch (response.status) {
                 case 204:
                     setErrorText('No templates available.');
@@ -183,7 +184,7 @@ const CreateArtifactView = () => {
                 return;
             }
             setIsLoadingClassrooms(true);
-            const response = await fetchDataFromAPI(`classrooms/instructors/${authData.uid}/${courseID}`, authData.token);
+            const response = await fetchDataFromAPI(`classrooms/instructors/${authData.uid}/${courseID}`, authContext);
             switch (response.status) {
                 case 204:
                     setClassrooms([]);
@@ -224,7 +225,7 @@ const CreateArtifactView = () => {
                 "template_id": template,
                 "name": artifactName,
                 "classrooms": selectedClassrooms
-            }, authData.token);
+            }, authContext);
             switch (response.status) {
                 case 400:
                     setErrorText("Missing data required for artifact creation.");

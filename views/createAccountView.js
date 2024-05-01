@@ -13,7 +13,8 @@ const CreateAccountView = () => {
   const [createAccountError, setCreateAccountError] = React.useState('');
   const [isPosting, setIsPosting] = React.useState(false);
   const navigation = useNavigation();
-  const { setAuthData } = useAuth();
+  const authContext = useAuth();
+  const { setAuthData } = authContext;
 
   const handleToggle = () => {
     setIsChecked(!isChecked);
@@ -32,7 +33,7 @@ const CreateAccountView = () => {
           'email': email,
           'account_type': account_type,
           'password': password
-        });
+        }, authContext);
   
         // Assuming the API returns a success message upon successful account creation
         if (response.status === 201) {

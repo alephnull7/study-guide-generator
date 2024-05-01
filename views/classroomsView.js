@@ -6,7 +6,8 @@ import { useAuth } from "../contexts/authContext";
 import { useNavigation } from "@react-navigation/native";
 
 const ClassroomsView = () => {
-    const { authData } = useAuth();
+    const authContext = useAuth();
+    const { authData } = authContext;
     const navigation = useNavigation();
 
     const [classrooms, setClassrooms] = useState([]);
@@ -22,7 +23,7 @@ const ClassroomsView = () => {
 
     const fetchAndSetClassrooms = async () => {
         try {
-            const response = await fetchDataFromAPI(`classrooms/${authData.uid}`, authData.token);
+            const response = await fetchDataFromAPI(`classrooms/${authData.uid}`, authContext);
             switch (response.status) {
                 case 204:
                     setErrorText('');

@@ -8,7 +8,8 @@ import { sendDataToAPI } from "../helpers/helpers";
 
 const ManageAccountView = () => {
     const navigation = useNavigation();
-    const { authData, setAuthData } = useAuth();
+    const authContext = useAuth();
+    const { authData, setAuthData } = authContext;
 
     // update form and modal states
     const [deleteVisible, setDeleteVisible] = React.useState(false);
@@ -33,7 +34,7 @@ const ManageAccountView = () => {
                 uid: authData.uid,
             };
             body[userProperty] = inputText;
-            const response = await sendDataToAPI(`users`, 'PUT', body, authData.token);
+            const response = await sendDataToAPI(`users`, 'PUT', body, authContext);
             if (response.status !== 200) {
                 throw new Error("Unsuccessful account update");
             }
@@ -60,7 +61,7 @@ const ManageAccountView = () => {
         try {
             setDeleteVisible(!deleteVisible);
             setIsDeleting(true);
-            const response = await sendDataToAPI(`users/${authData.uid}`, 'DELETE', {}, authData.token);
+            const response = await sendDataToAPI(`users/${authData.uid}`, 'DELETE', {}, authContext);
             if (response.status !== 200) {
                 throw new Error("Unsuccessful deletion");
             }
