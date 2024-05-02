@@ -10,8 +10,6 @@ import styles from "../styles/styles";
 const CreateStudyGuideView = () => {
     const [departments, setDepartments] = useState([]);
     const [department, setDepartment] = useState('');
-    const [types, setTypes] = useState([]);
-    const [type, setType] = useState('');
     const [courses, setCourses] = useState([]);
     const [course, setCourse] = useState('');
     const [courseCode, setCourseCode] = useState('');
@@ -25,7 +23,6 @@ const CreateStudyGuideView = () => {
     const { authData } = authContext;
     const [isLoadingDepartments, setIsLoadingDepartments] = useState(true);
     const [isLoadingCourses, setIsLoadingCourses] = useState(true);
-    const [isLoadingTypes, setIsLoadingTypes] = useState(true);
     const [isLoadingTemplates, setIsLoadingTemplates] = useState(true);
     const [isLoadingClassrooms, setIsLoadingClassrooms] = useState(false);
     const [isActiveClassrooms, setIsActiveClassrooms] = useState(false);
@@ -35,10 +32,6 @@ const CreateStudyGuideView = () => {
 
     useEffect(() => {
         getDepartments();
-    }, []);
-
-    useEffect(() => {
-        getTypes();
     }, []);
 
     const getDepartments = async () => {
@@ -64,32 +57,11 @@ const CreateStudyGuideView = () => {
         }
     }
 
-    const getTypes = async () => {
-        try {
-            const response = await fetchDataFromAPI("artifacts/types", authContext);
-            switch (response.status) {
-                case 204:
-                    return;
-                case 200:
-                    setErrorText('');
-                    console.log(response.body);
-                    setTypes(response.body);
-                    return;
-                default:
-                    throw new Error("Unsuccessful retrieval of types");
-            }
-        } catch (error) {
-            console.error(`Error getting types:`, error.message);
-        }
-    }
-
     const getCourses = async (id) => {
         try {
             setIsLoadingCourses(true);
-            setIsLoadingTypes(true);
             setIsLoadingTemplates(true);
             setCourse('');
-            setType('');
             setTemplate('');
             setStudyGuideName('');
             setIsActiveClassrooms(false);
@@ -121,8 +93,6 @@ const CreateStudyGuideView = () => {
     const getTemplates = async (id) => {
         try {
             setStudyGuideName('');
-            setType('');
-            setIsLoadingTypes(true);
             setIsLoadingTemplates(true);
             setIsFormComplete(false);
             if (id.length === 0) {
@@ -140,7 +110,6 @@ const CreateStudyGuideView = () => {
                     setErrorText('');
                     console.log(response.body);
                     setTemplates(response.body);
-                    setIsLoadingTypes(false);
                     setIsLoadingTemplates(false);
                     return;
                 default:
@@ -198,7 +167,7 @@ const CreateStudyGuideView = () => {
             const response = await sendDataToAPI('artifacts', 'POST', {
                 "uid": authData.uid,
                 "template_id": template,
-                "name": artifactName,
+                "name": studyGuideName,
                 "classrooms": selectedClassrooms
             }, authContext);
             switch (response.status) {
