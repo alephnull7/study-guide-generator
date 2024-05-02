@@ -80,7 +80,7 @@ const StudyGuideView = ({ route }) => {
                             Confirm Deletion
                         </Text>
                         <Text style={styles.modalText}>
-                            Are you sure you would like to delete your this artifact?
+                            Are you sure you would like to delete your this study guide?
                             {"\n"}
                             This action is irreversible.
                         </Text>
@@ -132,7 +132,7 @@ const StudyGuideView = ({ route }) => {
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => setDeleteVisible(true)}>
-                        <Text style={styles.buttonText}>Delete Artifact</Text>
+                        <Text style={styles.buttonText}>Delete Study Guide</Text>
                     </TouchableOpacity>
                     {errorText !== '' && (
                         <Text style={styles.errorText}>{errorText}</Text>

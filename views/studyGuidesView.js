@@ -60,7 +60,7 @@ const StudyGuidesView = () => {
                             <TouchableOpacity
                                 key={studyGuide.id}
                                 style={styles.button}
-                                onPress={() => navigation.navigate('Artifact', { artifact: studyGuide })}>
+                                onPress={() => navigation.navigate('Study Guide', { artifact: studyGuide })}>
                                 <Text style={styles.buttonText}>
                                     {studyGuide.code}
                                     {"\n"}
@@ -70,12 +70,6 @@ const StudyGuidesView = () => {
                                 </Text>
                             </TouchableOpacity>
                         ))}
-                        <TouchableOpacity
-                          style={styles.button}
-                          onPress={() => navigation.navigate('Create Study Guide')}
-                        >
-                          <Text style={styles.buttonText}>Create New Study Guide</Text>
-                        </TouchableOpacity>
                     </ScrollView>
                 ) : (
                     <View>
