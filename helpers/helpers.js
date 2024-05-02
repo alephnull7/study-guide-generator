@@ -1,5 +1,6 @@
 import {Platform} from "react-native";
 import * as FileSystem from "expo-file-system";
+import * as Sharing from "expo-sharing";
 
 const base_url = 'https://yhh2mupveh.us-east-2.awsapprunner.com/api';
 export const fetchDataFromAPI = async (route, authContext, retry = true) => {
@@ -44,7 +45,6 @@ export const sendDataToAPI = async (route, method, data, authContext, retry = tr
             },
             body: JSON.stringify(data),
         });
-        console.log(response);
 
         if (!response.ok) {
             console.log('Failed to fetch data');
@@ -66,8 +66,9 @@ export const sendDataToAPI = async (route, method, data, authContext, retry = tr
     }
 };
 
-export const fetchAndSavePDFFromAPI = async (route, authContext, fileName, retry = true) => {
+export const fetchAndSavePDFFromAPI = async (route, authContext, entityName, retry = true) => {
     try {
+        const fileName = `${entityName}.pdf`;
         const { authData } = authContext;
         const url = `${base_url}/${route}`;
 
@@ -84,24 +85,28 @@ export const fetchAndSavePDFFromAPI = async (route, authContext, fileName, retry
             // Create a link element to trigger the download
             const link = document.createElement('a');
             link.href = downloadUrl;
-            link.setAttribute('download', `${fileName}.pdf` || 'example.pdf');
+            link.setAttribute('download', fileName || 'example.pdf');
             link.style.display = 'none';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
         } else {
-            console.log('This might work for mobile?');
+            const downloadPath = FileSystem.documentDirectory;
             const headers = {
-                Authorization: `Bearer ${authContext.authData}`
+                Authorization: `Bearer ${authContext.authData.token}`
             };
-            const fileInfo = await FileSystem.downloadAsync(url,
-              FileSystem.documentDirectory, {headers});
-            const savedFile = FileSystem.documentDirectory + `${fileName}.pdf`;
-            await FileSystem.moveAsync({
-                from: fileInfo.uri,
-                to: savedFile,
-            });
+            const downloadResumable = FileSystem.createDownloadResumable(
+              url,
+              downloadPath + fileName,
+              { headers }
+            );
+            const { uri } = await downloadResumable.downloadAsync();
+            await Sharing.shareAsync(uri, { mimeType: 'application/pdf' });
         }
+        return {
+            status: 204,
+            body: { }
+        };
     } catch (error) {
         console.error('Error getting PDF:', error.message);
         return {
@@ -125,7 +130,6 @@ export const authenticate = async (authContext) => {
                 password: authData.password
             }),
         });
-        console.log(response);
 
         if (!response.ok) {
             console.error('Failed to fetch token');

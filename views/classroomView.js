@@ -60,7 +60,6 @@ const ClassroomView = ({ route }) => {
                 case 200:
                     setStudentsErrorText('');
                     setStudentsSuccessText('');
-                    console.log(response.body);
                     setStudents(response.body);
                     return;
                 default:
@@ -86,7 +85,6 @@ const ClassroomView = ({ route }) => {
                 case 200:
                     setStudyGuidesErrorText('');
                     setStudyGuidesSuccessText('');
-                    console.log(response.body);
                     setStudyGuides(response.body);
                     return;
                 default:
@@ -112,7 +110,6 @@ const ClassroomView = ({ route }) => {
                 case 200:
                     setQuizzesErrorText('');
                     setQuizzesSuccessText('');
-                    console.log(response.body);
                     setQuizzes(response.body);
                     return;
                 default:
