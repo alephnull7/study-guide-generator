@@ -52,7 +52,10 @@ const StudyGuideView = ({ route }) => {
     const saveStudyGuidePDF = async() => {
         try {
             setIsProcessing(true);
-            await fetchAndSavePDFFromAPI(`artifacts/pdf/${artifactId}`, authContext, artifactName);
+            const response = await fetchAndSavePDFFromAPI(`artifacts/pdf/${artifactId}`, authContext, artifactName);
+            if (response.status === 500) {
+                throw new Error("Unsuccessful export of study guide");
+            }
             setErrorText('');
         } catch (error) {
             console.error('Error exporting study guide:', error.message);
