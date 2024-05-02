@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {ActivityIndicator, Modal, Pressable, ScrollView, Text, TouchableOpacity, View} from "react-native";
 import styles from "../styles/styles";
-import {fetchDataFromAPI, sendDataToAPI} from '../helpers/helpers';
+import {fetchAndSavePDFFromAPI, fetchDataFromAPI, sendDataToAPI} from '../helpers/helpers';
 import { useAuth } from "../contexts/authContext";
 import { useNavigation } from "@react-navigation/native";
 
@@ -13,7 +13,7 @@ const StudyGuideView = ({ route }) => {
     const [artifactName, setArtifactName] = useState('');
     const [artifactContent, setArtifactContent] = useState({});
     const [isLoading, setIsLoading] = useState(true);
-    const [isDeleting, setIsDeleting] = useState(false);
+    const [isProcessing, setIsProcessing] = useState(false);
 
     // informational text
     const [errorText, setErrorText] = useState('');
@@ -39,20 +39,33 @@ const StudyGuideView = ({ route }) => {
                     setArtifactContent(response.body.content);
                     return;
                 default:
-                    throw new Error("Unsuccessful retrieval of artifact");
+                    throw new Error("Unsuccessful retrieval of study guide");
             }
         } catch (error) {
-            console.error(`Error getting artifact:`, error.message);
-            setErrorText(`Unable to access artifact.`);
+            console.error(`Error getting study guide:`, error.message);
+            setErrorText(`Unable to access study guide.`);
         } finally {
             setIsLoading(false);
         }
     };
 
+    const saveStudyGuidePDF = async() => {
+        try {
+            setIsProcessing(true);
+            await fetchAndSavePDFFromAPI(`artifacts/pdf/${artifactId}`, authContext, artifactName);
+            setErrorText('');
+        } catch (error) {
+            console.error('Error exporting study guide:', error.message);
+            setErrorText('Unable to save study guide.');
+        } finally {
+            setIsProcessing(false);
+        }
+    }
+
     const handleDeletion = async () => {
         try {
             setDeleteVisible(!deleteVisible);
-            setIsDeleting(true);
+            setIsProcessing(true);
             const response = await sendDataToAPI(`artifacts/${artifactId}`, 'DELETE', {}, authContext);
             if (response.status !== 200) {
                 throw new Error("Unsuccessful deletion");
@@ -63,7 +76,7 @@ const StudyGuideView = ({ route }) => {
             console.error('Error deleting artifact:', error.message);
             setErrorText('Unable to delete account.');
         } finally {
-            setIsDeleting(false);
+            setIsProcessing(false);
         }
     }
 
@@ -130,8 +143,13 @@ const StudyGuideView = ({ route }) => {
                 <Text></Text> : (
                 <View>
                     <TouchableOpacity
-                        style={styles.button}
-                        onPress={() => setDeleteVisible(true)}>
+                        style={!isProcessing ? styles.button : styles.disabledButton}
+                        onPress={isProcessing ? null : saveStudyGuidePDF}>
+                        <Text style={styles.buttonText}>Save as PDF</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={!isProcessing ? styles.button : styles.disabledButton}
+                        onPress={() => isProcessing ? null : setDeleteVisible(true)}>
                         <Text style={styles.buttonText}>Delete Study Guide</Text>
                     </TouchableOpacity>
                     {errorText !== '' && (
@@ -148,7 +166,7 @@ const StudyGuideView = ({ route }) => {
             <ActivityIndicator
                 size="large"
                 color="#0000ff"
-                animating={isDeleting}/>
+                animating={isProcessing}/>
         </View>
         </View>
     );
