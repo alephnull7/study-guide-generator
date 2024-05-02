@@ -10,8 +10,6 @@ import StudyGuidesView from './views/studyGuidesView';
 import StudyGuideView from "./views/studyGuideView";
 import ManageAccountView from './views/manageAccountView';
 import ManageStudentsView from './views/manageStudentsView';
-import StudyGuidesView from "./views/studyGuidesView";
-import QuizzesView from "./views/quizzesView";
 import ClassroomsView from "./views/classroomsView";
 import CreateClassroomView from "./views/createClassroomView";
 import CreateStudyGuideView from "./views/createStudyGuideView";
@@ -43,8 +41,6 @@ export default function App() {
           <Stack.Screen name="Study Guide" component={StudyGuideView} />
           <Stack.Screen name="Manage Account" component={ManageAccountView}/>
           <Stack.Screen name="Manage Students" component={ManageStudentsView}/>
-          <Stack.Screen name="Study Guides" component={StudyGuidesView}/>
-          <Stack.Screen name="Quizzes" component={QuizzesView}/>
           <Stack.Screen name="Classrooms" component={ClassroomsView}/>
           <Stack.Screen name="Create Classroom" component={CreateClassroomView}/>
           <Stack.Screen name="Create Study Guide" component={CreateStudyGuideView}/>
