@@ -30,5 +30,8 @@
     "@testing-library/react": "^14.2.2",
     "jest": "^29.7.0"
   },
+  "browser": {
+    "crypto": false
+  },
   "private": true
 }
