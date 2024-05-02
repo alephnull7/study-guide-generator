@@ -1,5 +1,5 @@
 const base_url = 'https://yhh2mupveh.us-east-2.awsapprunner.com/api';
-export const fetchDataFromAPI = async (route, authContext) => {
+export const fetchDataFromAPI = async (route, authContext, retry = true) => {
     try {
         const { authData } = authContext;
         const url = `${base_url}/${route}`;
@@ -12,9 +12,9 @@ export const fetchDataFromAPI = async (route, authContext) => {
         if (!response.ok) {
             console.log('Failed to fetch data');
         }
-        if (authData !== null && response.status === 401) {
+        if (retry && authData !== null && response.status === 401) {
             await authenticate(authContext);
-            return fetchDataFromAPI(route, authContext);
+            return fetchDataFromAPI(route, authContext, false);
         }
         return {
             status: response.status,
@@ -29,7 +29,7 @@ export const fetchDataFromAPI = async (route, authContext) => {
     }
 };
 
-export const sendDataToAPI = async (route, method, data, authContext) => {
+export const sendDataToAPI = async (route, method, data, authContext, retry = true) => {
     try {
         const { authData } = authContext;
         const url = `${base_url}/${route}`;
@@ -46,9 +46,9 @@ export const sendDataToAPI = async (route, method, data, authContext) => {
         if (!response.ok) {
             console.log('Failed to fetch data');
         }
-        if (authData !== null && response.status === 401) {
+        if (retry && authData !== null && response.status === 401) {
             await authenticate(authContext);
-            return sendDataToAPI(route, method, data, authContext);
+            return sendDataToAPI(route, method, data, authContext, false);
         }
         return {
             status: response.status,
