@@ -41,7 +41,6 @@ const CreateClassroomView = () => {
                     return;
                 case 200:
                     setErrorText('');
-                    console.log(response.body);
                     setDepartments(response.body);
                     return;
                 default:
@@ -72,7 +71,6 @@ const CreateClassroomView = () => {
                     return;
                 case 200:
                     setErrorText('');
-                    console.log(response.body);
                     setCourses(response.body);
                     setIsLoadingCourses(false);
                     return;
@@ -94,7 +92,6 @@ const CreateClassroomView = () => {
                     return;
                 case 200:
                     setErrorText('');
-                    console.log(response.body);
                     setStudents(response.body);
                     return;
                 default:
@@ -131,7 +128,6 @@ const CreateClassroomView = () => {
                     return;
                 case 201:
                     setErrorText('');
-                    console.log(response.body);
                     navigation.navigate("Classrooms");
                     return;
                 default:

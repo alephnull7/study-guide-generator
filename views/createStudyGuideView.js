@@ -43,7 +43,6 @@ const CreateStudyGuideView = () => {
                     return;
                 case 200:
                     setErrorText('');
-                    console.log(response.body);
                     setDepartments(response.body);
                     return;
                 default:
@@ -77,7 +76,6 @@ const CreateStudyGuideView = () => {
                     return;
                 case 200:
                     setErrorText('');
-                    console.log(response.body);
                     setCourses(response.body);
                     setIsLoadingCourses(false);
                     return;
@@ -108,7 +106,6 @@ const CreateStudyGuideView = () => {
                     return;
                 case 200:
                     setErrorText('');
-                    console.log(response.body);
                     setTemplates(response.body);
                     setIsLoadingTemplates(false);
                     return;
@@ -136,7 +133,6 @@ const CreateStudyGuideView = () => {
                     return;
                 case 200:
                     setErrorText('');
-                    console.log(response.body);
                     setClassrooms(response.body);
                     setIsActiveClassrooms(true);
                     return;
@@ -176,7 +172,6 @@ const CreateStudyGuideView = () => {
                     return;
                 case 201:
                     setErrorText('');
-                    console.log(response.body);
                     navigation.navigate("Study Guides");
                     return;
                 default:

@@ -45,7 +45,6 @@ export const sendDataToAPI = async (route, method, data, authContext, retry = tr
             },
             body: JSON.stringify(data),
         });
-        console.log(response);
 
         if (!response.ok) {
             console.log('Failed to fetch data');
@@ -131,7 +130,6 @@ export const authenticate = async (authContext) => {
                 password: authData.password
             }),
         });
-        console.log(response);
 
         if (!response.ok) {
             console.error('Failed to fetch token');

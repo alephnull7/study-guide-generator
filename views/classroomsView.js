@@ -31,7 +31,6 @@ const ClassroomsView = () => {
                     return;
                 case 200:
                     setErrorText('');
-                    console.log(response.body);
                     setClassrooms(response.body);
                     return;
                 default:

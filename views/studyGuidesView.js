@@ -31,7 +31,6 @@ const StudyGuidesView = () => {
                     return;
                 case 200:
                     setErrorText('');
-                    console.log(response.body);
                     setStudyGuides(response.body);
                     return;
                 default:

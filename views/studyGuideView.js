@@ -26,7 +26,6 @@ const StudyGuideView = ({ route }) => {
 
     const fetchAndSetArtifact = async (artifactOverview) => {
         try {
-            console.log(artifactOverview);
             const response = await fetchDataFromAPI(`artifacts/${artifactOverview.id}`, authContext);
             switch (response.status) {
                 case 204:
@@ -34,7 +33,6 @@ const StudyGuideView = ({ route }) => {
                     return;
                 case 200:
                     setErrorText('');
-                    console.log(response.body);
                     setArtifactId(response.body._id);
                     setArtifactContent(response.body.content);
                     return;
