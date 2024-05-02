@@ -7,7 +7,7 @@ import { Picker } from '@react-native-picker/picker';
 import { useAuth } from '../contexts/authContext';
 import styles from "../styles/styles";
 
-const CreateArtifactView = () => {
+const CreateStudyGuideView = () => {
     const [departments, setDepartments] = useState([]);
     const [department, setDepartment] = useState('');
     const [types, setTypes] = useState([]);
@@ -19,7 +19,7 @@ const CreateArtifactView = () => {
     const [template, setTemplate] = useState('');
     const [classrooms, setClassrooms] = useState([]);
     const [selectedClassrooms, setSelectedClassrooms] = useState([]);
-    const [artifactName, setArtifactName] = useState('');
+    const [studyGuideName, setStudyGuideName] = useState('');
     const [errorText, setErrorText] = useState('');
     const authContext = useAuth();
     const { authData } = authContext;
@@ -91,7 +91,7 @@ const CreateArtifactView = () => {
             setCourse('');
             setType('');
             setTemplate('');
-            setArtifactName('');
+            setStudyGuideName('');
             setIsActiveClassrooms(false);
             setIsFormComplete(false);
             if (id.length === 0) {
@@ -120,7 +120,7 @@ const CreateArtifactView = () => {
 
     const getTemplates = async (id) => {
         try {
-            setArtifactName('');
+            setStudyGuideName('');
             setType('');
             setIsLoadingTypes(true);
             setIsLoadingTemplates(true);
@@ -141,33 +141,6 @@ const CreateArtifactView = () => {
                     console.log(response.body);
                     setTemplates(response.body);
                     setIsLoadingTypes(false);
-                    setIsLoadingTemplates(false);
-                    return;
-                default:
-                    throw new Error("Unsuccessful retrieval of templates");
-            }
-        } catch (error) {
-            console.error(`Error getting templates:`, error.message);
-            setErrorText(`Unable to access templates.`);
-        }
-    }
-
-    const getTemplatesByType = async (id) => {
-        try {
-            setArtifactName('');
-            setIsLoadingTemplates(true);
-            setIsFormComplete(false);
-
-            const type = Number(id) === 1 ? 'study-guides' : 'quizzes';
-            const response = await fetchDataFromAPI(`artifacts/templates/courses/${type}/${course}`, authContext);
-            switch (response.status) {
-                case 204:
-                    setErrorText('No templates available.');
-                    return;
-                case 200:
-                    setErrorText('');
-                    console.log(response.body);
-                    setTemplates(response.body);
                     setIsLoadingTemplates(false);
                     return;
                 default:
@@ -219,7 +192,7 @@ const CreateArtifactView = () => {
         });
     }
 
-    const handleArtifactCreation = async () => {
+    const handleStudyGuideCreation = async () => {
         try {
             setIsPosting(true);
             const response = await sendDataToAPI('artifacts', 'POST', {
@@ -230,19 +203,19 @@ const CreateArtifactView = () => {
             }, authContext);
             switch (response.status) {
                 case 400:
-                    setErrorText("Missing data required for artifact creation.");
+                    setErrorText("Missing data required for study guide creation.");
                     return;
                 case 201:
                     setErrorText('');
                     console.log(response.body);
-                    navigation.navigate("Artifacts");
+                    navigation.navigate("Study Guides");
                     return;
                 default:
-                    throw new Error("Unsuccessful artifact creation");
+                    throw new Error("Unsuccessful study guide creation");
             }
         } catch(error) {
-            console.error('Error creating artifact: ', error.message);
-            setErrorText('Unable to create artifact.');
+            console.error('Error creating study guide: ', error.message);
+            setErrorText('Unable to create study guide.');
         } finally {
             setIsPosting(false);
         }
@@ -251,7 +224,7 @@ const CreateArtifactView = () => {
     return(
         <View style={styles.container}>
         <View style={styles.formContainer}>
-            <Text style={styles.header}>Create Artifact</Text>
+            <Text style={styles.header}>Create Study Guide</Text>
             <Picker selectedValue={department} onValueChange={(itemValue, itemIndex) => {
                 setDepartment(itemValue);
                 getCourses(itemValue);
@@ -274,27 +247,15 @@ const CreateArtifactView = () => {
                     <Picker.Item label={`${course.code} - ${course.name}`} value={course.id} key={index}/>
                 ))}
             </Picker>
-            <Picker selectedValue={type} onValueChange={(itemValue, itemIndex) => {
-                setType(itemValue);
-                setArtifactName('');
-                setTemplate('');
-                itemValue.length === 0 ? getTemplates(course) : getTemplatesByType(itemValue);
-            }} enabled={!isLoadingTypes}
-                style={styles.pickerItem}>
-                <Picker.Item label="Select Template Type" value=""/>
-                {types.map((type, index) => (
-                    <Picker.Item label={type.name} value={type.id} key={index}/>
-                ))}
-            </Picker>
             <Picker selectedValue={template} onValueChange={(itemValue, itemIndex) => {
                 setTemplate(itemValue);
                 if (itemValue.length === 0) {
-                    setArtifactName('');
+                    setStudyGuideName('');
                     setIsFormComplete(false);
                 } else {
                     const template = templates[itemIndex-1];
                     const autoName = `${courseCode} - ${template.name}`
-                    setArtifactName(autoName);
+                    setStudyGuideName(autoName);
                     setIsFormComplete(true);
                 }
             }} enabled={!isLoadingTemplates}
@@ -307,10 +268,10 @@ const CreateArtifactView = () => {
             <TextInput
                 style={styles.input}
                 onChangeText={(text) => {
-                    setArtifactName(text);
+                    setStudyGuideName(text);
                     setIsFormComplete(text.trim().length > 0);
                 }}
-                value={artifactName}
+                value={studyGuideName}
                 placeholder="Name"
                 editable={isFormComplete}
             />
@@ -330,8 +291,8 @@ const CreateArtifactView = () => {
             )}
             <TouchableOpacity
                 style={isFormComplete ? styles.button : styles.disabledButton}
-                onPress={isFormComplete ? handleArtifactCreation : null}>
-                <Text style={styles.buttonText}>Create Artifact</Text>
+                onPress={isFormComplete ? handleStudyGuideCreation : null}>
+                <Text style={styles.buttonText}>Create Study Guide</Text>
             </TouchableOpacity>
             {errorText !== '' && (
                 <Text style={styles.errorText}>
@@ -347,4 +308,4 @@ const CreateArtifactView = () => {
     )
 }
 
-export default CreateArtifactView;
+export default CreateStudyGuideView;

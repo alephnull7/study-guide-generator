@@ -6,7 +6,7 @@ import { useAuth } from "../contexts/authContext";
 import { useNavigation } from "@react-navigation/native";
 
 const StudyGuidesView = () => {
-    const authContext = useAuth();
+  const authContext = useAuth();
     const { authData } = authContext;
     const navigation = useNavigation();
 
@@ -45,12 +45,12 @@ const StudyGuidesView = () => {
             setIsLoading(false);
         }
     };
-
-    return(
-        <View style={styles.container}>
-        <View style={styles.formContainer}>
-            <Text style={styles.header}>Study Guides</Text>
-            {isLoading ?
+  
+    return (
+      <View style={styles.container}>
+      <View style={styles.formContainer}>
+        <Text style={styles.header}>Study Guides</Text>
+        {isLoading ?
                 <ActivityIndicator
                     size="large"
                     color="#0000ff"/> :
@@ -60,7 +60,7 @@ const StudyGuidesView = () => {
                             <TouchableOpacity
                                 key={studyGuide.id}
                                 style={styles.button}
-                                onPress={() => navigation.navigate('Artifact', { artifact: studyGuide })}>
+                                onPress={() => navigation.navigate('Study Guide', { artifact: studyGuide })}>
                                 <Text style={styles.buttonText}>
                                     {studyGuide.code}
                                     {"\n"}
@@ -82,9 +82,15 @@ const StudyGuidesView = () => {
                     </View>
                 )
             }
-        </View>
-        </View>
+        <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate('Create Study Guide')}
+        >
+          <Text style={styles.buttonText}>Create New Study Guide</Text>
+        </TouchableOpacity>
+      </View>
+      </View>
     );
-};
+  };
 
-export default StudyGuidesView;
+  export default StudyGuidesView;

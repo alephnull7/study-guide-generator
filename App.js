@@ -6,15 +6,13 @@ import LandingView from './views/landingView';
 import LoginView from './views/loginView';
 import CreateAccountView from './views/createAccountView';
 import HomeView from './views/homeView';
-import ArtifactsView from './views/artifactsView';
-import ArtifactView from "./views/artifactView";
+import StudyGuidesView from './views/studyGuidesView';
+import StudyGuideView from "./views/studyGuideView";
 import ManageAccountView from './views/manageAccountView';
 import ManageStudentsView from './views/manageStudentsView';
-import StudyGuidesView from "./views/studyGuidesView";
-import QuizzesView from "./views/quizzesView";
 import ClassroomsView from "./views/classroomsView";
 import CreateClassroomView from "./views/createClassroomView";
-import CreateArtifactView from "./views/createArtifactView";
+import CreateStudyGuideView from "./views/createStudyGuideView";
 import ClassroomView from "./views/classroomView";
 import { AuthProvider } from './contexts/authContext';
 
@@ -39,15 +37,13 @@ export default function App() {
           <Stack.Screen name="Login" component={LoginView} />
           <Stack.Screen name="Create Account" component={CreateAccountView} />
           <Stack.Screen name="Home" component={HomeView} />
-          <Stack.Screen name="Artifacts" component={ArtifactsView} />
-          <Stack.Screen name="Artifact" component={ArtifactView} />
+          <Stack.Screen name="Study Guides" component={StudyGuidesView} />
+          <Stack.Screen name="Study Guide" component={StudyGuideView} />
           <Stack.Screen name="Manage Account" component={ManageAccountView}/>
           <Stack.Screen name="Manage Students" component={ManageStudentsView}/>
-          <Stack.Screen name="Study Guides" component={StudyGuidesView}/>
-          <Stack.Screen name="Quizzes" component={QuizzesView}/>
           <Stack.Screen name="Classrooms" component={ClassroomsView}/>
           <Stack.Screen name="Create Classroom" component={CreateClassroomView}/>
-          <Stack.Screen name="Create Artifact" component={CreateArtifactView}/>
+          <Stack.Screen name="Create Study Guide" component={CreateStudyGuideView}/>
           <Stack.Screen name="View Classroom" component={ClassroomView}/>
         </Stack.Navigator>
       </AuthProvider>

@@ -5,7 +5,7 @@ import {fetchDataFromAPI, sendDataToAPI} from '../helpers/helpers';
 import { useAuth } from "../contexts/authContext";
 import { useNavigation } from "@react-navigation/native";
 
-const ArtifactView = ({ route }) => {
+const StudyGuideView = ({ route }) => {
     const navigation = useNavigation();
     const authContext = useAuth();
 
@@ -80,7 +80,7 @@ const ArtifactView = ({ route }) => {
                             Confirm Deletion
                         </Text>
                         <Text style={styles.modalText}>
-                            Are you sure you would like to delete your this artifact?
+                            Are you sure you would like to delete your this study guide?
                             {"\n"}
                             This action is irreversible.
                         </Text>
@@ -132,7 +132,7 @@ const ArtifactView = ({ route }) => {
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => setDeleteVisible(true)}>
-                        <Text style={styles.buttonText}>Delete Artifact</Text>
+                        <Text style={styles.buttonText}>Delete Study Guide</Text>
                     </TouchableOpacity>
                     {errorText !== '' && (
                         <Text style={styles.errorText}>{errorText}</Text>
@@ -154,4 +154,4 @@ const ArtifactView = ({ route }) => {
     );
 };
 
-export default ArtifactView;
+export default StudyGuideView;
