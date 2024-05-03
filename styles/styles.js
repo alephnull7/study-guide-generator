@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
         borderRadius: 8
     },
     redButton: {
-      backgroundColor: '#ff0700',
+      backgroundColor: '#bb0700',
       paddingVertical: 10,
       paddingHorizontal: 20,
       marginTop: 20,
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
       fontSize: 24,
       fontWeight: 'bold',
       marginBottom: 20,
-      backgroundColor: '#00cc00',
+      backgroundColor: '#006600',
       width: '100%',
       color: '#fff',
       textAlign: 'center',
@@ -55,11 +55,11 @@ const styles = StyleSheet.create({
     header2: {
       fontSize: 18,
       fontWeight: 'bold',
-      backgroundColor: 'orange',
+      backgroundColor: 'darkorange',
       padding: 10,
       marginVertical: 10,
       borderRadius: 8,
-      color: '#fff',
+      color: '#444444',
     },
     body: {
       padding: 10,
