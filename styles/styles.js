@@ -8,6 +8,8 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       margin: 0,
       padding: 20,
+      width: 300,
+      maxWidth: '100%'
     },
     paragraph: {
       marginBottom: 20,
