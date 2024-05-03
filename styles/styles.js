@@ -8,12 +8,12 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       margin: 0,
       padding: 20,
-      width: 300,
-      maxWidth: '100%'
     },
     paragraph: {
       marginBottom: 20,
-      textAlign: 'center',
+      textAlign: 'left',
+      width: 500,
+      maxWidth: '100%'
     },
     button: {
       backgroundColor: '#007bff',

@@ -47,7 +47,7 @@ const LandingView = () => {
           <Text style={styles.buttonText}>Create New Account</Text>
         </TouchableOpacity>
         {connectionStatus === null && (
-            <Text style={styles.paragraph}>Checking connection...</Text>
+            <Text style={[styles.paragraph, {textAlign: 'center'}]}>Checking connection...</Text>
         )}
         {connectionStatus === true && (
             <Text style={styles.paragraph}></Text>
