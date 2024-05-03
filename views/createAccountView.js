@@ -16,6 +16,10 @@ const CreateAccountView = () => {
   const authContext = useAuth();
   const { setAuthData } = authContext;
 
+  React.useEffect(() => {
+    navigation.setOptions({ title: "Study Guide Generator - Create New Account"});
+  }, []);
+
   const handleToggle = () => {
     setIsChecked(!isChecked);
   }
@@ -62,7 +66,6 @@ const CreateAccountView = () => {
   return (
     <View style={styles.container}>
     <View style={styles.formContainer}>
-      <Text style={styles.header}>Create Account</Text>
       <TextInput
         style={styles.input}
         onChangeText={setEmail}
@@ -81,7 +84,10 @@ const CreateAccountView = () => {
         autoCompleteType="password"
       />
       <View style={styles.checkboxContainer}>
-        <BouncyCheckbox onPress={handleToggle} />
+        <BouncyCheckbox 
+          onPress={handleToggle}
+          fillColor="orange"
+          unFillColor="rgb(175, 175, 175)"/>
         <Text style={styles.label}>Instructor</Text>
       </View>
       {createAccountError !== '' && (

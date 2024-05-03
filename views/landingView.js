@@ -31,13 +31,8 @@ const LandingView = () => {
   
     return (
       <View style={styles.container}>
-      <View style={styles.formContainer}>
         <Text style={styles.paragraph}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-          labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-          nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-          esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
+          Welcome to the OpenAI-powered Study Guide Generator! Log in or create a new account to get started.
         </Text>
         <TouchableOpacity
           style={styles.button}
@@ -62,7 +57,6 @@ const LandingView = () => {
                 Connection failed. Please check your internet connection and try again.
             </Text>
         )}
-      </View>
       </View>
     );
   };

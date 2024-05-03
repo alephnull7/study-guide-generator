@@ -25,6 +25,10 @@ const CreateClassroomView = () => {
     const navigation = useNavigation();
 
     useEffect(() => {
+        navigation.setOptions({ title: "Study Guide Generator - Create New Classrom"});
+      }, []);
+
+    useEffect(() => {
         getDepartments();
     }, []);
 

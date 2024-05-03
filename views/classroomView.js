@@ -12,20 +12,20 @@ const ClassroomView = ({ route }) => {
     const [classroom, setClassroom] = useState({});
     const [students, setStudents]= useState({});
     const [studyGuides, setStudyGuides] = useState({});
-    const [quizzes, setQuizzes] = useState({});
 
     // informational text
     const [studentsErrorText, setStudentsErrorText] = useState('');
     const [studentsSuccessText, setStudentsSuccessText] = useState('');
     const [studyGuidesErrorText, setStudyGuidesErrorText] = useState('');
     const [studyGuidesSuccessText, setStudyGuidesSuccessText] = useState('');
-    const [quizzesErrorText, setQuizzesErrorText] = useState('');
-    const [quizzesSuccessText, setQuizzesSuccessText] = useState('');
 
     // activity indicator states
     const [isStudentsLoading, setIsStudentsLoading] = useState(true);
     const [isStudyGuidesLoading, setIsStudyGuidesLoading] = useState(true);
-    const [isQuizzesLoading, setIsQuizzesLoading] = useState(true);
+
+    useEffect(() => {
+        navigation.setOptions({ title: `Study Guide Generator - Classroom`});
+      }, []);
 
     useEffect(() => {
         setClassroom(route.params.classroom);
@@ -40,12 +40,6 @@ const ClassroomView = ({ route }) => {
     useEffect(() => {
         if (Object.keys(classroom).length !== 0) {
             fetchAndSetStudyGuides();
-        }
-    }, [classroom]);
-
-    useEffect(() => {
-        if (Object.keys(classroom).length !== 0) {
-            fetchAndSetQuizzes();
         }
     }, [classroom]);
 
@@ -99,40 +93,14 @@ const ClassroomView = ({ route }) => {
         }
     };
 
-    const fetchAndSetQuizzes = async () => {
-        try {
-            const response = await fetchDataFromAPI(`classrooms/artifacts/quizzes/${classroom.id}`, authContext);
-            switch (response.status) {
-                case 204:
-                    setQuizzesErrorText('');
-                    setQuizzesSuccessText('The classroom has no quizzes.');
-                    return;
-                case 200:
-                    setQuizzesErrorText('');
-                    setQuizzesSuccessText('');
-                    setQuizzes(response.body);
-                    return;
-                default:
-                    throw new Error("Unsuccessful retrieval of quizzes");
-            }
-        } catch (error) {
-            console.error(`Error getting classroom's quizzes:`, error.message);
-            setQuizzesSuccessText('');
-            setQuizzesErrorText(`Unable to access quizzes.`);
-        } finally {
-            setIsQuizzesLoading(false);
-        }
-    };
-
-
     return(
         <View style={styles.container}>
         <View style={styles.formContainer}>
-            {isStudentsLoading || isStudyGuidesLoading || isQuizzesLoading ?
+            {isStudentsLoading || isStudyGuidesLoading ?
                 <Text></Text> :
                 <Text style={styles.header}>{classroom.name}</Text>
             }
-            {isStudentsLoading || isStudyGuidesLoading || isQuizzesLoading ?
+            {isStudentsLoading || isStudyGuidesLoading ?
                 <ActivityIndicator size="large" color="#0000ff" /> : (
                     <ScrollView>
                         <Text style={styles.header}>Students</Text>
@@ -169,27 +137,6 @@ const ClassroomView = ({ route }) => {
                         )}
                         {studyGuidesSuccessText !== '' && (
                             <Text style={styles.successText}>{studyGuidesSuccessText}</Text>
-                        )}
-                        <Text style={styles.header}>Quizzes</Text>
-                        {Object.values(quizzes).map(artifact => (
-                            <TouchableOpacity
-                                key={artifact.id}
-                                style={styles.button}
-                                onPress={() => navigation.navigate('Artifact', { artifact: artifact })}>
-                                <Text style={styles.buttonText}>
-                                    {artifact.name}
-                                    {"\n"}
-                                    {artifact.code}
-                                    {"\n"}
-                                    {artifact.course}
-                                </Text>
-                            </TouchableOpacity>
-                        ))}
-                        {quizzesErrorText !== '' && (
-                            <Text style={styles.errorText}>{quizzesErrorText}</Text>
-                        )}
-                        {quizzesSuccessText !== '' && (
-                            <Text style={styles.successText}>{quizzesSuccessText}</Text>
                         )}
                     </ScrollView>
                 )

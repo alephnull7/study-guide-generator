@@ -18,6 +18,7 @@ const ClassroomsView = () => {
     const [successText, setSuccessText] = useState('');
 
     useEffect(() => {
+        navigation.setOptions({ title: "Study Guide Generator - Instructed Classrooms"});
         fetchAndSetClassrooms();
     }, []);
 
@@ -48,7 +49,6 @@ const ClassroomsView = () => {
     return(
         <View style={styles.container}>
         <View style={styles.formContainer}>
-            <Text style={styles.header}>Instructed Classrooms</Text>
             {isLoading ?
                 <ActivityIndicator
                     size="large"

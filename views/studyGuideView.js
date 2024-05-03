@@ -20,6 +20,10 @@ const StudyGuideView = ({ route }) => {
     const [deleteVisible, setDeleteVisible] = useState(false);
 
     useEffect(() => {
+        navigation.setOptions({ title: `Study Guide Generator - Study Guide`});
+      }, []);
+
+    useEffect(() => {
         setArtifactName(route.params.artifact.name);
         fetchAndSetArtifact(route.params.artifact)
     }, [route.params.artifact]);
