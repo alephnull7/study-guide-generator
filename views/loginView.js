@@ -15,7 +15,7 @@ const LoginView = () => {
     const { setAuthData } = authContext;
 
     React.useEffect(() => {
-      navigation.setOptions({ title: "Study Guide Generator - Login"});
+      navigation.setOptions({ title: "Login"});
     }, []);
 
     const handleLogin = async () => {

@@ -9,7 +9,7 @@ const HomeView = () => {
     const { authData, setAuthData } = useAuth();
 
     React.useEffect(() => {
-        navigation.setOptions({ title: `Study Guide Generator - Welcome, ${authData.username}`});
+        navigation.setOptions({ title: `Welcome, ${authData.username}`});
       }, []);
 
     const handleLogout = () => {
@@ -29,21 +29,21 @@ const HomeView = () => {
             >
                 <Text style={styles.buttonText}>Study Guides</Text>
             </TouchableOpacity>
+            {Boolean(authData.account_type) && (
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => navigation.navigate('Classrooms')}
+                >
+                    <Text style={styles.buttonText}>Classrooms</Text>
+                </TouchableOpacity>
+            )}
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => navigation.navigate('Manage Account')}
             >
                 <Text style={styles.buttonText}>Manage Account</Text>
             </TouchableOpacity>
-            {Boolean(authData.account_type) && (
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => navigation.navigate('Manage Students')}
-                >
-                    <Text style={styles.buttonText}>Manage Students</Text>
-                </TouchableOpacity>
-            )}
-            <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+            <TouchableOpacity style={styles.redButton} onPress={handleLogout}>
                 <Text style={styles.buttonText}>Logout</Text>
             </TouchableOpacity>
         </View>

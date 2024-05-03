@@ -25,7 +25,7 @@ const CreateClassroomView = () => {
     const navigation = useNavigation();
 
     useEffect(() => {
-        navigation.setOptions({ title: "Study Guide Generator - Create New Classrom"});
+        navigation.setOptions({ title: "Create New Classrom"});
       }, []);
 
     useEffect(() => {
@@ -132,7 +132,7 @@ const CreateClassroomView = () => {
                     return;
                 case 201:
                     setErrorText('');
-                    navigation.navigate("Classrooms");
+                    navigation.goBack();
                     return;
                 default:
                     throw new Error("Unsuccessful artifact creation");
@@ -153,7 +153,7 @@ const CreateClassroomView = () => {
                 setDepartment(itemValue);
                 getCourses(itemValue);
             }} enabled={!isLoadingDepartments}
-                style={styles.pickerItem}>
+                style={isLoadingDepartments ? styles.disabledPickerItem : styles.pickerItem}>
                 <Picker.Item label="Select Department" value=""/>
                 {departments.map(department => (
                     <Picker.Item label={department.name} value={department.id} key={department.id}/>
@@ -171,14 +171,14 @@ const CreateClassroomView = () => {
                     setIsFormComplete(true)
                 }
             }} enabled={!isLoadingCourses}
-                style={styles.pickerItem}>
+                style={isLoadingCourses ? styles.disabledPickerItem : styles.pickerItem}>
                 <Picker.Item label="Select Course" value=""/>
                 {courses.map((course, index) => (
                     <Picker.Item label={course.code} value={course.id} key={index}/>
                 ))}
             </Picker>
             <TextInput
-                style={styles.input}
+                style={isFormComplete ? styles.input : styles.disabledInput}
                 onChangeText={(text) => {
                     setClassroomName(text);
                     setIsFormComplete(text.trim().length > 0);
@@ -192,7 +192,15 @@ const CreateClassroomView = () => {
                 <ScrollView>
                     {Object.values(students).map(student => (
                         <View key={student.uid} style={styles.checkboxContainer}>
-                            <BouncyCheckbox onPress={() => toggleStudentSelection(student.uid)} />
+                            <BouncyCheckbox 
+                                onPress={() => toggleStudentSelection(student.uid)}
+                                fillColor="orange"
+                                unFillColor="gray"
+                                iconStyle={{ 
+                                    borderWidth: 3,
+                                    borderColor: "orange"
+                                }}
+                            />
                             <Text>{student.username}</Text>
                         </View>
                     ))}

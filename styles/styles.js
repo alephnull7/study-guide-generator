@@ -17,21 +17,21 @@ const styles = StyleSheet.create({
       backgroundColor: '#007bff',
       paddingVertical: 10,
       paddingHorizontal: 20,
-      marginBottom: 10,
+      marginTop: 10,
       borderRadius: 8
     },
     disabledButton: {
         backgroundColor: '#787878',
         paddingVertical: 10,
         paddingHorizontal: 20,
-        marginBottom: 10,
+        marginTop: 10,
         borderRadius: 8
     },
-    logoutButton: {
+    redButton: {
       backgroundColor: '#ff0700',
       paddingVertical: 10,
       paddingHorizontal: 20,
-      marginBottom: 10,
+      marginTop: 20,
       borderRadius: 8
     },
     buttonText: {
@@ -47,7 +47,25 @@ const styles = StyleSheet.create({
       width: '100%',
       color: '#fff',
       textAlign: 'center',
-      paddingVertical: 15
+      paddingVertical: 15,
+      borderRadius: 8
+    },
+    header2: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      backgroundColor: 'orange',
+      padding: 10,
+      marginVertical: 10,
+      borderRadius: 8,
+      color: '#fff',
+    },
+    body: {
+      padding: 10,
+      marginVertical: 5,
+      fontWeight: 'bold',
+      backgroundColor: 'gray',
+      borderRadius: 8,
+      color: 'white'
     },
     input: {
       height: 40,
@@ -107,7 +125,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     buttonClose: {
-        backgroundColor: '#2196F3',
+      marginTop: 20
     },
     textStyle: {
         color: 'white',
@@ -143,8 +161,18 @@ const styles = StyleSheet.create({
         margin: 8,
         padding: 8,
         borderWidth: 1,
-        height: 40
+        height: 40,
+        backgroundColor: 'white'
     },
+    disabledPickerItem: {
+      width: 250,
+      maxWidth: '100%',
+      margin: 8,
+      padding: 8,
+      borderWidth: 1,
+      height: 40,
+      backgroundColor: 'gray'
+  }
     
 });
 

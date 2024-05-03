@@ -24,7 +24,7 @@ const ClassroomView = ({ route }) => {
     const [isStudyGuidesLoading, setIsStudyGuidesLoading] = useState(true);
 
     useEffect(() => {
-        navigation.setOptions({ title: `Study Guide Generator - Classroom`});
+        navigation.setOptions({ title: `Classroom`});
       }, []);
 
     useEffect(() => {
@@ -103,11 +103,11 @@ const ClassroomView = ({ route }) => {
             {isStudentsLoading || isStudyGuidesLoading ?
                 <ActivityIndicator size="large" color="#0000ff" /> : (
                     <ScrollView>
-                        <Text style={styles.header}>Students</Text>
+                        <Text style={styles.header2}>Students</Text>
                         {Object.values(students).map(student => (
                             <Text
                                 key={student.uid}
-                                style={styles.button}>
+                                style={styles.body}>
                                 {student.username}
                             </Text>
                         ))}
@@ -117,7 +117,7 @@ const ClassroomView = ({ route }) => {
                         {studentsSuccessText !== '' && (
                             <Text style={styles.successText}>{studentsSuccessText}</Text>
                         )}
-                        <Text style={styles.header}>Study Guides</Text>
+                        <Text style={styles.header2}>Study Guides</Text>
                         {Object.values(studyGuides).map(artifact => (
                             <TouchableOpacity
                                 key={artifact.id}

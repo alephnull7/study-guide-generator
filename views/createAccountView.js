@@ -17,7 +17,7 @@ const CreateAccountView = () => {
   const { setAuthData } = authContext;
 
   React.useEffect(() => {
-    navigation.setOptions({ title: "Study Guide Generator - Create New Account"});
+    navigation.setOptions({ title: "Create New Account"});
   }, []);
 
   const handleToggle = () => {

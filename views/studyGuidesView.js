@@ -3,12 +3,13 @@ import {ActivityIndicator, ScrollView, Text, TouchableOpacity, View} from "react
 import styles from "../styles/styles";
 import { fetchDataFromAPI } from '../helpers/helpers';
 import { useAuth } from "../contexts/authContext";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 
 const StudyGuidesView = () => {
   const authContext = useAuth();
     const { authData } = authContext;
     const navigation = useNavigation();
+    const isFocused = useIsFocused();
 
     const [studyGuides, setStudyGuides] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -18,13 +19,12 @@ const StudyGuidesView = () => {
     const [successText, setSuccessText] = useState('');
 
     useEffect(() => {
-        navigation.setOptions({ title: `Study Guide Generator - ${authData.username}'s Study Guides`});
+        navigation.setOptions({ title: `${authData.username}'s Study Guides`});
     }, []);
 
     useEffect(() => {
-
-        fetchAndSetStudyGuides();
-    }, []);
+        if(isFocused) fetchAndSetStudyGuides();
+    }, [isFocused]);
 
     const fetchAndSetStudyGuides = async () => {
         try {

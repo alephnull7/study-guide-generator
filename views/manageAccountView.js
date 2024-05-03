@@ -29,7 +29,7 @@ const ManageAccountView = () => {
     const [isDeleting, setIsDeleting] = React.useState(false);
 
     React.useEffect(() => {
-        navigation.setOptions({ title: `Study Guide Generator - ${authData.username}'s Account`});
+        navigation.setOptions({ title: `${authData.username}'s Account`});
       }, []);
 
     const handleUserUpdate = async() => {
@@ -103,7 +103,7 @@ const ManageAccountView = () => {
                         </Text>
                         <View style={styles.buttonGroup}>
                             <Pressable
-                                style={[styles.button, styles.buttonClose, styles.buttonContainer]}
+                                style={[styles.redButton, styles.buttonClose, styles.buttonContainer]}
                                 onPress={onSubmit}>
                                 <Text style={styles.textStyle}>Confirm</Text>
                             </Pressable>
@@ -171,7 +171,7 @@ const ManageAccountView = () => {
                 )}
             </View>
             <TouchableOpacity
-                style={styles.button}
+                style={styles.redButton}
                 onPress={() => setDeleteVisible(true)}>
                 <Text style={styles.buttonText}>Delete Account</Text>
             </TouchableOpacity>

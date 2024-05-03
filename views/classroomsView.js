@@ -3,53 +3,56 @@ import { ActivityIndicator, ScrollView, Text, TouchableOpacity, View } from "rea
 import styles from "../styles/styles";
 import { fetchDataFromAPI } from '../helpers/helpers';
 import { useAuth } from "../contexts/authContext";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused } from "@react-navigation/native";
 
-const ClassroomsView = () => {
-    const authContext = useAuth();
-    const { authData } = authContext;
-    const navigation = useNavigation();
+const ClassroomsView = ({ navigation }) => {
+  const authContext = useAuth();
+  const {authData} = authContext;
 
-    const [classrooms, setClassrooms] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+  const [classrooms, setClassrooms] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-    // informational text
-    const [errorText, setErrorText] = useState('');
-    const [successText, setSuccessText] = useState('');
+  // informational text
+  const [errorText, setErrorText] = useState('');
+  const [successText, setSuccessText] = useState('');
 
-    useEffect(() => {
-        navigation.setOptions({ title: "Study Guide Generator - Instructed Classrooms"});
-        fetchAndSetClassrooms();
-    }, []);
+  const isFocused = useIsFocused();
 
-    const fetchAndSetClassrooms = async () => {
-        try {
-            const response = await fetchDataFromAPI(`classrooms/${authData.uid}`, authContext);
-            switch (response.status) {
-                case 204:
-                    setErrorText('');
-                    setSuccessText('You have no classrooms.');
-                    return;
-                case 200:
-                    setErrorText('');
-                    setClassrooms(response.body);
-                    return;
-                default:
-                    throw new Error("Unsuccessful retrieval of classrooms");
+  useEffect(() => {
+    navigation.setOptions({ title: `${authData.username}'s Classrooms`});
+  }, []);
 
-            }
-        } catch (error) {
-            console.error(`Error getting classrooms:`, error.message);
-            setErrorText(`Unable to access classrooms.`);
-        } finally {
-            setIsLoading(false);
+  useEffect(() => {
+    if(isFocused) fetchAndSetClassrooms();
+  }, [isFocused]);
+
+  const fetchAndSetClassrooms = async () => {
+    try {
+        const response = await fetchDataFromAPI(`classrooms/${authData.uid}`, authContext);
+        switch (response.status) {
+            case 204:
+                setErrorText('');
+                setSuccessText('You have no classrooms.');
+                return;
+            case 200:
+                setErrorText('');
+                setClassrooms(response.body);
+                return;
+            default:
+                throw new Error("Unsuccessful retrieval of classrooms");
+
         }
-    };
+    } catch (error) {
+        console.error(`Error getting classrooms:`, error.message);
+        setErrorText(`Unable to access classrooms.`);
+    } finally {
+        setIsLoading(false);
+    }
+};
 
-    return(
-        <View style={styles.container}>
-        <View style={styles.formContainer}>
-            {isLoading ?
+    return (
+      <View style={styles.container}>
+        {isLoading ?
                 <ActivityIndicator
                     size="large"
                     color="#0000ff"/> :
@@ -81,9 +84,14 @@ const ClassroomsView = () => {
                 </View>
                 )
             }
-        </View>
-        </View>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('Create Classroom')}
+        >
+          <Text style={styles.buttonText}>Create Classroom</Text>
+        </TouchableOpacity>
+      </View>
     );
-};
+  };
 
-export default ClassroomsView;
+  export default ClassroomsView;

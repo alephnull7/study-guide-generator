@@ -8,6 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 const StudyGuideView = ({ route }) => {
     const navigation = useNavigation();
     const authContext = useAuth();
+    const { authData } = authContext;
 
     const [artifactId, setArtifactId] = useState();
     const [artifactName, setArtifactName] = useState('');
@@ -18,9 +19,10 @@ const StudyGuideView = ({ route }) => {
     // informational text
     const [errorText, setErrorText] = useState('');
     const [deleteVisible, setDeleteVisible] = useState(false);
+    const [expandedQuestions, setExpandedQuestions] = useState({});
 
     useEffect(() => {
-        navigation.setOptions({ title: `Study Guide Generator - Study Guide`});
+        navigation.setOptions({ title: `${authData.username}'s Study Guide`});
       }, []);
 
     useEffect(() => {
@@ -51,6 +53,13 @@ const StudyGuideView = ({ route }) => {
         }
     };
 
+    const toggleQuestionVisibility = (index) => {
+    setExpandedQuestions(prevState => ({
+      ...prevState,
+      [index]: !prevState[index]
+    }));
+    };
+
     const saveStudyGuidePDF = async() => {
         try {
             setIsProcessing(true);
@@ -75,7 +84,6 @@ const StudyGuideView = ({ route }) => {
             if (response.status !== 200) {
                 throw new Error("Unsuccessful deletion");
             }
-            navigation.goBack();
             navigation.goBack();
         } catch (error) {
             console.error('Error deleting artifact:', error.message);
@@ -104,7 +112,7 @@ const StudyGuideView = ({ route }) => {
                         </Text>
                         <View style={styles.buttonGroup}>
                             <Pressable
-                                style={[styles.button, styles.buttonClose, styles.buttonContainer]}
+                                style={[styles.redButton, styles.buttonClose, styles.buttonContainer]}
                                 onPress={onSubmit}>
                                 <Text style={styles.textStyle}>Confirm</Text>
                             </Pressable>
@@ -132,16 +140,20 @@ const StudyGuideView = ({ route }) => {
                     size="large"
                     color="#0000ff"/> :
                 Object.keys(artifactContent).length > 0 ? (
-                <ScrollView>
-                    {artifactContent.problems.map((problem, index) => (
-                        <View key={index}>
-                            <Text style={styles.header}>Question {index+1}</Text>
-                            <Text>{problem.question}</Text>
-                            <Text style={styles.header}>Answer</Text>
-                            <Text>{problem.answer}</Text>
-                        </View>
-                    ))}
-                </ScrollView>
+                    <ScrollView>
+                        {artifactContent.problems.map((problem, index) => (
+                            <View key={index}>
+                                <TouchableOpacity onPress={() => toggleQuestionVisibility(index)}>
+                                    <Text style={styles.header2}>
+                                        Question {index + 1}: {problem.question}
+                                    </Text>
+                                </TouchableOpacity>
+                                {expandedQuestions[index] && (
+                                    <Text style={styles.body}>{'A: ' + problem.answer}</Text>
+                                )}
+                            </View>
+                        ))}
+                    </ScrollView>
                 ) : <Text></Text>
             }
             {isLoading ?
@@ -153,7 +165,7 @@ const StudyGuideView = ({ route }) => {
                         <Text style={styles.buttonText}>Save as PDF</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={!isProcessing ? styles.button : styles.disabledButton}
+                        style={!isProcessing ? styles.redButton : styles.disabledButton}
                         onPress={() => isProcessing ? null : setDeleteVisible(true)}>
                         <Text style={styles.buttonText}>Delete Study Guide</Text>
                     </TouchableOpacity>

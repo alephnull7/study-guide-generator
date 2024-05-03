@@ -32,7 +32,7 @@ const LandingView = () => {
     return (
       <View style={styles.container}>
         <Text style={styles.paragraph}>
-          Welcome to the OpenAI-powered Study Guide Generator! Log in or create a new account to get started.
+          Welcome to the Study Guide Generator! You can use this app to generate study guides to help you study for quizzes or exams you may have. We generate these study guides for you with the power of OpenAI. Log in or create a new account to get started.
         </Text>
         <TouchableOpacity
           style={styles.button}

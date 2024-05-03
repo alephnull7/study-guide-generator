@@ -31,7 +31,7 @@ const CreateStudyGuideView = () => {
     const navigation = useNavigation();
 
     useEffect(() => {
-        navigation.setOptions({ title: 'Study Guide Generator - Create Study Guide'})
+        navigation.setOptions({ title: 'Create Study Guide'})
         getDepartments();
     }, []);
 
@@ -173,7 +173,7 @@ const CreateStudyGuideView = () => {
                     return;
                 case 201:
                     setErrorText('');
-                    navigation.navigate("Study Guides");
+                    navigation.goBack();
                     return;
                 default:
                     throw new Error("Unsuccessful study guide creation");
@@ -194,7 +194,7 @@ const CreateStudyGuideView = () => {
                 setDepartment(itemValue);
                 getCourses(itemValue);
             }} enabled={!isLoadingDepartments}
-                style={styles.pickerItem}>
+                style={isLoadingDepartments ? styles.disabledPickerItem : styles.pickerItem}>
                 <Picker.Item label="Select Department" value=""/>
                 {departments.map(department => (
                     <Picker.Item label={department.name} value={department.id} key={department.id}/>
@@ -206,7 +206,7 @@ const CreateStudyGuideView = () => {
                 getTemplates(itemValue);
                 if(authData.account_type === 1) getClassrooms(itemValue);
             }} enabled={!isLoadingCourses}
-                style={styles.pickerItem}>
+                style={isLoadingCourses ? styles.disabledPickerItem : styles.pickerItem}>
                 <Picker.Item label="Select Course" value=""/>
                 {courses.map((course, index) => (
                     <Picker.Item label={`${course.code} - ${course.name}`} value={course.id} key={index}/>
@@ -224,7 +224,7 @@ const CreateStudyGuideView = () => {
                     setIsFormComplete(true);
                 }
             }} enabled={!isLoadingTemplates}
-                style={styles.pickerItem}>
+                style={isLoadingTemplates ? styles.disabledPickerItem : styles.pickerItem}>
                 <Picker.Item label="Select Template" value=""/>
                 {templates.map((template, index) => (
                     <Picker.Item label={template.name} value={template.id} key={index}/>
@@ -251,7 +251,11 @@ const CreateStudyGuideView = () => {
                         <BouncyCheckbox 
                             onPress={() => toggleClassroomSelection(classroom.id)} 
                             fillColor="orange"
-                            unFillColor="lightgray"/>
+                            unFillColor="gray"
+                            iconStyle={{ 
+                                borderWidth: 3,
+                                borderColor: "orange"
+                            }}/>
                         <Text>{classroom.name}</Text>
                     </View>
                 ))}
