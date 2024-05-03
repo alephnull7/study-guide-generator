@@ -3,6 +3,7 @@ import { ActivityIndicator, ScrollView, Text, TouchableOpacity, View } from "rea
 import styles from "../styles/styles";
 import { fetchDataFromAPI } from '../helpers/helpers';
 import { useAuth } from "../contexts/authContext";
+import { useIsFocused } from "@react-navigation/native";
 
 const ClassroomsView = ({ navigation }) => {
   const authContext = useAuth();
@@ -15,10 +16,15 @@ const ClassroomsView = ({ navigation }) => {
   const [errorText, setErrorText] = useState('');
   const [successText, setSuccessText] = useState('');
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
     navigation.setOptions({ title: `${authData.username}'s Classrooms`});
-    fetchAndSetClassrooms();
   }, []);
+
+  useEffect(() => {
+    if(isFocused) fetchAndSetClassrooms();
+  }, [isFocused]);
 
   const fetchAndSetClassrooms = async () => {
     try {
