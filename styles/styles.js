@@ -11,7 +11,9 @@ const styles = StyleSheet.create({
     },
     paragraph: {
       marginBottom: 20,
-      textAlign: 'center',
+      textAlign: 'left',
+      width: 500,
+      maxWidth: '100%'
     },
     button: {
       backgroundColor: '#007bff',
