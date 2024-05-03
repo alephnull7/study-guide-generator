@@ -132,7 +132,7 @@ const CreateClassroomView = () => {
                     return;
                 case 201:
                     setErrorText('');
-                    navigation.navigate("Classrooms");
+                    navigation.goBack();
                     return;
                 default:
                     throw new Error("Unsuccessful artifact creation");
