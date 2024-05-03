@@ -185,7 +185,7 @@ const CreateClassroomView = () => {
                 }}
                 value={classroomName}
                 placeholder="Name"
-                editable={course.length > 0}
+                editable={course !== ''}
             />
             {students.length === 0 ?
                 <ActivityIndicator size="large" color="#0000ff" /> : (
