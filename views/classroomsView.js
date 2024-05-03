@@ -52,6 +52,9 @@ const ClassroomsView = ({ navigation }) => {
 
     return (
       <View style={styles.container}>
+        <Text style={styles.paragraph}>
+          Manage the classes you are currently teaching. Don't see one? You can create one and add accounts for your students to that class.
+        </Text>
         {isLoading ?
                 <ActivityIndicator
                     size="large"

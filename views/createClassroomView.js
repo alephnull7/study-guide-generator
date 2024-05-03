@@ -147,6 +147,9 @@ const CreateClassroomView = () => {
 
     return(
         <View style={styles.container}>
+            <Text style={styles.paragraph}>
+                Create a new class and assign a study guide for your students.
+            </Text>
         <View style={styles.formContainer}>
             <Text style={styles.header}>Create Classroom</Text>
             <Picker selectedValue={department} onValueChange={(itemValue, itemIndex) => {

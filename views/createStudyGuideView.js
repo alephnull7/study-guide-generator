@@ -188,6 +188,9 @@ const CreateStudyGuideView = () => {
 
     return(
         <View style={styles.container}>
+            <Text style={styles.paragraph}>
+                Create a new study guide for help study for quizzes or exams. Instructors can also assign it to classes for their students to review.
+            </Text>
         <View style={styles.formContainer}>
         <ScrollView>
             <Picker selectedValue={department} onValueChange={(itemValue, itemIndex) => {

@@ -138,6 +138,9 @@ const ManageAccountView = () => {
 
     return (
         <View style={styles.container}>
+            <Text style={styles.paragraph}>
+                Change your username, email, or password. Don't want the account anymore? You can delete it.
+            </Text>
             <View>
                 <Picker
                     selectedValue={userProperty}

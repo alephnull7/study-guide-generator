@@ -52,6 +52,9 @@ const StudyGuidesView = () => {
   
     return (
       <View style={styles.container}>
+        <Text style={styles.paragraph}>
+            Review any study guide you wish or create a new one.
+        </Text>
         {isLoading ?
                 <ActivityIndicator
                     size="large"

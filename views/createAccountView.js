@@ -65,6 +65,9 @@ const CreateAccountView = () => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.paragraph}>
+        Create a brand new account for you to use this app.
+      </Text>
     <View style={styles.formContainer}>
       <TextInput
         style={styles.input}

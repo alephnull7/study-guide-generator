@@ -23,6 +23,9 @@ const HomeView = () => {
 
     return (
         <View style={styles.container}>
+            <Text style={styles.paragraph}>
+                Review your study guides or manage your account. Instructors also have the ability to manage their classes and students.
+            </Text>
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => navigation.navigate('Study Guides')}
