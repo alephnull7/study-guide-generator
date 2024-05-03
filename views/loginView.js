@@ -14,6 +14,10 @@ const LoginView = () => {
     const authContext = useAuth();
     const { setAuthData } = authContext;
 
+    React.useEffect(() => {
+      navigation.setOptions({ title: "Study Guide Generator - Login"});
+    }, []);
+
     const handleLogin = async () => {
       try {
         // Send POST request to backend for authentication
@@ -48,7 +52,6 @@ const LoginView = () => {
     return (
       <View style={styles.container}>
       <View style={styles.formContainer}>
-        <Text style={styles.header}>Login</Text>
         <TextInput
           style={styles.input}
           onChangeText={setEmail}

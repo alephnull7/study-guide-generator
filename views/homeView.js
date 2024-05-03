@@ -8,6 +8,10 @@ const HomeView = () => {
     const navigation = useNavigation();
     const { authData, setAuthData } = useAuth();
 
+    React.useEffect(() => {
+        navigation.setOptions({ title: `Study Guide Generator - Welcome, ${authData.username}`});
+      }, []);
+
     const handleLogout = () => {
         setAuthData(null);
 
@@ -19,8 +23,6 @@ const HomeView = () => {
 
     return (
         <View style={styles.container}>
-        <View style={styles.formContainer}>
-            <Text style={styles.header}>Welcome, {authData.username}</Text>
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => navigation.navigate('Study Guides')}
@@ -44,7 +46,6 @@ const HomeView = () => {
             <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
                 <Text style={styles.buttonText}>Logout</Text>
             </TouchableOpacity>
-        </View>
         </View>
     );
 };

@@ -31,6 +31,7 @@ const CreateStudyGuideView = () => {
     const navigation = useNavigation();
 
     useEffect(() => {
+        navigation.setOptions({ title: 'Study Guide Generator - Create Study Guide'})
         getDepartments();
     }, []);
 
@@ -188,7 +189,7 @@ const CreateStudyGuideView = () => {
     return(
         <View style={styles.container}>
         <View style={styles.formContainer}>
-            <Text style={styles.header}>Create Study Guide</Text>
+        <ScrollView>
             <Picker selectedValue={department} onValueChange={(itemValue, itemIndex) => {
                 setDepartment(itemValue);
                 getCourses(itemValue);
@@ -230,7 +231,7 @@ const CreateStudyGuideView = () => {
                 ))}
             </Picker>
             <TextInput
-                style={styles.input}
+                style={isFormComplete ? styles.input : styles.disabledInput}
                 onChangeText={(text) => {
                     setStudyGuideName(text);
                     setIsFormComplete(text.trim().length > 0);
@@ -244,14 +245,17 @@ const CreateStudyGuideView = () => {
                 color="#0000ff"
                 animating={isLoadingClassrooms}/>
             {isActiveClassrooms && (
-                <ScrollView>
+                <View>
                 {classrooms.map(classroom => (
                     <View key={classroom.id} style={styles.checkboxContainer}>
-                        <BouncyCheckbox onPress={() => toggleClassroomSelection(classroom.id)} />
+                        <BouncyCheckbox 
+                            onPress={() => toggleClassroomSelection(classroom.id)} 
+                            fillColor="orange"
+                            unFillColor="lightgray"/>
                         <Text>{classroom.name}</Text>
                     </View>
                 ))}
-                </ScrollView>
+                </View>
             )}
             <TouchableOpacity
                 style={isFormComplete ? styles.button : styles.disabledButton}
@@ -267,6 +271,8 @@ const CreateStudyGuideView = () => {
                 size="large"
                 color="#0000ff"
                 animating={isPosting}/>
+                
+                </ScrollView>
         </View>
         </View>
     )

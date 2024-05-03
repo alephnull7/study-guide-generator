@@ -28,6 +28,10 @@ const ManageAccountView = () => {
 
     const [isDeleting, setIsDeleting] = React.useState(false);
 
+    React.useEffect(() => {
+        navigation.setOptions({ title: `Study Guide Generator - ${authData.username}'s Account`});
+      }, []);
+
     const handleUserUpdate = async() => {
         try {
             const body = {
@@ -134,11 +138,6 @@ const ManageAccountView = () => {
 
     return (
         <View style={styles.container}>
-        <View style={styles.formContainer}>
-            <Text style={styles.header}>Manage Account</Text>
-            <Text style={styles.button}>
-                Update Account
-            </Text>
             <View>
                 <Picker
                     selectedValue={userProperty}
@@ -191,7 +190,6 @@ const ManageAccountView = () => {
                 size="large"
                 color="#0000ff"
                 animating={isDeleting}/>
-        </View>
         </View>
     );
   };

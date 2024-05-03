@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
       flexGrow: 1,
       justifyContent: 'flex-start',
       alignItems: 'center',
+      margin: 0,
       padding: 20,
     },
     paragraph: {
@@ -50,11 +51,22 @@ const styles = StyleSheet.create({
     },
     input: {
       height: 40,
-      width: 250,
+      width: 265,
+      maxWidth: '100%',
       borderColor: 'gray',
       borderWidth: 1,
       marginBottom: 20,
       paddingHorizontal: 10,
+      backgroundColor: 'white'
+    }, disabledInput: {
+      height: 40,
+      width: 265,
+      maxWidth: '100%',
+      borderColor: 'gray',
+      borderWidth: 1,
+      marginBottom: 20,
+      paddingHorizontal: 10,
+      backgroundColor: 'gray'
     },
     label: {
       marginLeft: 8
@@ -114,20 +126,26 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         margin: 8,
-        padding: 8
+        padding: 8,
     },
     formContainer: {
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
-        width: 500,
-        maxWidth: '100%',
+        width: '100%',
         padding: 20,
+        backgroundColor: 'lightgray',
+        borderRadius: 8
     },
     pickerItem: {
         width: 250,
         maxWidth: '100%',
+        margin: 8,
+        padding: 8,
+        borderWidth: 1,
+        height: 40
     },
+    
 });
 
   export default styles;

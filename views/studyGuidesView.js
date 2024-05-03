@@ -18,6 +18,11 @@ const StudyGuidesView = () => {
     const [successText, setSuccessText] = useState('');
 
     useEffect(() => {
+        navigation.setOptions({ title: `Study Guide Generator - ${authData.username}'s Study Guides`});
+    }, []);
+
+    useEffect(() => {
+
         fetchAndSetStudyGuides();
     }, []);
 
@@ -47,8 +52,6 @@ const StudyGuidesView = () => {
   
     return (
       <View style={styles.container}>
-      <View style={styles.formContainer}>
-        <Text style={styles.header}>Study Guides</Text>
         {isLoading ?
                 <ActivityIndicator
                     size="large"
@@ -87,7 +90,6 @@ const StudyGuidesView = () => {
         >
           <Text style={styles.buttonText}>Create New Study Guide</Text>
         </TouchableOpacity>
-      </View>
       </View>
     );
   };
