@@ -149,7 +149,7 @@ const StudyGuideView = ({ route }) => {
                                     </Text>
                                 </TouchableOpacity>
                                 {expandedQuestions[index] && (
-                                    <Text style={styles.body}>A: {problem.answer}</Text>
+                                    <Text style={styles.body}>{'A: ' + problem.answer}</Text>
                                 )}
                             </View>
                         ))}
