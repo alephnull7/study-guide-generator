@@ -122,7 +122,7 @@ const ClassroomView = ({ route }) => {
                             <TouchableOpacity
                                 key={artifact.id}
                                 style={styles.button}
-                                onPress={() => navigation.navigate('Artifact', { artifact: artifact })}>
+                                onPress={() => navigation.navigate('Study Guide', { artifact: artifact })}>
                                 <Text style={styles.buttonText}>
                                     {artifact.name}
                                     {"\n"}
