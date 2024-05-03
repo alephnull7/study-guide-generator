@@ -130,6 +130,9 @@ const StudyGuideView = ({ route }) => {
 
     return(
         <View style={styles.container}>
+            <Text style={styles.paragraph}>
+                Review your study guide in preparation for a quiz or exam. You can also save it as a PDF or delete it.
+            </Text>
         <View style={styles.formContainer}>
             {isLoading ?
                 <Text></Text> :
@@ -149,7 +152,7 @@ const StudyGuideView = ({ route }) => {
                                     </Text>
                                 </TouchableOpacity>
                                 {expandedQuestions[index] && (
-                                    <Text style={styles.body}>{'A: ' + problem.answer}</Text>
+                                    <Text style={styles.body}>A: {problem.answer}</Text>
                                 )}
                             </View>
                         ))}

@@ -51,6 +51,9 @@ const LoginView = () => {
   
     return (
       <View style={styles.container}>
+        <Text style={styles.paragraph}>
+          Log in to your account to access your study guides (or classrooms if you are an instructor).
+        </Text>
       <View style={styles.formContainer}>
         <TextInput
           style={styles.input}

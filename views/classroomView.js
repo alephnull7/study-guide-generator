@@ -95,6 +95,9 @@ const ClassroomView = ({ route }) => {
 
     return(
         <View style={styles.container}>
+            <Text style={styles.paragraph}>
+                Manage the class you are teaching as well as view the study guide assigned to it.
+            </Text>
         <View style={styles.formContainer}>
             {isStudentsLoading || isStudyGuidesLoading ?
                 <Text></Text> :
