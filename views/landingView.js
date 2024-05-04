@@ -12,37 +12,36 @@ const LandingView = () => {
 
     const checkConnection = async () => {
         const data = await fetchDataFromAPI('artifacts/auth/login', authContext);
-        if(data.length === 0 || !data) {
-            console.error("Connection failed");
+        if (!data) {
             return false;
-        } else {
-            console.log("Successfully connected");
-            return true;
-        }
+        } else return data.length !== 0;
     }
 
+    const fetchData = async () => {
+      const isConnected = await checkConnection();
+      setConnectionStatus(isConnected);
+    };
+
     useEffect(() => {
-      const fetchData = async () => {
-        const isConnected = await checkConnection();
-        setConnectionStatus(isConnected);
-      };
       fetchData();
     }, []);
   
     return (
       <View style={styles.container}>
-        <Text style={styles.paragraph}>
+        <Text style={styles.paragraph} testID={'header'}>
           Welcome to the Study Guide Generator! You can use this app to generate study guides to help you study for quizzes or exams you may have. We generate these study guides for you with the power of OpenAI. Log in or create a new account to get started.
         </Text>
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('Login')}
+          testID={'login-button'}
         >
           <Text style={styles.buttonText}>Login to Account</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('Create Account')}
+          testID={'create-button'}
         >
           <Text style={styles.buttonText}>Create New Account</Text>
         </TouchableOpacity>
