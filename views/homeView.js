@@ -29,6 +29,7 @@ const HomeView = () => {
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => navigation.navigate('Study Guides')}
+                testID="studyGuides-button"
             >
                 <Text style={styles.buttonText}>Study Guides</Text>
             </TouchableOpacity>
@@ -43,6 +44,7 @@ const HomeView = () => {
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => navigation.navigate('Manage Account')}
+                testID="manageAccount-button"
             >
                 <Text style={styles.buttonText}>Manage Account</Text>
             </TouchableOpacity>
