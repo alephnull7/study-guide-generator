@@ -72,7 +72,7 @@ LICENSE
 
 ## Getting Started
 
-Either visit (https://main.d2lw0tnmuet566.amplifyapp.com/) or follow the instructions below to create a locally-hosted frontend server.
+Either click  [here](https://main.d2lw0tnmuet566.amplifyapp.com/) or follow the instructions below to create a locally-hosted frontend server.
 
 Clone the repository:
 
