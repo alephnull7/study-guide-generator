@@ -22,22 +22,27 @@ assets/
 ├── favicon.png
 ├── icon.png
 └── splash.png
+contexts/
+└── authContext.js
 helpers/
 └── helpers.js
+styles/
+└── styles.js
+test/
+├── views/landingView.test.js
+└── helpers.test.js
 views/
+├── classroomView.js
+├── classroomsView.js
 ├── createAccountView.js
 ├── createClassroomView.js
-├── instructorHomeView.js
+├── createStudyGuideView.js
+├── homeView.js
 ├── landingView.js
 ├── loginView.js
 ├── manageAccountView.js
-├── manageStudentsView.js
-├── quizzesView.js
-├── studentHomeView.js
-├── studyGuidesView.js
-├── styles.js
-├── viewClassroomsView.js
-└── viewStudyGuidesView.js
+├── studyGuideView.js
+└── studyGuidesView.js
 App.js
 babel.config.js
 package.json
@@ -47,9 +52,12 @@ LICENSE
 ```
 
 *  assets/: Contains static assets like images, fonts, etc.
+*  contexts/: Contains contexts for handling certain tasks
 *  helpers/: Contains helpers for communicating with the backend
-*  views/: Contains the main page components.
-*  App.js: Entry point of the application.
+*  styles/: Contains styles for page elements
+*  test/: Contains tests handled by Jest
+*  views/: Contains the main page components
+*  App.js: Entry point of the application
 *  babel.config.js: Handles the Expo configuration for development
 *  package.json: Contains the dependencies for the project
 *  app.json: App asset configuration
@@ -60,6 +68,7 @@ LICENSE
 * React Native
 * Expo
 * React Navigation
+* Jest
 
 ## Getting Started
 
@@ -71,6 +80,7 @@ Install dependencies:
 
 `npm install @react-navigation/native-stack @react-navigation/native expo`
 `npx expo install react-native-screens react-native-safe-area-context`
+`npm install @testing-library/react-native`
 
 Start the development server:
 
@@ -78,7 +88,7 @@ Start the development server:
 
 ## Operation
 
-Click either of the two buttons to log in or create an account. Once you do either, you will be automatically logged in. From there, you can create or view study guides or quizzes and manage your account. Instructors also have the capability to manage classrooms.
+Click either of the two buttons to log in or create an account. Once you do either, you will be automatically logged in. From there, you can create or view study guides and manage your account. Instructors also have the capability to create classrooms.
 
 ## Contributing
 
