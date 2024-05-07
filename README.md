@@ -72,6 +72,8 @@ LICENSE
 
 ## Getting Started
 
+Either click  [here](https://main.d2lw0tnmuet566.amplifyapp.com/) or follow the instructions below to create a locally-hosted frontend server.
+
 Clone the repository:
 
 `git clone https://github.com/alephnull7/study-guide-generator.git`
@@ -88,7 +90,7 @@ Start the development server:
 
 ## Operation
 
-Click either of the two buttons to log in or create an account. Once you do either, you will be automatically logged in. From there, you can create or view study guides and manage your account. Instructors also have the capability to create classrooms.
+Click either of the two buttons to log in or create an account. Once you do either, you will be automatically logged in. From there, you can create or view study guides and manage your account. Instructors also have the capability to create classrooms. For the forms in the screens, Email typically means an email address you have and password can be anything. Name fields will automatically be filled (with the option to change them if you wish), and dropdown boxes will have valid options displayed. Everything in the forms gets put into a JSON file that gets sent to the backend, which also returns a JSON file.  
 
 ## Contributing
 
