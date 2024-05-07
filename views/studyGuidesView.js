@@ -1,3 +1,8 @@
+/*
+    Author: Xander Renkema, Gregory Smith
+    Date: May 6, 2024
+*/
+
 import { useState, useEffect } from 'react';
 import {ActivityIndicator, ScrollView, Text, TouchableOpacity, View} from "react-native";
 import styles from "../styles/styles";

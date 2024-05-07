@@ -1,3 +1,8 @@
+/*
+    Author: Xander Renkema
+    Date: May 6, 2024
+*/
+
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';

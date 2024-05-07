@@ -1,3 +1,8 @@
+/*
+    Author: Xander Renkema, Gregory Smith
+    Date: May 6, 2024
+*/
+
 import * as React from 'react';
 import {View, Text, TouchableOpacity, Modal, Pressable, TextInput, ActivityIndicator} from 'react-native';
 import {Picker} from '@react-native-picker/picker';

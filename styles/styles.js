@@ -1,3 +1,9 @@
+/*
+    Author: Xander Renkema, Gregory Smith
+    Date: May 6, 2024
+    Description: Styling for the app
+*/
+
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({

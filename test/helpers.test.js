@@ -1,3 +1,9 @@
+/*
+    Author: Gregory Smith
+    Date: May 6, 2024
+    Description: Tests relating to `helpers.js`
+*/
+
 import {fetchDataFromAPI, sendDataToAPI, fetchAndSavePDFFromAPI, authenticate} from '../helpers/helpers';
 import {useAuth} from "../contexts/authContext";
 

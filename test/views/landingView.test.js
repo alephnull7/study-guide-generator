@@ -1,3 +1,9 @@
+/*
+    Author: Gregory Smith
+    Date: May 6, 2024
+    Description: Tests relating to `landingView.js`
+*/
+
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import LandingView from '../../views/landingView';

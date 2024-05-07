@@ -1,3 +1,8 @@
+/*
+    Author: Xander Renkema, Gregory Smith
+    Date: May 6, 2024
+*/
+
 import { useNavigation } from "@react-navigation/native";
 import { fetchDataFromAPI, sendDataToAPI } from "../helpers/helpers";
 import { useEffect, useState } from "react";

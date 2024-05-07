@@ -1,3 +1,9 @@
+/*
+    Author: Gregory Smith
+    Date: May 6, 2024
+    Description: Responsible for making requests to the back-end API
+*/
+
 import {Platform} from "react-native";
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";

@@ -1,3 +1,8 @@
+/*
+    Author: Xander Renkema, Gregory Smith
+    Date: May 6, 2024
+*/
+
 import * as React from 'react';
 import { View, Text, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
 import styles from '../styles/styles';
